@@ -1,5 +1,5 @@
 // Game balance values, based on the masterlist and wireframe values.
-export const VERSION = "0.4.1";
+export const VERSION = "0.5.0";
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
 export const SEED = null; // null = new random seed each run

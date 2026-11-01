@@ -6,6 +6,12 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-02
+### Added
+- Full games can now be played on the new screen, with a result screen after each move and an ending popup.
+- Events now appear on the result screen.
+- Return takes back your last choice, for testing. It may be removed in a later version.
+
 ## [0.4.1] - 2026-11-01
 ### Added
 - Pixel fonts for the title and all other text.
