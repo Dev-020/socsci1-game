@@ -36,6 +36,7 @@ export interface RandomEvent {
 
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
+export const SEED: number | null = null; // null = new random seed each run
 export const PWD_EXTRA_DRAIN = 8;
 export const PWD_PENALTY_MODES = ["walk", "jeep"];
 

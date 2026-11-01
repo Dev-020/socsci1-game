@@ -1,11 +1,34 @@
 // Game engine: resource calculations, event rolls, and win/loss conditions.
 // Contains no page or display code.
-import { EVENTS, EVENT_PROBABILITY, PWD_EXTRA_DRAIN, PWD_PENALTY_MODES, TOTAL_DISTANCE_KM, TRANSIT, WEATHER, } from "./data.js";
-function randomInt(min, max) {
-    return min + Math.floor(Math.random() * (max - min + 1));
+import { EVENTS, EVENT_PROBABILITY, PWD_EXTRA_DRAIN, PWD_PENALTY_MODES, SEED, TOTAL_DISTANCE_KM, TRANSIT, WEATHER, } from "./data.js";
+// What each roll decides. Every turn has one fixed roll per purpose, so a
+// player's choices cannot change the rolls that come later.
+const Roll = { weather: 1, motorKm: 2, carKm: 3, eventChance: 4, eventPick: 5 };
+// Taylor series for sin(x), with a fixed number of terms. Unlike Math.sin,
+// it uses only arithmetic that gives the same result in every browser.
+function fixedSin(x) {
+    x = x % (2 * Math.PI);
+    let term = x;
+    let sum = x;
+    for (let n = 1; n <= 10; n++) {
+        term *= -(x * x) / ((2 * n) * (2 * n + 1));
+        sum += term;
+    }
+    return sum;
 }
-function pick(items) {
-    return items[Math.floor(Math.random() * items.length)];
+// Returns a number from 0 up to (but not including) 1.
+export function seededRoll(seed, turn, purpose) {
+    const x = fixedSin(seed * 12.9898 + turn * 78.233 + purpose * 37.719) * 43758.5453;
+    return x - Math.floor(x);
+}
+function randomSeed() {
+    return Math.floor(Math.random() * 2000000000);
+}
+function randomInt(min, max, roll) {
+    return min + Math.floor(roll * (max - min + 1));
+}
+function pick(items, roll) {
+    return items[Math.floor(roll * items.length)];
 }
 export function fare(option, km, discount) {
     const distance = Math.min(option.distanceKm, km);
@@ -28,8 +51,7 @@ export function energyDrain(option, character, weather) {
     return Math.trunc((option.energyDrain + penalty) * weather.drainMult);
 }
 export class Game {
-    constructor(character) {
-        this.weather = pick(WEATHER);
+    constructor(character, seed = SEED ?? randomSeed()) {
         this.distanceLeft = TOTAL_DISTANCE_KM;
         this.turn = 1;
         this.outcome = null;
@@ -37,6 +59,8 @@ export class Game {
         this.usage = {};
         this.disabled = [];
         this.player = { ...character };
+        this.seed = seed;
+        this.weather = pick(WEATHER, this.roll(Roll.weather));
         this.advance();
     }
     // Applies the chosen offer. Returns null if the player cannot afford it.
@@ -54,6 +78,9 @@ export class Game {
         this.turn += 1;
         this.advance();
         return { optionName: option.name, km, cost, drain, event };
+    }
+    roll(purpose) {
+        return seededRoll(this.seed, this.turn, purpose);
     }
     advance() {
         this.outcome = this.checkOutcome();
@@ -79,8 +106,8 @@ export class Game {
     buildOffers() {
         const kmLeft = Math.max(1, Math.trunc(this.distanceLeft));
         const rolled = {
-            motor: randomInt(1, kmLeft),
-            car: randomInt(1, kmLeft),
+            motor: randomInt(1, kmLeft, this.roll(Roll.motorKm)),
+            car: randomInt(1, kmLeft, this.roll(Roll.carKm)),
         };
         return this.availableOptions().map((option) => {
             const km = rolled[option.key] ?? Math.min(option.distanceKm, this.distanceLeft);
@@ -96,12 +123,12 @@ export class Game {
         });
     }
     rollEvent(option) {
-        if (Math.random() >= EVENT_PROBABILITY)
+        if (this.roll(Roll.eventChance) >= EVENT_PROBABILITY)
             return null;
         const matching = EVENTS.filter((event) => event.applicableModes.length === 0 || event.applicableModes.includes(option.key));
         if (matching.length === 0)
             return null;
-        const event = pick(matching);
+        const event = pick(matching, this.roll(Roll.eventPick));
         const { player } = this;
         player.energy = Math.max(0, Math.min(player.maxEnergy, player.energy + event.energyMod));
         player.money = Math.max(0, player.money + event.moneyMod);

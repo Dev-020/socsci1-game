@@ -1,6 +1,7 @@
 // Game balance values, based on the masterlist and wireframe values.
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
+export const SEED = null; // null = new random seed each run
 export const PWD_EXTRA_DRAIN = 8;
 export const PWD_PENALTY_MODES = ["walk", "jeep"];
 export const CHARACTERS = [

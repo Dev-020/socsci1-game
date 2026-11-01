@@ -10,6 +10,13 @@ const app = document.getElementById("app") as HTMLElement;
 let game: Game | null = null;
 let lastTurn: TurnReport | null = null;
 
+// A link ending in ?seed=123 plays that seed. Anything else is ignored.
+function seedFromLink(): number | undefined {
+  const text = new URLSearchParams(location.search).get("seed");
+  const seed = Number(text);
+  return text && Number.isInteger(seed) && seed >= 0 ? seed : undefined;
+}
+
 function peso(amount: number): string {
   return `₱${amount.toFixed(2)}`;
 }
@@ -90,12 +97,12 @@ function offerButton(offer: Offer, index: number): string {
 }
 
 function renderPlay(current: Game): void {
-  const { player, weather, distanceLeft, turn, offers } = current;
+  const { player, seed, weather, distanceLeft, turn, offers } = current;
   const traveled = TOTAL_DISTANCE_KM - distanceLeft;
 
   app.innerHTML = `
     <h1>${player.name}</h1>
-    <p class="muted">Weather: ${weather.name}</p>
+    <p class="muted">Weather: ${weather.name} · Seed: ${seed}</p>
     <p>Money: ${peso(player.money)}</p>
     ${bar("Energy", `${player.energy}/${player.maxEnergy}`, (player.energy / player.maxEnergy) * 100)}
     ${bar("Distance", `${traveled.toFixed(1)}/${TOTAL_DISTANCE_KM.toFixed(1)} km`, (traveled / TOTAL_DISTANCE_KM) * 100)}
@@ -105,7 +112,7 @@ function renderPlay(current: Game): void {
 }
 
 function renderOutcome(current: Game): void {
-  const { player, distanceLeft, turn, outcome } = current;
+  const { player, seed, distanceLeft, turn, outcome } = current;
   const money = `<p>Remaining money: ${peso(player.money)}</p>`;
   const energy = `<p>Remaining energy: ${player.energy}/${player.maxEnergy}</p>`;
   const distance = `<p>Distance remaining: ${distanceLeft.toFixed(1)} km</p>`;
@@ -129,7 +136,11 @@ function renderOutcome(current: Game): void {
       ${money}${energy}${distance}`;
   }
 
-  app.innerHTML = `${body}${reportHtml()}<button data-restart class="restart">Play again</button>`;
+  app.innerHTML = `
+    ${body}
+    <p class="muted">Seed: ${seed}</p>
+    ${reportHtml()}
+    <button data-restart class="restart">Play again</button>`;
 }
 
 function render(): void {
@@ -144,7 +155,7 @@ app.addEventListener("click", (clickEvent) => {
 
   const { character, offer, restart } = button.dataset;
   if (character !== undefined) {
-    game = new Game(CHARACTERS[Number(character)]);
+    game = new Game(CHARACTERS[Number(character)], seedFromLink());
     lastTurn = null;
   } else if (offer !== undefined && game) {
     lastTurn = game.choose(game.offers[Number(offer)]);
