@@ -6,6 +6,13 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-11-02
+### Changed
+- Options now fade out at the edges of the swipe row.
+### Fixed
+- Long event text now stays inside its box.
+- On an iPhone held sideways, Safari's toolbar no longer covers the game, and the orange background reaches the screen edges.
+
 ## [0.6.0] - 2026-11-02
 ### Added
 - A vehicle now drives across the scene after each choice, and the bars and flag slide to their new values.
