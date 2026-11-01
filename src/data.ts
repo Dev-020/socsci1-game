@@ -42,25 +42,111 @@ export const PWD_EXTRA_DRAIN = 8;
 export const PWD_PENALTY_MODES = ["walk", "jeep"];
 
 export const CHARACTERS: Character[] = [
-  { name: "Student", money: 200, maxEnergy: 100, energy: 100, discount: true, pwdPenalty: false },
-  { name: "Worker", money: 400, maxEnergy: 50, energy: 50, discount: false, pwdPenalty: false },
-  { name: "PWD", money: 200, maxEnergy: 50, energy: 50, discount: true, pwdPenalty: true },
+  {
+    name: "Student",
+    money: 200,
+    maxEnergy: 100,
+    energy: 100,
+    discount: true,
+    pwdPenalty: false
+  },
+  {
+    name: "Worker",
+    money: 400,
+    maxEnergy: 50,
+    energy: 50,
+    discount: false,
+    pwdPenalty: false
+  },
+  {
+    name: "PWD",
+    money: 200,
+    maxEnergy: 50,
+    energy: 50,
+    discount: true,
+    pwdPenalty: true
+  }
 ];
 
 export const TRANSIT: Record<string, TransitOption> = {
-  jeep: { key: "jeep", name: "Jeepney", distanceKm: 4, energyDrain: 15, costDiscount: 12, costRegular: 14, maxUses: 3 },
-  train: { key: "train", name: "Train (LRT/MRT)", distanceKm: 6, energyDrain: 10, costDiscount: 9, costRegular: 19, maxUses: 2 },
-  motor: { key: "motor", name: "Motorcycle", distanceKm: Infinity, energyDrain: 5, costDiscount: 140, costRegular: 140, maxUses: null },
-  car: { key: "car", name: "Private Car / Ride-Hail", distanceKm: Infinity, energyDrain: 3, costDiscount: 120, costRegular: 120, maxUses: null },
-  walk: { key: "walk", name: "Walk", distanceKm: 2, energyDrain: 25, costDiscount: 0, costRegular: 0, maxUses: null },
-  tricycle: { key: "tricycle", name: "Tricycle", distanceKm: 2, energyDrain: 10, costDiscount: 16, costRegular: 20, maxUses: 2 },
-  bus: { key: "bus", name: "Bus", distanceKm: 6, energyDrain: 12, costDiscount: 15, costRegular: 18, maxUses: 2 },
+  jeep: {
+    key: "jeep",
+    name: "Jeepney",
+    distanceKm: 4,
+    energyDrain: 15,
+    costDiscount: 12,
+    costRegular: 14,
+    maxUses: 3
+  },
+  train: {
+    key: "train",
+    name: "Train (LRT/MRT)",
+    distanceKm: 6,
+    energyDrain: 10,
+    costDiscount: 9,
+    costRegular: 19,
+    maxUses: 2
+  },
+  motor: {
+    key: "motor",
+    name: "Motorcycle",
+    distanceKm: Infinity,
+    energyDrain: 5,
+    costDiscount: 140,
+    costRegular: 140,
+    maxUses: null
+  },
+  car: {
+    key: "car",
+    name: "Private Car / Ride-Hail",
+    distanceKm: Infinity,
+    energyDrain: 3,
+    costDiscount: 120,
+    costRegular: 120,
+    maxUses: null
+  },
+  walk: {
+    key: "walk",
+    name: "Walk",
+    distanceKm: 2,
+    energyDrain: 25,
+    costDiscount: 0,
+    costRegular: 0,
+    maxUses: null
+  },
+  tricycle: {
+    key: "tricycle",
+    name: "Tricycle",
+    distanceKm: 2,
+    energyDrain: 10,
+    costDiscount: 16,
+    costRegular: 20,
+    maxUses: 2
+  },
+  bus: {
+    key: "bus",
+    name: "Bus",
+    distanceKm: 6,
+    energyDrain: 12,
+    costDiscount: 15,
+    costRegular: 18,
+    maxUses: 2
+  },
 };
 
 export const WEATHER: Weather[] = [
-  { name: "Normal", drainMult: 1.0 },
-  { name: "Rainy", drainMult: 1.3 },
-  { name: "Sunny", drainMult: 1.1 },
+  {
+    name: "Normal",
+    drainMult: 1.0
+  },
+  {
+    name: "Rainy",
+    drainMult: 1.3
+  },
+  {
+    name: "Sunny",
+    drainMult: 1.1
+  },
 ];
 
 export const EVENTS: RandomEvent[] = [
