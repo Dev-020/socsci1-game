@@ -101,7 +101,7 @@ export const EVENTS: RandomEvent[] = [
   },
   {
     name: "Clear Traffic Flow",
-    description: "Unusually clear traffic along this segment.",
+    description: "Unusually clear traffic along this stretch.",
     energyMod: 3,
     moneyMod: 0,
     distanceMod: 1,

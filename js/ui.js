@@ -93,7 +93,7 @@ function renderPlay(current) {
     ${bar("Energy", `${player.energy}/${player.maxEnergy}`, (player.energy / player.maxEnergy) * 100)}
     ${bar("Distance", `${traveled.toFixed(1)}/${TOTAL_DISTANCE_KM.toFixed(1)} km`, (traveled / TOTAL_DISTANCE_KM) * 100)}
     ${reportHtml()}
-    <h2>Segment ${turn}: choose your transport</h2>
+    <h2>Turn ${turn}: choose your transport</h2>
     ${offers.map(offerButton).join("")}`;
 }
 function renderOutcome(current) {
@@ -107,7 +107,7 @@ function renderOutcome(current) {
       <h1>Destination reached</h1>
       <p>You have reached your destination.</p>
       ${money}${energy}
-      <p>Total segments: ${turn - 1}</p>`;
+      <p>Total turns: ${turn - 1}</p>`;
     }
     else if (outcome === "BURNOUT") {
         body = `
