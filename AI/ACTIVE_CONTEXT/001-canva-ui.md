@@ -14,6 +14,8 @@ _Updated 2026-11-01 by claude-code, Opus 5.5._
 - **Plain version:** a link option such as `?ui=plain` keeps today's plain UI for explaining the game system.
 - **Assets:** PNG only, using the filenames in the group's Minimum Asset Requirements doc.
 - **Built in code:** frame, panels, buttons, cards, popups, bars, flags, title text and all live text.
+- **Phone in portrait:** options become a swipe row that loops forever in both directions.
+- **Speech bubble:** shown on every turn screen.
 - **Rules untouched:** `src/game.ts` and `src/data.ts` keep their rules, so the simulation results stay valid.
 
 ## Plan
@@ -22,7 +24,6 @@ The full plan is `AI/PLAN_stage-ui.md`. Use a Sonnet implementer on branch `feat
 
 ## Open questions
 
-- Phone portrait and speech bubble defaults (waiting on: the user, plan section 3).
 - Font and colour codes (waiting on: the team). Use sampled colours and a temporary font until then.
 
 ## Watch out

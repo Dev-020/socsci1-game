@@ -18,6 +18,7 @@ so the UI has to work before it arrives.
 - Missing art shows as a labelled box. Adding a PNG with the agreed filename replaces it with no code change.
 - `?ui=plain` shows today's plain UI, for explaining the game system.
 - `?seed=` works in both UIs and can be combined: `?ui=plain&seed=123`.
+- On a phone held upright, the options become a looping row that can be swiped forever in either direction.
 - Return undoes the last choice, for testing.
 - Rules, balance values and seeded rolls don't change.
 
@@ -33,6 +34,8 @@ so the UI has to work before it arrives.
 | Return | One step back, from the result screen to that turn's options. Plain UI has no Return | Recommended by the orchestrator and approved by the user | Testing feature, may be removed later |
 | Turn flow | Choice, then vehicle animation, then a result screen with Continue and Return | Matches the wireframes | Each turn takes one extra click |
 | Options | Up to 5 per turn | The real maximum is 5. Limiting it would change the balance | Five columns instead of the wireframes' three |
+| Phone in portrait | Options become a horizontal swipe row that loops in both directions | User's decision | Portrait is a supported layout, with its own checks |
+| Speech bubble | "saan kaya ako sasakay..?" on every turn screen | User approved the recommendation | Flavour text, easy to remove |
 | Staffing | One continued Sonnet implementer. Opus orchestrates and reviews | User's instruction | Work happens on branch `feat/stage-ui` |
 | Publishing | Nothing is pushed without the user's instruction | Pushing changes the live site | User reviews locally first |
 
@@ -40,8 +43,6 @@ so the UI has to work before it arrives.
 
 ## 3. Open Questions
 
-- **[DECIDE] Phone in portrait:** a 16:9 stage is only about 219 px tall on a 390 px wide phone, which is too small for 5 options. **Recommended default:** add a "rotate your phone" note below the stage in portrait, and treat landscape as the supported phone layout.
-- **[DECIDE] Speech bubble:** the wireframe shows "saan kaya ako sasakay..?" on one screen. **Recommended default:** show it on every turn screen as flavour text, since it is cheap and easy to remove.
 - **[WAITING] Font and colours:** this plan uses colours sampled from the wireframes and a monospace system font until the team confirms the real font and colour codes.
 
 ---
@@ -148,6 +149,13 @@ Motion:
 - The vehicle uses `@keyframes drive`, from `left: -25%` to `left: 110%`, over 1.4 s.
 - Under `prefers-reduced-motion: reduce`, all durations are 0.
 
+Portrait phones, using `@media (orientation: portrait) and (max-width: 700px)`:
+
+- The stage stays 16:9. On a 390 px wide phone, the options area is about 248 × 61 px.
+- The option row becomes `display: flex`, `overflow-x: auto` and `scroll-snap-type: x mandatory`, with the scrollbar hidden.
+- Each card is `flex: 0 0 50%`, so two show at a time, with `scroll-snap-align: start` and `scroll-snap-stop: always`, so one swipe moves one card.
+- Card text stays on compact lines, with the option name above one line of stats, so it stays readable at this height.
+
 #### [NEW] `src/ui-stage.ts`
 
 Exports `startStageUi(app: HTMLElement)`.
@@ -177,6 +185,22 @@ Rules:
 - **Missing images:** a helper `placeholderImage(src, label)` returns an `<img>`. On `error`, it swaps to a box showing the label. The scene uses a sky-blue gradient as its fallback, labelled with the weather.
 - **Text:** lowercase in the wireframe style, with option text like `- 12 pesos`, `- 15 energy`, `- 4 km`. Limited options also show uses left.
 - **Seed and version:** small text on the stage, seed during play and version on the title.
+- **Speech bubble:** "saan kaya ako sasakay..?" on every turn screen.
+
+**Looping options on portrait phones**
+
+The browser has no built-in looping scroll, so the loop uses three copies of the cards. No library is needed.
+
+- Render the offers in three identical groups: `before`, `main` and `after`. Outside the portrait layout, CSS hides `before` and `after`, so only `main` shows.
+- Each button keeps `data-offer` with the real offer index, so a tap on any copy chooses the right offer through the existing click handler.
+- `before` and `after` get `aria-hidden="true"` and `tabindex="-1"`, so keyboards and screen readers only meet each option once.
+- When the options appear, set `scrollLeft` to the start of `main`.
+- After scrolling stops, if `scrollLeft` is in `before` or `after`, shift it by one group's width. The cards at both positions look the same, so the jump can't be seen. This repeats forever in both directions.
+- Detect the stop with the `scrollend` event, plus a 120 ms timer after the last `scroll` event for browsers without it, such as older Safari. Never shift during a swipe, because that can cancel the movement on iPhones.
+- `scroll-snap-stop: always` limits each swipe to one card, so a swipe can't run past the end of the copies before the shift.
+- Measure the group width when shifting rather than storing it, because rotating the phone changes it. On a change of orientation, reset to the start of `main`.
+- **Too few options to loop:** with 1 or 2 offers, both fit on screen. Show only `main`, with no scrolling.
+- Unaffordable options stay disabled in all three groups.
 
 Asset paths are flat, matching the Minimum Asset Requirements doc: `assets/scene-normal.png`, `assets/transport-jeep.png`, `assets/character-student.png` and so on. Event filenames use this map:
 
@@ -209,7 +233,7 @@ Branch `feat/stage-ui` from `master`. One continued Sonnet implementer, one comm
 | S2 | Split into `format.ts`, `ui-plain.ts` and the `ui.ts` entry. Add `?ui=` switching | `?ui=plain` behaves as it does today |
 | S3 | Stage shell: `stage.css`, frame, panel, bars, boxes, placeholders, title and select screens | Screens match the wireframe layout |
 | S4 | Turn, moving, result and ending screens, with Continue and Return | Full games play to all three endings |
-| S5 | Transitions, vehicle animation, reduced motion and the portrait note | Browser checks pass |
+| S5 | Transitions, vehicle animation, reduced motion and the looping portrait options | Browser checks pass |
 | S6 | Release 0.4.0 on the branch | Orchestrator's final checks pass. Merge happens only after the user reviews |
 
 The implementer doesn't change balance values, simulation scripts, `warehouse/` or `style.css`, and never pushes. It stops and reports if the plan and the code disagree.
@@ -224,6 +248,9 @@ The implementer doesn't change balance values, simulation scripts, `warehouse/` 
 | Limit each turn to 3 options | Changes the balance and invalidates the simulations |
 | Canvas or a game framework | Breaks the raw HTML and CSS rule, and is far more than this game needs |
 | Duplicate the game in a second page for plain mode | Two copies of the UI entry would drift apart |
+| "Rotate your phone" note | The user chose swipeable options, so portrait stays playable |
+| Infinite scroll by endlessly adding cards | The page grows through a run, and a shift between fixed copies is simpler |
+| A carousel library | Breaks the no-packages rule, and the loop is short in plain TypeScript |
 | Multi-step undo | One step covers testing and keeps the engine change small |
 
 ---
@@ -244,14 +271,17 @@ Run by the orchestrator, using scripts kept outside the project.
 - [ ] **Return:** in the browser, Return restores the same options and bars, and the same choice gives the same result.
 - [ ] **Placeholder swap:** adding a test PNG replaces its box, then the test file is removed.
 - [ ] **Clicks during movement:** rapid clicks can't make a second choice.
-- [ ] **Layout:** screenshots at 1280 × 720 and 844 × 390 are checked against the wireframes.
+- [ ] **Layout:** screenshots at 1280 × 720, 844 × 390 and 390 × 844 are checked against the wireframes.
+- [ ] **Loop:** with touch emulation at 390 × 844, on turns with 3, 4 and 5 options, 30 swipes each way pass every option in order, with no blank gaps and no stuck position.
+- [ ] **Loop tapping:** after looping, tapping a card from any copy chooses the offer it shows, including near a shift.
+- [ ] **Loop edge cases:** 1 and 2 options don't scroll, disabled options can't be tapped in any copy, and rotating mid-turn keeps the options usable.
 
 ### 7.2. Manual Verification & Live Gates
 
 | After | Check | Covers | Next step waits? |
 |---|---|---|---|
 | S3 | The user views the stage locally | Whether the layout matches the Canva look | Yes: S4 |
-| S6 | The user plays both UIs locally | Feel, timing and the plain view | Yes: merge and any push |
+| S6 | The user plays both UIs locally, and swipes the options on a real phone | Feel, timing, the plain view and the loop on iPhone or Android, which the automated Chrome checks can't fully cover | Yes: merge and any push |
 
 ---
 
