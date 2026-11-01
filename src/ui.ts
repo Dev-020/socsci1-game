@@ -1,6 +1,6 @@
 // Screens and click handling. All game rules live in game.ts.
 
-import { CHARACTERS, TOTAL_DISTANCE_KM, TRANSIT } from "./data.js";
+import { CHARACTERS, TOTAL_DISTANCE_KM, TRANSIT, VERSION } from "./data.js";
 import type { RandomEvent } from "./data.js";
 import { Game } from "./game.js";
 import type { Offer, TurnReport } from "./game.js";
@@ -82,7 +82,8 @@ function renderSelect(): void {
     <h1>Commuter Game</h1>
     <p class="muted">Travel ${TOTAL_DISTANCE_KM} km without running out of energy or money.</p>
     <h2>Select a character</h2>
-    ${buttons}`;
+    ${buttons}
+    <p class="muted">v${VERSION}</p>`;
 }
 
 function offerButton(offer: Offer, index: number): string {
