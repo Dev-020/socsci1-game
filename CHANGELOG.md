@@ -6,6 +6,11 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-02
+### Added
+- A vehicle now drives across the scene after each choice, and the bars and flag slide to their new values.
+- On a phone held upright, the options become a row you can swipe forever in either direction.
+
 ## [0.5.0] - 2026-11-02
 ### Added
 - Full games can now be played on the new screen, with a result screen after each move and an ending popup.
