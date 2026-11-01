@@ -43,7 +43,7 @@ so the UI has to work before it arrives.
 
 ## 3. Open Questions
 
-- **[WAITING] Font and colours:** this plan uses colours sampled from the wireframes and a monospace system font until the team confirms the real font and colour codes.
+- **[WAITING] Colours:** this plan uses colours sampled from the wireframes until the team confirms the real colour codes.
 
 ---
 
@@ -214,6 +214,18 @@ Asset paths are flat, matching the Minimum Asset Requirements doc: `assets/scene
 | Fare Surcharge | `event-surcharge.png` |
 
 The `assets/` folder isn't created until the first real file exists. Until then, every image shows its placeholder, and the browser logs harmless 404s.
+
+### Layout review changes (user, 2026-11-01)
+
+These replace anything above that conflicts.
+
+- **Scene:** no CSS clouds or hills. Until `scene-*.png` exists, the scene is a plain sky gradient with a labelled box.
+- **Frame and side buttons:** stay in CSS, reshaded to match the 3D look in the wireframes. If CSS can't match, they become PNGs.
+- **Speech bubble:** a plain rounded rectangle with no tail.
+- **Option cards:** a pill holding the option's short key (`walk`, `jeep`, `car`, `train`, `motor`, `tricycle`, `bus`), then orange pesos, green energy and dark blue km below it, plus uses left on limited options. No box around the card and no picture.
+- **Energy bar:** x 710–1040, the same as the money bar.
+- **Fonts:** `fonts/` holds Press Start 2P (title text) and VT323 (other text), both free under the SIL Open Font License, loaded with `@font-face`. They stand in for Arcade Gamer and SCR-N Seven Condensed, which are paid.
+- Purple panel, bars and character card borders stay in CSS.
 
 ### Release
 
