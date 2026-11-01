@@ -6,6 +6,14 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-01
+### Added
+- A new game screen with a console frame, scene and bottom panel, plus title and character select screens. Options can't be chosen on it yet in this version.
+- Pictures from the group can be added by filename. Until then, each one shows as a labelled box.
+- A link such as `?ui=plain` shows the original plain screens, and it works alongside `?seed=`.
+### Changed
+- The main link now opens the new game screen.
+
 ## [0.3.0] - 2026-11-01
 ### Added
 - The game version now shows on the character select screen.
