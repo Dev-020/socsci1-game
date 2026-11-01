@@ -129,7 +129,7 @@ export function startStageUi(app: HTMLElement): void {
   );
 
   const weatherBox = el("div", "abs weather-box");
-  const weatherArt = placeholderImage("assets/scene-normal.png", "weather");
+  const weatherArt = placeholderImage("assets/weather-normal.png", "weather");
   weatherBox.append(weatherArt);
 
   const options = el("div", "abs options");
@@ -221,7 +221,7 @@ export function startStageUi(app: HTMLElement): void {
   function showTurn(current: Game): void {
     const weather = slug(current.weather.name);
     setImage(sceneBox, `assets/scene-${weather}.png`, `scene: ${weather}`);
-    setImage(weatherArt, `assets/scene-${weather}.png`, `weather: ${weather}`);
+    setImage(weatherArt, `assets/weather-${weather}.png`, `weather: ${weather}`);
     setImage(portraitArt, characterArt(current.player), `character: ${slug(current.player.name)}`);
     playerName.textContent = displayName(current.player);
     footnote.textContent = `seed: ${current.seed}`;

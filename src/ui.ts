@@ -6,7 +6,7 @@ import { startStageUi } from "./ui-stage.js";
 const app = document.getElementById("app") as HTMLElement;
 const plain = new URLSearchParams(location.search).get("ui") === "plain";
 
-if (!plain) (document.getElementById("theme") as HTMLLinkElement).href = "stage.css";
+if (plain) (document.getElementById("theme") as HTMLLinkElement).href = "style.css";
 document.body.classList.add(plain ? "ui-plain" : "ui-stage");
 
 if (plain) startPlainUi(app);

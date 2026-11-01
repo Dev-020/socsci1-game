@@ -89,7 +89,7 @@ export function startStageUi(app) {
     const flagNow = el("div", "abs flag flag-now");
     turnLayer.append(distanceLabel, el("div", "abs distance-track"), el("div", "abs flag flag-end"), flagNow);
     const weatherBox = el("div", "abs weather-box");
-    const weatherArt = placeholderImage("assets/scene-normal.png", "weather");
+    const weatherArt = placeholderImage("assets/weather-normal.png", "weather");
     weatherBox.append(weatherArt);
     const options = el("div", "abs options");
     const speech = el("div", "abs speech", SPEECH);
@@ -147,7 +147,7 @@ export function startStageUi(app) {
     function showTurn(current) {
         const weather = slug(current.weather.name);
         setImage(sceneBox, `assets/scene-${weather}.png`, `scene: ${weather}`);
-        setImage(weatherArt, `assets/scene-${weather}.png`, `weather: ${weather}`);
+        setImage(weatherArt, `assets/weather-${weather}.png`, `weather: ${weather}`);
         setImage(portraitArt, characterArt(current.player), `character: ${slug(current.player.name)}`);
         playerName.textContent = displayName(current.player);
         footnote.textContent = `seed: ${current.seed}`;
