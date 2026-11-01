@@ -1,6 +1,18 @@
 /* Stage UI. Every size comes from the 1920 x 1080 wireframes.
    --px is one wireframe pixel, so the whole stage scales with its width. */
 
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("fonts/PressStart2P-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VT323";
+  src: url("fonts/VT323-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
   --backdrop: #ffb95f;
   --frame: #f8366f;
@@ -19,7 +31,8 @@
   --ink: #1b1b5e;
   --sky-top: #c6e9fc;
   --sky-bottom: #eaf8ff;
-  --font: ui-monospace, "Cascadia Mono", "Courier New", monospace;
+  --font: "VT323", ui-monospace, "Cascadia Mono", "Courier New", monospace;
+  --font-title: "Press Start 2P", ui-monospace, "Courier New", monospace;
 }
 
 * {
@@ -82,39 +95,54 @@ button:focus-visible {
 .frame {
   left: calc(187 * var(--px));
   top: calc(120 * var(--px));
-  width: calc(1546 * var(--px));
-  height: calc(830 * var(--px));
+  width: calc(1536 * var(--px));
+  height: calc(820 * var(--px));
   border-radius: calc(62 * var(--px));
   background: linear-gradient(90deg, var(--frame), var(--frame-light));
+  /* the darker side wall: a copy of the face pushed down and right */
   box-shadow:
-    calc(4 * var(--px)) calc(8 * var(--px)) 0 var(--frame-dark),
+    calc(10 * var(--px)) calc(10 * var(--px)) 0 var(--frame-dark),
     0 0 calc(70 * var(--px)) rgba(255, 255, 255, 0.3);
 }
 
 .knob {
-  top: calc(473 * var(--px));
-  width: calc(124 * var(--px));
-  height: calc(124 * var(--px));
+  top: calc(471 * var(--px));
+  width: calc(120 * var(--px));
+  height: calc(120 * var(--px));
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--knob), var(--frame) 80%);
-  box-shadow: inset 0 0 0 calc(8 * var(--px)) var(--frame-dark);
+  background: linear-gradient(90deg, var(--frame), var(--frame-light));
+  /* the dark back disc, pushed right and slightly up */
+  box-shadow: calc(9 * var(--px)) 0 0 var(--frame-dark);
 }
 
+/* the dark dent, then a lighter disc pushed right of it to leave a crescent */
+.knob::before,
 .knob::after {
   content: "";
   position: absolute;
-  inset: 17%;
+  width: 74%;
+  height: 74%;
   border-radius: 50%;
+}
+
+.knob::before {
+  left: 11%;
+  top: 12%;
+  background: var(--frame-dark);
+}
+
+.knob::after {
+  left: 17%;
+  top: 13%;
   background: var(--knob);
-  box-shadow: inset calc(5 * var(--px)) calc(5 * var(--px)) 0 var(--frame-dark);
 }
 
 .knob-left {
-  left: calc(26 * var(--px));
+  left: calc(28 * var(--px));
 }
 
 .knob-right {
-  left: calc(1770 * var(--px));
+  left: calc(1772 * var(--px));
 }
 
 /* ---------- scene ---------- */
@@ -126,70 +154,9 @@ button:focus-visible {
   height: calc(760 * var(--px));
   border-radius: calc(34 * var(--px));
   overflow: hidden;
-  box-shadow: 0 0 0 calc(10 * var(--px)) var(--frame-dark);
+  /* dark inner rim on the top and left of the opening */
+  box-shadow: calc(-12 * var(--px)) calc(-12 * var(--px)) 0 var(--frame-dark);
   background: linear-gradient(var(--sky-top), var(--sky-bottom));
-}
-
-.cloud {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 999px;
-}
-
-.cloud-1 {
-  left: calc(26 * var(--px));
-  top: calc(100 * var(--px));
-  width: calc(225 * var(--px));
-  height: calc(70 * var(--px));
-}
-
-.cloud-2 {
-  left: calc(555 * var(--px));
-  top: calc(22 * var(--px));
-  width: calc(335 * var(--px));
-  height: calc(176 * var(--px));
-  border-radius: calc(110 * var(--px));
-  background: #fff;
-}
-
-.hills {
-  position: absolute;
-  inset: 0;
-  display: none;
-}
-
-.hill {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.hill-light {
-  left: calc(150 * var(--px));
-  top: calc(540 * var(--px));
-  width: calc(900 * var(--px));
-  height: calc(420 * var(--px));
-  background: #c3df83;
-}
-
-.hill-left {
-  left: calc(-260 * var(--px));
-  top: calc(515 * var(--px));
-  width: calc(900 * var(--px));
-  height: calc(700 * var(--px));
-  background: #8aa503;
-}
-
-.hill-right {
-  left: calc(600 * var(--px));
-  top: calc(540 * var(--px));
-  width: calc(1500 * var(--px));
-  height: calc(700 * var(--px));
-  background: #8aa503;
-}
-
-.stage[data-screen="title"] .hills,
-.stage[data-screen="select"] .hills {
-  display: block;
 }
 
 /* The real scene picture sits on top of the gradient when it exists. */
@@ -200,17 +167,20 @@ button:focus-visible {
 }
 
 .scene .imgbox-label {
-  display: none;
+  display: block;
+  top: auto;
+  left: calc(20 * var(--px));
+  bottom: calc(20 * var(--px));
+  transform: none;
 }
 
+/* on the turn screens the options cover the bottom, so use the free corner */
 .stage[data-screen="turn"] .scene .imgbox-label,
 .stage[data-screen="moving"] .scene .imgbox-label,
 .stage[data-screen="result"] .scene .imgbox-label {
-  display: block;
-  top: auto;
-  bottom: calc(190 * var(--px));
-  left: calc(20 * var(--px));
-  transform: none;
+  left: auto;
+  right: calc(20 * var(--px));
+  bottom: calc(345 * var(--px));
 }
 
 /* ---------- image placeholders ---------- */
@@ -244,8 +214,8 @@ button:focus-visible {
   border-radius: calc(10 * var(--px));
   background: rgba(255, 255, 255, 0.55);
   color: var(--line);
-  font-size: calc(24 * var(--px));
-  line-height: 1.1;
+  font-size: calc(34 * var(--px));
+  line-height: 1;
   text-align: center;
   overflow-wrap: break-word;
 }
@@ -281,19 +251,20 @@ button:focus-visible {
 .game-title {
   left: 0;
   width: 100%;
-  top: calc(290 * var(--px));
+  top: calc(300 * var(--px));
   text-align: center;
-  font-size: calc(112 * var(--px));
+  font-family: var(--font-title);
+  font-size: calc(78 * var(--px));
   text-transform: uppercase;
-  letter-spacing: calc(4 * var(--px));
+  line-height: 1.2;
 }
 
 .tagline {
   left: 0;
   width: 100%;
-  top: calc(430 * var(--px));
+  top: calc(440 * var(--px));
   text-align: center;
-  font-size: calc(36 * var(--px));
+  font-size: calc(54 * var(--px));
   color: #fff;
   text-shadow: calc(3 * var(--px)) calc(3 * var(--px)) 0 var(--ink);
 }
@@ -306,8 +277,8 @@ button:focus-visible {
   background: none;
   padding: calc(10 * var(--px));
   color: var(--frame);
-  font-size: calc(76 * var(--px));
-  font-weight: 700;
+  font-size: calc(110 * var(--px));
+  font-weight: 400;
   text-shadow: calc(4 * var(--px)) calc(4 * var(--px)) 0 var(--ink);
   transition: transform 0.15s;
 }
@@ -322,15 +293,17 @@ button:focus-visible {
   top: calc(985 * var(--px));
   text-align: center;
   color: #a85d0e;
-  font-size: calc(26 * var(--px));
+  font-size: calc(42 * var(--px));
 }
 
 /* ---------- select screen ---------- */
 
 .select-heading {
   left: calc(280 * var(--px));
-  top: calc(215 * var(--px));
-  font-size: calc(76 * var(--px));
+  top: calc(235 * var(--px));
+  font-family: var(--font-title);
+  font-size: calc(46 * var(--px));
+  line-height: 1.2;
 }
 
 .character-card {
@@ -342,7 +315,7 @@ button:focus-visible {
   background: var(--card);
   padding: calc(14 * var(--px)) calc(16 * var(--px));
   color: #fff;
-  font-size: calc(38 * var(--px));
+  font-size: calc(58 * var(--px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -355,8 +328,7 @@ button:focus-visible {
 }
 
 .character-card .card-name {
-  line-height: 1.2;
-  text-transform: lowercase;
+  line-height: 1.1;
 }
 
 .character-card .card-art {
@@ -367,7 +339,7 @@ button:focus-visible {
 }
 
 .character-card .card-stat {
-  line-height: 1.25;
+  line-height: 1.05;
 }
 
 .card-0 {
@@ -392,9 +364,9 @@ button:focus-visible {
 
 .distance-label {
   left: calc(410 * var(--px));
-  top: calc(160 * var(--px));
+  top: calc(150 * var(--px));
   color: #fff;
-  font-size: calc(32 * var(--px));
+  font-size: calc(48 * var(--px));
   text-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
   white-space: nowrap;
 }
@@ -454,7 +426,7 @@ button:focus-visible {
 }
 
 .weather-box .imgbox-label {
-  font-size: calc(22 * var(--px));
+  font-size: calc(30 * var(--px));
 }
 
 .options {
@@ -471,55 +443,84 @@ button:focus-visible {
   flex: 0 0 calc((100% - 4 * 16 * var(--px)) / 5);
   min-width: 0;
   height: 100%;
-  border: calc(7 * var(--px)) solid var(--line);
-  border-radius: calc(30 * var(--px));
-  background: var(--panel);
-  padding: calc(10 * var(--px)) calc(8 * var(--px));
-  color: #fff;
-  font-size: calc(22 * var(--px));
-  line-height: 1.1;
+  border: 0;
+  background: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(4 * var(--px));
-  transition: transform 0.15s, background 0.15s;
+  gap: calc(2 * var(--px));
+  font-size: calc(46 * var(--px));
+  line-height: 1;
+  transition: transform 0.15s;
 }
 
-.option:not(:disabled):hover {
-  transform: translateY(calc(-8 * var(--px)));
-  background: #b898d3;
-}
-
-.option:disabled {
-  opacity: 0.55;
-}
-
-.option-art {
-  width: calc(110 * var(--px));
-  height: calc(80 * var(--px));
-  flex: 0 0 auto;
-  border-radius: calc(18 * var(--px));
-}
-
-.option-art .imgbox-label {
-  font-size: calc(17 * var(--px));
-  border-width: calc(2 * var(--px));
-}
-
-.option-name {
-  font-weight: 700;
-  min-height: calc(50 * var(--px));
-  display: flex;
-  align-items: center;
-  text-transform: lowercase;
+.option-pill {
+  width: 100%;
+  height: calc(76 * var(--px));
+  margin-bottom: calc(10 * var(--px));
+  border: calc(9 * var(--px)) solid var(--line);
+  border-radius: calc(38 * var(--px));
+  background: var(--panel);
+  color: #fff;
+  font-size: calc(50 * var(--px));
+  display: grid;
+  place-items: center;
+  text-shadow: none;
+  white-space: nowrap;
 }
 
 .option-line {
   display: block;
+  white-space: nowrap;
 }
 
-.option-line.warn {
-  color: #ffd9d9;
+/* an outline all round, so orange and green stay readable on the sky */
+.option-pesos {
+  color: var(--money);
+  text-shadow:
+    calc(2 * var(--px)) 0 0 var(--ink),
+    calc(-2 * var(--px)) 0 0 var(--ink),
+    0 calc(2 * var(--px)) 0 var(--ink),
+    0 calc(-2 * var(--px)) 0 var(--ink),
+    calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
+}
+
+.option-energy {
+  color: var(--energy);
+  text-shadow:
+    calc(2 * var(--px)) 0 0 var(--energy-edge),
+    calc(-2 * var(--px)) 0 0 var(--energy-edge),
+    0 calc(2 * var(--px)) 0 var(--energy-edge),
+    0 calc(-2 * var(--px)) 0 var(--energy-edge),
+    calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--energy-edge);
+}
+
+.option-km {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+.option-uses {
+  color: var(--line);
+  text-shadow: none;
+}
+
+.option:not(:disabled):hover {
+  transform: translateY(calc(-8 * var(--px)));
+}
+
+/* Can't afford it: solid grey pill and grey text, nothing see-through. */
+.option:disabled .option-pill {
+  background: #c9c0d1;
+  border-color: #8a7d99;
+  color: #7d7189;
+}
+
+.option:disabled .option-line {
+  color: #7f7a8a;
+  text-shadow: none;
+  text-decoration: line-through;
 }
 
 .speech {
@@ -531,25 +532,12 @@ button:focus-visible {
   border-radius: calc(34 * var(--px));
   background: #fff;
   color: var(--line);
-  font-size: calc(32 * var(--px));
-  line-height: 1.25;
+  font-size: calc(48 * var(--px));
+  line-height: 1.1;
   display: grid;
   place-items: center;
   text-align: center;
   padding: calc(10 * var(--px)) calc(20 * var(--px));
-}
-
-.speech::before {
-  content: "";
-  position: absolute;
-  left: calc(-4 * var(--px));
-  top: calc(100 * var(--px));
-  width: calc(36 * var(--px));
-  height: calc(36 * var(--px));
-  background: #fff;
-  border-left: calc(7 * var(--px)) solid var(--line);
-  border-bottom: calc(7 * var(--px)) solid var(--line);
-  transform: translateX(-50%) rotate(45deg);
 }
 
 /* ---------- bottom panel ---------- */
@@ -579,7 +567,7 @@ button:focus-visible {
   top: calc(625 * var(--px));
   margin: 0;
   line-height: calc(50 * var(--px));
-  font-size: calc(42 * var(--px));
+  font-size: calc(62 * var(--px));
   color: #fff;
   text-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
   font-weight: 400;
@@ -588,7 +576,7 @@ button:focus-visible {
 .stat-label {
   left: calc(542 * var(--px));
   width: calc(165 * var(--px));
-  font-size: calc(38 * var(--px));
+  font-size: calc(56 * var(--px));
   line-height: calc(47 * var(--px));
   color: #fff;
   text-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
@@ -596,8 +584,8 @@ button:focus-visible {
 
 .stat-value {
   left: calc(1070 * var(--px));
-  font-size: calc(42 * var(--px));
-  font-weight: 700;
+  font-size: calc(62 * var(--px));
+  font-weight: 400;
   line-height: calc(47 * var(--px));
 }
 
@@ -646,7 +634,7 @@ button:focus-visible {
 
 .energy-bar {
   left: calc(710 * var(--px));
-  width: calc(300 * var(--px));
+  width: calc(330 * var(--px));
   height: calc(53 * var(--px));
   display: flex;
   gap: calc(6 * var(--px));
@@ -674,7 +662,7 @@ button:focus-visible {
   border-radius: calc(48 * var(--px));
   background: none;
   color: #fff;
-  font-size: calc(36 * var(--px));
+  font-size: calc(54 * var(--px));
   text-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
   display: none;
 }

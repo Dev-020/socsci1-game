@@ -81,10 +81,7 @@ export function startStageUi(app: HTMLElement): void {
   // Frame, knobs and scene stay on every screen.
   const sceneBox = placeholderImage("assets/scene-normal.png", "scene");
   const scene = el("div", "abs scene");
-  scene.append(el("div", "cloud cloud-1"), el("div", "cloud cloud-2"));
-  const hills = el("div", "hills");
-  hills.append(el("div", "hill hill-light"), el("div", "hill hill-left"), el("div", "hill hill-right"));
-  scene.append(hills, sceneBox);
+  scene.append(sceneBox);
   stage.append(el("div", "abs frame"), el("div", "abs knob knob-left"), el("div", "abs knob knob-right"), scene);
 
   const footnote = el("div", "abs footnote");
@@ -205,16 +202,13 @@ export function startStageUi(app: HTMLElement): void {
     button.dataset.offer = String(index);
     button.disabled = !affordable;
 
-    const art = placeholderImage(`assets/transport-${option.key}.png`, option.key);
-    art.classList.add("option-art");
     button.append(
-      art,
-      el("span", "option-name", option.name),
-      el("span", "option-line", `- ${plainNumber(km)} km`),
-      el("span", `option-line${affordable ? "" : " warn"}`, `- ${plainNumber(cost, 2)} pesos`),
-      el("span", "option-line", `- ${drain} energy`),
+      el("span", "option-pill", option.key),
+      el("span", "option-line option-pesos", `- ${plainNumber(cost, 2)} pesos`),
+      el("span", "option-line option-energy", `- ${drain} energy`),
+      el("span", "option-line option-km", `- ${plainNumber(km)} km`),
     );
-    if (usesLeft !== null) button.append(el("span", "option-line", `${usesLeft}/${option.maxUses} left`));
+    if (usesLeft !== null) button.append(el("span", "option-line option-uses", `${usesLeft}/${option.maxUses} left`));
     return button;
   }
 
