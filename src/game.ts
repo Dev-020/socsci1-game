@@ -88,6 +88,18 @@ export function energyDrain(option: TransitOption, character: Character, weather
   return Math.trunc((option.energyDrain + penalty) * weather.drainMult);
 }
 
+// Everything choose() changes, saved so undo() can put it back.
+interface TurnSnapshot {
+  money: number;
+  energy: number;
+  distanceLeft: number;
+  turn: number;
+  usage: Record<string, number>;
+  disabled: string[];
+  outcome: Outcome | null;
+  offers: Offer[];
+}
+
 export class Game {
   readonly player: Character;
   readonly seed: number;
@@ -99,6 +111,7 @@ export class Game {
 
   private usage: Record<string, number> = {};
   private disabled: string[] = [];
+  private snapshot: TurnSnapshot | null = null;
 
   constructor(character: Character, seed: number = SEED ?? randomSeed()) {
     this.player = { ...character };
@@ -107,9 +120,42 @@ export class Game {
     this.advance();
   }
 
+  // True when one choice can be taken back.
+  get canUndo(): boolean {
+    return this.snapshot !== null;
+  }
+
+  // Takes back the last choice. Returns false if there is nothing to undo.
+  undo(): boolean {
+    const saved = this.snapshot;
+    if (!saved) return false;
+
+    this.player.money = saved.money;
+    this.player.energy = saved.energy;
+    this.distanceLeft = saved.distanceLeft;
+    this.turn = saved.turn;
+    this.usage = { ...saved.usage };
+    this.disabled = [...saved.disabled];
+    this.outcome = saved.outcome;
+    this.offers = saved.offers;
+    this.snapshot = null;
+    return true;
+  }
+
   // Applies the chosen offer. Returns null if the player cannot afford it.
   choose(offer: Offer): TurnReport | null {
     if (!offer.affordable) return null;
+
+    this.snapshot = {
+      money: this.player.money,
+      energy: this.player.energy,
+      distanceLeft: this.distanceLeft,
+      turn: this.turn,
+      usage: { ...this.usage },
+      disabled: [...this.disabled],
+      outcome: this.outcome,
+      offers: this.offers,
+    };
 
     const { option, km, cost, drain } = offer;
     this.player.money -= cost;

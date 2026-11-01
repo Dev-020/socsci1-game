@@ -58,15 +58,46 @@ export class Game {
         this.offers = [];
         this.usage = {};
         this.disabled = [];
+        this.snapshot = null;
         this.player = { ...character };
         this.seed = seed;
         this.weather = pick(WEATHER, this.roll(Roll.weather));
         this.advance();
     }
+    // True when one choice can be taken back.
+    get canUndo() {
+        return this.snapshot !== null;
+    }
+    // Takes back the last choice. Returns false if there is nothing to undo.
+    undo() {
+        const saved = this.snapshot;
+        if (!saved)
+            return false;
+        this.player.money = saved.money;
+        this.player.energy = saved.energy;
+        this.distanceLeft = saved.distanceLeft;
+        this.turn = saved.turn;
+        this.usage = { ...saved.usage };
+        this.disabled = [...saved.disabled];
+        this.outcome = saved.outcome;
+        this.offers = saved.offers;
+        this.snapshot = null;
+        return true;
+    }
     // Applies the chosen offer. Returns null if the player cannot afford it.
     choose(offer) {
         if (!offer.affordable)
             return null;
+        this.snapshot = {
+            money: this.player.money,
+            energy: this.player.energy,
+            distanceLeft: this.distanceLeft,
+            turn: this.turn,
+            usage: { ...this.usage },
+            disabled: [...this.disabled],
+            outcome: this.outcome,
+            offers: this.offers,
+        };
         const { option, km, cost, drain } = offer;
         this.player.money -= cost;
         this.player.energy = Math.max(0, this.player.energy - drain);
