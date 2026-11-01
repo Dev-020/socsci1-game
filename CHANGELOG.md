@@ -6,6 +6,17 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-01
+### Added
+- Pixel fonts for the title and all other text.
+### Changed
+- The frame and side buttons now have 3D shading.
+- Option cards now match the Canva design, with a short name in a pill and the costs below it.
+- The speech bubble is now a plain rounded rectangle.
+- The scene now shows as a labelled box until the group's backgrounds arrive.
+### Fixed
+- The energy bar now lines up with the money bar.
+
 ## [0.4.0] - 2026-11-01
 ### Added
 - A new game screen with a console frame, scene and bottom panel, plus title and character select screens. Options can't be chosen on it yet in this version.
