@@ -906,3 +906,125 @@ button:focus-visible {
 .ending-btn:hover {
   background: #b898d3;
 }
+
+/* ---------- motion ---------- */
+
+@keyframes drive {
+  from {
+    left: -25%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stage[data-screen="moving"] .vehicle {
+  animation: drive 1.4s linear forwards;
+}
+
+.layer {
+  animation: fade 0.25s;
+}
+
+.stage[data-screen="result"] .result-box:not([hidden]),
+.ending-box {
+  animation: pop 0.25s;
+}
+
+/* ---------- phone held upright: a swipe row that loops ---------- */
+
+@media (orientation: portrait) and (max-width: 700px) {
+  .options {
+    justify-content: flex-start;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .options::-webkit-scrollbar {
+    display: none;
+  }
+
+  .options:not(.loop) {
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .options.loop .opt-before,
+  .options.loop .opt-after {
+    display: contents;
+  }
+
+  .option {
+    flex: 0 0 50%;
+    padding: 0 calc(12 * var(--px));
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    gap: calc(14 * var(--px));
+  }
+
+  .option:not(:disabled):hover {
+    transform: none;
+  }
+
+  .option-pill {
+    height: calc(130 * var(--px));
+    margin-bottom: 0;
+    border-width: calc(12 * var(--px));
+    border-radius: calc(65 * var(--px));
+    font-size: calc(88 * var(--px));
+  }
+
+  .option-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35em;
+  }
+
+  .option-pill::after {
+    content: attr(data-uses);
+  }
+
+  .option .full,
+  .option-uses {
+    display: none;
+  }
+
+  .option .short {
+    display: inline;
+  }
+
+  .option-stats {
+    flex-direction: row;
+    gap: calc(18 * var(--px));
+    font-size: calc(80 * var(--px));
+  }
+
+  .option-stats .option-line {
+    font-size: calc(80 * var(--px));
+  }
+}

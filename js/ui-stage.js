@@ -21,6 +21,8 @@ const ENDINGS = {
     BURNOUT: { title: "burnout", text: "energy depleted. you are too tired to continue.", css: "lose" },
     STRANDED: { title: "stranded", text: "not enough energy and money to reach the destination.", css: "lose" },
 };
+// Phones held upright get the swipe row of options.
+const PORTRAIT_PHONE = "(orientation: portrait) and (max-width: 700px)";
 // ---------- small helpers ----------
 function el(tag, className = "", text) {
     const node = document.createElement(tag);
@@ -181,7 +183,7 @@ export function startStageUi(app) {
         }
         const pill = el("span", "option-pill", option.key);
         if (usesLeft !== null)
-            pill.dataset.uses = ` ${usesLeft}/${option.maxUses}`;
+            pill.dataset.uses = `${usesLeft}/${option.maxUses}`;
         const pesos = plainNumber(cost, 2);
         const stats = el("span", "option-stats");
         stats.append(statLine("option-pesos", `- ${pesos} pesos`, `${pesos}p`), statLine("option-energy", `- ${drain} energy`, `${drain}e`), statLine("option-km", `- ${plainNumber(km)} km`, `${plainNumber(km)}km`));
@@ -190,8 +192,88 @@ export function startStageUi(app) {
             button.append(el("span", "option-line option-uses", `${usesLeft}/${option.maxUses} left`));
         return button;
     }
+    // ----- the looping swipe row (phones held upright) -----
+    // Three identical groups of cards: before, main and after. After a swipe
+    // settles in before or after, the row jumps one group's width to the same
+    // picture in main, so it can be swiped forever in either direction.
+    const portraitQuery = window.matchMedia(PORTRAIT_PHONE);
+    let touching = false;
+    let touchMoved = false;
+    let touchStart = { x: 0, y: 0 };
+    let settling = false;
+    let settleTimer = 0;
+    function looping() {
+        return options.classList.contains("loop") && portraitQuery.matches;
+    }
+    // Measured each time, because turning the phone changes it.
+    function groupWidth() {
+        const first = options.querySelector(".opt-before .option");
+        const second = options.querySelector(".opt-main .option");
+        return first && second ? second.offsetLeft - first.offsetLeft : 0;
+    }
+    function resetLoop() {
+        if (looping())
+            options.scrollLeft = groupWidth();
+        settling = false;
+    }
+    function settle() {
+        window.clearTimeout(settleTimer);
+        if (touching)
+            return; // never move the row during a swipe
+        if (looping()) {
+            const width = groupWidth();
+            const x = options.scrollLeft;
+            if (width > 0 && x < width - 1)
+                options.scrollLeft = x + width;
+            else if (width > 0 && x >= 2 * width - 1)
+                options.scrollLeft = x - width;
+        }
+        settling = false;
+    }
+    function settleSoon() {
+        window.clearTimeout(settleTimer);
+        settleTimer = window.setTimeout(settle, 120);
+    }
+    options.addEventListener("scroll", () => {
+        if (!looping())
+            return;
+        settling = true;
+        settleSoon();
+    });
+    options.addEventListener("scrollend", settle);
+    options.addEventListener("touchstart", (touchEvent) => {
+        touching = true;
+        touchMoved = false;
+        touchStart = { x: touchEvent.touches[0].clientX, y: touchEvent.touches[0].clientY };
+    }, { passive: true });
+    options.addEventListener("touchmove", (touchEvent) => {
+        const t = touchEvent.touches[0];
+        if (Math.abs(t.clientX - touchStart.x) > 10 || Math.abs(t.clientY - touchStart.y) > 10)
+            touchMoved = true;
+    }, { passive: true });
+    const touchEnded = () => {
+        touching = false;
+        if (looping())
+            settleSoon();
+    };
+    options.addEventListener("touchend", touchEnded);
+    options.addEventListener("touchcancel", touchEnded);
+    // Turning the phone changes every width, so start again from main.
+    portraitQuery.addEventListener("change", () => {
+        window.requestAnimationFrame(resetLoop);
+    });
     function fillOptions(current) {
-        options.replaceChildren(...current.offers.map((offer, i) => offerButton(offer, i, false)));
+        const count = current.offers.length;
+        const loop = count >= 3; // with 1 or 2 cards both fit, so no scrolling
+        options.classList.toggle("loop", loop);
+        const names = loop ? ["before", "main", "after"] : ["main"];
+        options.replaceChildren(...names.map((name) => {
+            const group = el("div", `opt-group opt-${name}`);
+            group.append(...current.offers.map((offer, i) => offerButton(offer, i, name !== "main")));
+            return group;
+        }));
+        options.scrollLeft = 0;
+        resetLoop();
     }
     function showTurn(current) {
         const weather = slug(current.weather.name);
@@ -297,6 +379,9 @@ export function startStageUi(app) {
             screen = "turn";
         }
         else if (offer !== undefined && game && screen === "turn") {
+            // A swipe, or a row still settling, is not a choice.
+            if (looping() && (touchMoved || settling))
+                return;
             const picked = game.offers[Number(offer)];
             const report = game.choose(picked);
             if (!report)
