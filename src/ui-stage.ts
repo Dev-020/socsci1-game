@@ -5,13 +5,31 @@
 import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
 import type { Character } from "./data.js";
 import { Game } from "./game.js";
-import type { Offer } from "./game.js";
-import { seedFromLink } from "./format.js";
+import type { Offer, TurnReport } from "./game.js";
+import { eventEffects, seedFromLink } from "./format.js";
 
 type Screen = "title" | "select" | "turn" | "moving" | "result" | "ending";
 
 const ENERGY_SEGMENTS = 10;
 const SPEECH = "saan kaya ako sasakay..?";
+
+// If the vehicle's animationend never fires, move on after this long.
+const MOVE_TIMEOUT_MS = 2000;
+
+const EVENT_ART: Record<string, string> = {
+  "Traffic Congestion": "event-traffic",
+  "Station Queue": "event-queue",
+  "Road Obstruction / Flood": "event-flood",
+  "Track Fault / Station Power Outage": "event-track-fault",
+  "Clear Traffic Flow": "event-clear-traffic",
+  "Fare Surcharge": "event-surcharge",
+};
+
+const ENDINGS = {
+  WIN: { title: "destination reached", text: "you have reached your destination.", css: "win" },
+  BURNOUT: { title: "burnout", text: "energy depleted. you are too tired to continue.", css: "lose" },
+  STRANDED: { title: "stranded", text: "not enough energy and money to reach the destination.", css: "lose" },
+};
 
 // ---------- small helpers ----------
 
@@ -74,6 +92,9 @@ export function startStageUi(app: HTMLElement): void {
   let screen: Screen = "title";
   let game: Game | null = null;
   let startMoney = 1;
+  let chosen: Offer | null = null;
+  let lastTurn: TurnReport | null = null;
+  let moveTimer = 0;
 
   const stage = el("div", "stage");
   app.replaceChildren(stage);
@@ -82,6 +103,10 @@ export function startStageUi(app: HTMLElement): void {
   const sceneBox = placeholderImage("assets/scene-normal.png", "scene");
   const scene = el("div", "abs scene");
   scene.append(sceneBox);
+  const vehicle = el("div", "vehicle");
+  const vehicleArt = placeholderImage("assets/transport-walk.png", "vehicle");
+  vehicle.append(vehicleArt);
+  scene.append(vehicle);
   stage.append(el("div", "abs frame"), el("div", "abs knob knob-left"), el("div", "abs knob knob-right"), scene);
 
   const footnote = el("div", "abs footnote");
@@ -130,6 +155,8 @@ export function startStageUi(app: HTMLElement): void {
   weatherBox.append(weatherArt);
 
   const options = el("div", "abs options");
+  const resultMove = el("div", "abs result-box result-move");
+  const resultEvent = el("div", "abs result-box result-event");
   const speech = el("div", "abs speech", SPEECH);
 
   const panel = el("div", "abs panel");
@@ -162,6 +189,8 @@ export function startStageUi(app: HTMLElement): void {
   turnLayer.append(
     weatherBox,
     options,
+    resultMove,
+    resultEvent,
     panel,
     speech,
     portrait,
@@ -176,7 +205,18 @@ export function startStageUi(app: HTMLElement): void {
     returnButton,
   );
 
-  stage.append(titleLayer, selectLayer, turnLayer, footnote);
+  // ----- ending -----
+  const endingLayer = el("div", "layer layer-ending");
+  const endingBox = el("div", "abs ending-box");
+  const endingTitle = el("h2", "ending-title");
+  const endingText = el("p", "ending-text");
+  const endingStats = el("div", "ending-stats");
+  const againButton = el("button", "ending-btn", "play again");
+  againButton.dataset.restart = "";
+  endingBox.append(endingTitle, endingText, endingStats, againButton);
+  endingLayer.append(el("div", "abs ending-scrim"), endingBox);
+
+  stage.append(titleLayer, selectLayer, turnLayer, endingLayer, footnote);
 
   // ----- updating what is on screen -----
 
@@ -196,20 +236,40 @@ export function startStageUi(app: HTMLElement): void {
     distanceLabel.textContent = `distance left: ${plainNumber(distanceLeft)} km`;
   }
 
-  function offerButton(offer: Offer, index: number): HTMLButtonElement {
+  // A line of stats: the full words, and a short form for the phone row.
+  function statLine(cls: string, full: string, short: string): HTMLElement {
+    const line = el("span", `option-line ${cls}`);
+    line.append(el("span", "full", full), el("span", "short", short));
+    return line;
+  }
+
+  function offerButton(offer: Offer, index: number, copy: boolean): HTMLButtonElement {
     const { option, km, cost, drain, affordable, usesLeft } = offer;
     const button = el("button", "option");
     button.dataset.offer = String(index);
     button.disabled = !affordable;
+    if (copy) {
+      // The extra copies are only for looping, so keyboards and readers skip them.
+      button.setAttribute("aria-hidden", "true");
+      button.tabIndex = -1;
+    }
 
-    button.append(
-      el("span", "option-pill", option.key),
-      el("span", "option-line option-pesos", `- ${plainNumber(cost, 2)} pesos`),
-      el("span", "option-line option-energy", `- ${drain} energy`),
-      el("span", "option-line option-km", `- ${plainNumber(km)} km`),
+    const pill = el("span", "option-pill", option.key);
+    if (usesLeft !== null) pill.dataset.uses = ` ${usesLeft}/${option.maxUses}`;
+    const pesos = plainNumber(cost, 2);
+    const stats = el("span", "option-stats");
+    stats.append(
+      statLine("option-pesos", `- ${pesos} pesos`, `${pesos}p`),
+      statLine("option-energy", `- ${drain} energy`, `${drain}e`),
+      statLine("option-km", `- ${plainNumber(km)} km`, `${plainNumber(km)}km`),
     );
+    button.append(pill, stats);
     if (usesLeft !== null) button.append(el("span", "option-line option-uses", `${usesLeft}/${option.maxUses} left`));
     return button;
+  }
+
+  function fillOptions(current: Game): void {
+    options.replaceChildren(...current.offers.map((offer, i) => offerButton(offer, i, false)));
   }
 
   function showTurn(current: Game): void {
@@ -220,8 +280,72 @@ export function startStageUi(app: HTMLElement): void {
     playerName.textContent = displayName(current.player);
     footnote.textContent = `seed: ${current.seed}`;
     showBars(current);
-    options.replaceChildren(...current.offers.map(offerButton));
+    fillOptions(current);
+  }
+
+  // ----- moving, result, ending -----
+
+  function line(text: string): HTMLElement {
+    return el("p", "result-line", text);
+  }
+
+  function showMoving(): void {
+    if (!chosen) return;
+    setImage(vehicleArt, `assets/transport-${chosen.option.key}.png`, chosen.option.key);
+    window.clearTimeout(moveTimer);
+    moveTimer = window.setTimeout(finishMove, MOVE_TIMEOUT_MS);
+  }
+
+  function finishMove(): void {
+    window.clearTimeout(moveTimer);
+    if (screen !== "moving") return;
+    screen = "result";
+    render();
+  }
+
+  function showResult(current: Game): void {
+    showBars(current);
     returnButton.hidden = !current.canUndo;
+
+    resultMove.replaceChildren();
+    resultEvent.replaceChildren();
+    resultEvent.hidden = true;
+    resultMove.classList.remove("with-event");
+    if (!lastTurn || !chosen) return;
+
+    const { km, cost, drain, event } = lastTurn;
+    resultMove.append(
+      el("h3", "result-title", chosen.option.key),
+      line(`moved ${plainNumber(km)} km`),
+      line(`paid ${plainNumber(cost, 2)} pesos`),
+      line(`used ${drain} energy`),
+    );
+    if (event) {
+      resultMove.classList.add("with-event");
+      resultEvent.hidden = false;
+      const art = placeholderImage(`assets/${EVENT_ART[event.name] ?? "event"}.png`, EVENT_ART[event.name] ?? "event");
+      art.classList.add("event-art");
+      const text = el("div", "event-text");
+      text.append(el("h3", "result-title", event.name), el("p", "event-desc", event.description), el("p", "event-effects", eventEffects(event)));
+      resultEvent.append(art, text);
+    }
+  }
+
+  function showEnding(current: Game): void {
+    const { player, seed, distanceLeft, turn, outcome } = current;
+    if (!outcome) return;
+    const ending = ENDINGS[outcome];
+    endingBox.dataset.result = ending.css;
+    endingTitle.textContent = ending.title;
+    endingText.textContent = ending.text;
+    const rows = [
+      `money left: ${player.money}`,
+      `energy left: ${player.energy}/${player.maxEnergy}`,
+    ];
+    if (outcome !== "WIN") rows.push(`distance left: ${plainNumber(distanceLeft)} km`);
+    rows.push(`turns: ${turn - 1}`, `seed: ${seed}`);
+    endingStats.replaceChildren(...rows.map(line));
+    footnote.textContent = `seed: ${seed}`;
   }
 
   function render(): void {
@@ -231,7 +355,10 @@ export function startStageUi(app: HTMLElement): void {
     } else if (screen === "select") {
       footnote.textContent = "";
     } else if (game) {
-      showTurn(game);
+      if (screen === "turn") showTurn(game);
+      else if (screen === "moving") showMoving();
+      else if (screen === "result") showResult(game);
+      else showEnding(game);
     }
   }
 
@@ -239,19 +366,46 @@ export function startStageUi(app: HTMLElement): void {
 
   stage.addEventListener("click", (clickEvent) => {
     const button = (clickEvent.target as HTMLElement).closest("button");
-    if (!button) return;
+    if (!button || screen === "moving") return; // no clicks while the vehicle moves
 
-    const { start, character } = button.dataset;
+    const { start, character, offer, restart } = button.dataset;
     if (start !== undefined) {
       screen = "select";
     } else if (character !== undefined) {
-      const chosen = CHARACTERS[Number(character)];
-      game = new Game(chosen, seedFromLink());
-      startMoney = chosen.money;
+      const picked = CHARACTERS[Number(character)];
+      game = new Game(picked, seedFromLink());
+      startMoney = picked.money;
+      lastTurn = null;
+      chosen = null;
       screen = "turn";
+    } else if (offer !== undefined && game && screen === "turn") {
+      const picked = game.offers[Number(offer)];
+      const report = game.choose(picked);
+      if (!report) return;
+      chosen = picked;
+      lastTurn = report;
+      screen = "moving";
+    } else if (button.dataset.continue !== undefined && game && screen === "result") {
+      screen = game.outcome ? "ending" : "turn";
+    } else if (button.dataset.return !== undefined && game && screen === "result") {
+      if (!game.undo()) return;
+      lastTurn = null;
+      chosen = null;
+      screen = "turn";
+    } else if (restart !== undefined) {
+      game = null;
+      lastTurn = null;
+      chosen = null;
+      screen = "select";
+    } else {
+      return;
     }
-    // Choosing an option, Continue and Return come in the next step.
     render();
+  });
+
+  // The vehicle finishing its drive ends the move.
+  vehicle.addEventListener("animationend", (animationEvent) => {
+    if (animationEvent.animationName === "drive") finishMove();
   });
 
   render();
