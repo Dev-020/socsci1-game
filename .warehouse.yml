@@ -3,6 +3,4 @@ target: warehouse/
 items:
   - protocol/agent-protocol@0.1
   - convention/commits@0.1
-  - convention/versioning@0.1
-  - convention/changelog@0.1
   - protocol/working-memory@0.2

@@ -4,12 +4,12 @@ _Updated 2026-11-01 by claude-code, Opus 5.5._
 
 ## Now
 
-- **Status:** plan written, waiting for the user's approval. Nothing is built yet.
+- **Status:** full plan written, waiting for the user's go signal. Nothing is built yet.
 - **Last release:** 0.3.0 (plain UI).
 
 ## Decisions
 
-- **Return button:** keep it for testing. It may be removed in a final version.
+- **Return button:** keep it for testing. It undoes the last choice and restores that turn. It may be removed in a final version.
 - **Options per turn:** design for up to 5, the game's real maximum. Limiting it to 3 would change the balance.
 - **Plain version:** a link option such as `?ui=plain` keeps today's plain UI for explaining the game system.
 - **Assets:** PNG only, using the filenames in the group's Minimum Asset Requirements doc.
@@ -18,19 +18,11 @@ _Updated 2026-11-01 by claude-code, Opus 5.5._
 
 ## Plan
 
-1. Add the fixed 16:9 stage and console frame.
-2. Rewrite `src/ui.ts` for the title, character select, journey, event popup and three ending screens.
-3. Show a labelled box wherever an image file is missing.
-4. Slide the money bar, energy bar and distance flag to new values.
-5. After each choice, run the vehicle across the scene, show any event, then start the next turn.
-6. Add `?ui=plain`, keeping the current plain screens.
-7. Test both UIs in a browser at phone and laptop size, and confirm a `?seed=` run still repeats exactly.
-
-Tutorial, Credits and the optional clouds, rain and walking animations come after this.
+The full plan is `AI/PLAN_stage-ui.md`. Use a Sonnet implementer on branch `feat/stage-ui` after the user gives the go signal.
 
 ## Open questions
 
-- What does Return do in the Canva UI? It needs a defined behaviour before it's built, because the engine has no undo (waiting on: the user).
+- Phone portrait and speech bubble defaults (waiting on: the user, plan section 3).
 - Font and colour codes (waiting on: the team). Use sampled colours and a temporary font until then.
 
 ## Watch out

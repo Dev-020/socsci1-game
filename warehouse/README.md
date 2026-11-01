@@ -7,9 +7,7 @@ the warehouse, or run `warehouse promote <id>` to send a local change upstream.
 
 | Item | Version | Pin | Path | Notes |
 |---|---|---|---|---|
-| convention/changelog | 0.1.2 | @0.1 | [changelog.md](changelog.md) |  |
 | convention/commits | 0.1.0 | @0.1 | [commits.md](commits.md) |  |
-| convention/versioning | 0.1.1 | @0.1 | [versioning.md](versioning.md) |  |
 | protocol/agent-protocol | 0.1.1 | @0.1 | [agent-protocol.md](agent-protocol.md) |  |
 | protocol/working-memory | 0.2.1 | @0.2 | [working-memory.md](working-memory.md) |  |
 | template/active-context | 0.1.0 | @0.1 | [active-context.md](active-context.md) | required by protocol/working-memory |

@@ -35,13 +35,12 @@ python -m http.server
 
 ## Versions and changelog
 
-- The game uses Semantic Versioning, following `warehouse/versioning.md`. While the version is `0.x.y`, bump MINOR for features and PATCH for fixes.
-- Record changes in `CHANGELOG.md`, following `warehouse/changelog.md`.
-- For a release, update `VERSION` in `src/data.ts`, move `[Unreleased]` into a dated heading, and tag it `game@<version>`.
+- Follow `docs/conventions/versioning.md` for version numbers and releases.
+- Follow `docs/conventions/changelog.md` for `CHANGELOG.md`.
 
 ## Warehouse
 
-`warehouse/` holds synced copies. Never edit them here.
+`warehouse/` holds synced copies. Never edit them here. The versioning and changelog conventions were detached from the warehouse, so they now live in `docs/conventions/` and belong to this project.
 
 - Operating rules: `warehouse/agent-protocol.md`
 - Working memory and active context: `warehouse/working-memory.md`, `warehouse/active-context.md`

@@ -1,19 +1,5 @@
 {
   "items": {
-    "convention/changelog": {
-      "files": {
-        "changelog.md": "sha256:f9a95ef8a8dcff0aa0eba618e770c54a1ab2ea284c832f231fef695fe703a97a"
-      },
-      "pending": null,
-      "pin": "0.1",
-      "promoted": null,
-      "required_by": [],
-      "settings_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
-      "source": "manifest",
-      "state": "ok",
-      "synced": "2026-11-01",
-      "version": "0.1.2"
-    },
     "convention/commits": {
       "files": {
         "commits.md": "sha256:a7ddbbe558d0a7aa93c7d852d9de5f9dd76e778e4c799e9bc413c595761c6c4e"
@@ -27,20 +13,6 @@
       "state": "ok",
       "synced": "2026-11-01",
       "version": "0.1.0"
-    },
-    "convention/versioning": {
-      "files": {
-        "versioning.md": "sha256:eb50a99699e2e88c81330c608b552adc60d8ed849a65b14d80f427603b2951ad"
-      },
-      "pending": null,
-      "pin": "0.1",
-      "promoted": null,
-      "required_by": [],
-      "settings_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
-      "source": "manifest",
-      "state": "ok",
-      "synced": "2026-11-01",
-      "version": "0.1.1"
     },
     "protocol/agent-protocol": {
       "files": {
@@ -88,5 +60,5 @@
     }
   },
   "lock_version": 1,
-  "readme": "sha256:12b9f5d2725ad2de8d256ad9bf18bb269a4da78dee763e867e17b593476017e6"
+  "readme": "sha256:5eaeb8dc9950615aed462da0e326164d75a47a38245b4aefa70729fdc8dc213e"
 }
