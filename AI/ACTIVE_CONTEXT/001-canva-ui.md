@@ -1,11 +1,11 @@
 # Canva-style UI: active context
 
-_Updated 2026-11-01 by claude-code, Opus 5.5._
+_Updated 2026-11-02 by claude-code, Opus 5.5._
 
 ## Now
 
-- **Status:** full plan written, waiting for the user's go signal. Nothing is built yet.
-- **Last release:** 0.3.0 (plain UI).
+- **Status:** stage UI released and live. Waiting on the group's art and final colours.
+- **Last release:** 0.6.1.
 
 ## Decisions
 

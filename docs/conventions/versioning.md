@@ -29,6 +29,13 @@ earlier results or seeds incomparable, such as changing the rules or the random 
 - Every release has a `CHANGELOG.md` entry ([changelog.md](changelog.md)) and a git tag `game@<version>`,
   such as `game@0.3.0`.
 
+## Release in small steps
+
+Give each step its own version, tag and changelog entry instead of collecting them into one release.
+
+- The first working version of a feature, or a new feature added to it, is a MINOR bump.
+- Each later round of feedback or smaller UI change is its own PATCH bump.
+
 ## Releasing
 
 1. Update `VERSION` in `src/data.ts` and compile.

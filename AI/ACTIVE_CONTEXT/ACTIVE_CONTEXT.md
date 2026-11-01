@@ -1,6 +1,6 @@
 # Active context: Commuter Game
 
-_Updated 2026-11-01 by claude-code, Opus 5.5. Cap: 6,000 characters. One row per item; the detail lives in the item's file._
+_Updated 2026-11-02 by claude-code, Opus 5.5. Cap: 6,000 characters. One row per item; the detail lives in the item's file._
 
 ## Read this first
 
@@ -16,7 +16,6 @@ _Updated 2026-11-01 by claude-code, Opus 5.5. Cap: 6,000 characters. One row per
 
 | Item | File | Waiting on | Since |
 |---|---|---|---|
-| Canva-style UI | [[001-canva-ui]] | The user's approval of the plan | 2026-11-01 |
 
 ## Where things live
 

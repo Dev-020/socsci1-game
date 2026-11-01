@@ -1,6 +1,6 @@
 # Stage UI — Implementation Plan
 
-> **Status:** Proposed 2026-11-01, waiting for the user's go signal | **Author:** claude-code, Opus 5.5 | **Target release:** 0.4.0
+> **Status:** Released 2026-11-02 as 0.4.0 to 0.6.1 | **Author:** claude-code, Opus 5.5 | **Release:** 0.4.0 to 0.6.1
 
 ---
 
