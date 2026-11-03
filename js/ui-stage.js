@@ -4,6 +4,7 @@
 import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
 import { Game } from "./game.js";
 import { eventEffects, seedFromLink } from "./format.js";
+import { getCharacterTheme } from "./theme.js";
 const ENERGY_SEGMENTS = 10;
 const SPEECH = "saan kaya ako sasakay..?";
 // If the vehicle's animationend never fires, move on after this long.
@@ -121,6 +122,7 @@ export function startStageUi(app) {
     const portraitArt = placeholderImage("assets/character-student.png", "character");
     portrait.append(portraitArt);
     const playerName = el("h2", "abs player-name");
+    const commuterBadge = el("span", "abs commuter-badge");
     const moneyFill = el("div", "money-fill");
     const moneyBar = el("div", "abs money-bar");
     moneyBar.append(moneyFill);
@@ -139,7 +141,7 @@ export function startStageUi(app) {
     continueButton.dataset.continue = "";
     const returnButton = el("button", "abs panel-btn return-btn", "<< return");
     returnButton.dataset.return = "";
-    turnLayer.append(weatherBox, options, resultMove, resultEvent, panel, speech, portrait, playerName, el("div", "abs stat-label money-label", "money"), moneyBar, moneyValue, el("div", "abs stat-label energy-label", "energy"), energyBar, energyValue, continueButton, returnButton);
+    turnLayer.append(weatherBox, options, resultMove, resultEvent, panel, speech, portrait, playerName, commuterBadge, el("div", "abs stat-label money-label", "money"), moneyBar, moneyValue, el("div", "abs stat-label energy-label", "energy"), energyBar, energyValue, continueButton, returnButton);
     // ----- ending -----
     const endingLayer = el("div", "layer layer-ending");
     const endingBox = el("div", "abs ending-box");
@@ -344,13 +346,45 @@ export function startStageUi(app) {
     }
     function render() {
         stage.dataset.screen = screen;
+        const metaTheme = document.querySelector('meta[name="theme-color"]');
         if (screen === "title") {
+            delete stage.dataset.character;
+            delete stage.dataset.energyStyle;
+            delete stage.dataset.moneyStyle;
+            delete stage.dataset.hasBadge;
+            delete document.body.dataset.character;
+            if (metaTheme)
+                metaTheme.content = "#ffb95f";
             footnote.textContent = `v${VERSION}`;
         }
         else if (screen === "select") {
+            delete stage.dataset.character;
+            delete stage.dataset.energyStyle;
+            delete stage.dataset.moneyStyle;
+            delete stage.dataset.hasBadge;
+            delete document.body.dataset.character;
+            if (metaTheme)
+                metaTheme.content = "#ffb95f";
             footnote.textContent = "";
         }
         else if (game) {
+            const charSlug = slug(game.player.name);
+            const theme = getCharacterTheme(charSlug);
+            stage.dataset.character = charSlug;
+            document.body.dataset.character = charSlug;
+            stage.dataset.energyStyle = theme.energyBarStyle;
+            stage.dataset.moneyStyle = theme.moneyDisplayStyle;
+            if (theme.badgeLabel) {
+                commuterBadge.textContent = theme.badgeLabel;
+                stage.dataset.hasBadge = "true";
+            }
+            else {
+                commuterBadge.textContent = "";
+                delete stage.dataset.hasBadge;
+            }
+            if (metaTheme && theme.accentPalette.backdrop) {
+                metaTheme.content = theme.accentPalette.backdrop;
+            }
             if (screen === "turn")
                 showTurn(game);
             else if (screen === "moving")

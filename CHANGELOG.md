@@ -5,6 +5,8 @@ All notable changes to the game. The format follows
 [Semantic Versioning 2.0.0](https://semver.org).
 
 ## [Unreleased]
+### Added
+- Theme contracts and scaffolding for character-specific UI styles, meter modes, and commuter badges.
 
 ## [0.6.1] - 2026-11-02
 ### Changed

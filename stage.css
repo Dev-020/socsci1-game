@@ -35,6 +35,27 @@
   --font-title: "Press Start 2P", ui-monospace, "Courier New", monospace;
 }
 
+/* ==========================================================================
+   CHARACTER THEMES (SCAFFOLDING)
+   Override CSS custom properties here when the team finalizes each character's palette.
+   By default, they inherit root console values so current appearance stays identical.
+   ========================================================================== */
+
+.stage[data-character="student"],
+body[data-character="student"] {
+  /* Student theme overrides */
+}
+
+.stage[data-character="worker"],
+body[data-character="worker"] {
+  /* Worker theme overrides */
+}
+
+.stage[data-character="pwd"],
+body[data-character="pwd"] {
+  /* PWD theme overrides */
+}
+
 * {
   box-sizing: border-box;
 }
@@ -581,6 +602,25 @@ button:focus-visible {
   font-weight: 400;
 }
 
+.commuter-badge {
+  display: none;
+  left: calc(542 * var(--px));
+  top: calc(680 * var(--px));
+  padding: calc(2 * var(--px)) calc(12 * var(--px));
+  border: calc(3 * var(--px)) solid var(--line);
+  border-radius: calc(16 * var(--px));
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: calc(34 * var(--px));
+  line-height: 1;
+  text-shadow: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--ink);
+  white-space: nowrap;
+}
+
+.stage[data-has-badge="true"] .commuter-badge {
+  display: block;
+}
+
 .stat-label {
   left: calc(542 * var(--px));
   width: calc(165 * var(--px));
@@ -660,6 +700,19 @@ button:focus-visible {
   width: 100%;
   background: var(--energy);
   transition: width 0.6s;
+}
+
+/* Continuous Energy Bar Style */
+.stage[data-energy-style="continuous"] .energy-bar {
+  gap: 0;
+  border: calc(4 * var(--px)) solid var(--energy-edge);
+  border-radius: calc(8 * var(--px));
+  overflow: hidden;
+}
+
+.stage[data-energy-style="continuous"] .energy-seg {
+  border: none;
+  background: transparent;
 }
 
 .panel-btn {
