@@ -7,6 +7,7 @@ import {
   PWD_EXTRA_DRAIN,
   PWD_PENALTY_MODES,
   SEED,
+  SEED_LIMIT,
   TOTAL_DISTANCE_KM,
   TRANSIT,
   WEATHER,
@@ -51,12 +52,12 @@ function fixedSin(x: number): number {
 
 // Returns a number from 0 up to (but not including) 1.
 export function seededRoll(seed: number, turn: number, purpose: number): number {
-  const x = fixedSin(seed * 12.9898 + turn * 78.233 + purpose * 37.719) * 43758.5453;
+  const x = fixedSin(seed * 12.9898 + turn * 78.233 + purpose * 41.843) * 43758.5453;
   return x - Math.floor(x);
 }
 
 function randomSeed(): number {
-  return Math.floor(Math.random() * 2000000000);
+  return Math.floor(Math.random() * SEED_LIMIT);
 }
 
 function randomInt(min: number, max: number, roll: number): number {

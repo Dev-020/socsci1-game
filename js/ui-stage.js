@@ -3,7 +3,7 @@
 // so CSS transitions can run.
 import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
 import { Game } from "./game.js";
-import { eventEffects, seedFromLink } from "./format.js";
+import { eventEffects, seedFromLink, entropySeed } from "./format.js";
 import { getCharacterTheme } from "./theme.js";
 const ENERGY_SEGMENTS = 10;
 const SPEECH = "saan kaya ako sasakay..?";
@@ -406,7 +406,8 @@ export function startStageUi(app) {
         }
         else if (character !== undefined) {
             const picked = CHARACTERS[Number(character)];
-            game = new Game(picked, seedFromLink());
+            const seed = seedFromLink() ?? entropySeed(performance.now());
+            game = new Game(picked, seed);
             startMoney = picked.money;
             lastTurn = null;
             chosen = null;

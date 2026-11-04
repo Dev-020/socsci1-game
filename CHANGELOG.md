@@ -5,6 +5,12 @@ All notable changes to the game. The format follows
 [Semantic Versioning 2.0.0](https://semver.org).
 
 ## [Unreleased]
+### Added
+- Each new game now gets its own seed from the moment you pick a character.
+### Changed
+- Seeds now go from 0 to 999,999. Links with a bigger seed start a new random game instead.
+- The weather, ride distances and events on the same turn are now less linked to each other.
+- Old seed links now play out differently, and earlier simulation results no longer match exactly.
 
 ## [0.7.0] - 2026-11-04
 ### Added

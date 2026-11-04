@@ -1,7 +1,7 @@
 // Plain screens and click handling. All game rules live in game.ts.
 import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
 import { Game } from "./game.js";
-import { eventEffects, peso, seedFromLink } from "./format.js";
+import { eventEffects, peso, seedFromLink, entropySeed } from "./format.js";
 let app;
 let game = null;
 let lastTurn = null;
@@ -116,7 +116,8 @@ export function startPlainUi(root) {
             return;
         const { character, offer, restart } = button.dataset;
         if (character !== undefined) {
-            game = new Game(CHARACTERS[Number(character)], seedFromLink());
+            const seed = seedFromLink() ?? entropySeed(performance.now());
+            game = new Game(CHARACTERS[Number(character)], seed);
             lastTurn = null;
         }
         else if (offer !== undefined && game) {

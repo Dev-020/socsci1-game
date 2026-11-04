@@ -1,6 +1,6 @@
 // Game engine: resource calculations, event rolls, and win/loss conditions.
 // Contains no page or display code.
-import { EVENTS, EVENT_PROBABILITY, PWD_EXTRA_DRAIN, PWD_PENALTY_MODES, SEED, TOTAL_DISTANCE_KM, TRANSIT, WEATHER, } from "./data.js";
+import { EVENTS, EVENT_PROBABILITY, PWD_EXTRA_DRAIN, PWD_PENALTY_MODES, SEED, SEED_LIMIT, TOTAL_DISTANCE_KM, TRANSIT, WEATHER, } from "./data.js";
 // What each roll decides. Every turn has one fixed roll per purpose, so a
 // player's choices cannot change the rolls that come later.
 const Roll = { weather: 1, motorKm: 2, carKm: 3, eventChance: 4, eventPick: 5 };
@@ -18,11 +18,11 @@ function fixedSin(x) {
 }
 // Returns a number from 0 up to (but not including) 1.
 export function seededRoll(seed, turn, purpose) {
-    const x = fixedSin(seed * 12.9898 + turn * 78.233 + purpose * 37.719) * 43758.5453;
+    const x = fixedSin(seed * 12.9898 + turn * 78.233 + purpose * 41.843) * 43758.5453;
     return x - Math.floor(x);
 }
 function randomSeed() {
-    return Math.floor(Math.random() * 2000000000);
+    return Math.floor(Math.random() * SEED_LIMIT);
 }
 function randomInt(min, max, roll) {
     return min + Math.floor(roll * (max - min + 1));

@@ -2,6 +2,7 @@
 export const VERSION = "0.7.0";
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
+export const SEED_LIMIT = 1000000;
 export const SEED = null; // null = new random seed each run
 export const PWD_EXTRA_DRAIN = 8;
 export const PWD_PENALTY_MODES = ["walk", "jeep"];

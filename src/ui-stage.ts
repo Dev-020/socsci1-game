@@ -6,7 +6,7 @@ import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
 import type { Character } from "./data.js";
 import { Game } from "./game.js";
 import type { Offer, TurnReport } from "./game.js";
-import { eventEffects, seedFromLink } from "./format.js";
+import { eventEffects, seedFromLink, entropySeed } from "./format.js";
 import { getCharacterTheme } from "./theme.js";
 
 type Screen = "title" | "select" | "turn" | "moving" | "result" | "ending";
@@ -500,7 +500,8 @@ export function startStageUi(app: HTMLElement): void {
       screen = "select";
     } else if (character !== undefined) {
       const picked = CHARACTERS[Number(character)];
-      game = new Game(picked, seedFromLink());
+      const seed = seedFromLink() ?? entropySeed(performance.now());
+      game = new Game(picked, seed);
       startMoney = picked.money;
       lastTurn = null;
       chosen = null;
