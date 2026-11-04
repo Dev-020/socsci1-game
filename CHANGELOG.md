@@ -5,6 +5,8 @@ All notable changes to the game. The format follows
 [Semantic Versioning 2.0.0](https://semver.org).
 
 ## [Unreleased]
+
+## [0.8.0] - 2026-11-04
 ### Added
 - Each new game now gets its own seed from the moment you pick a character.
 ### Changed

@@ -14,11 +14,35 @@ The prioritized task list for maintenance, features, and technical debt for the 
 
 ---
 
+
 ## 📌 Backlog (Open Tasks)
 
 ---
 
 ## ✅ Completed
+
+### [#003] Implement entropy-based seed generation
+- **Status**: `Closed` | **Priority**: `P2` | **Labels**: `Core`, `Feature`, `Randomness`
+- **Created**: 2026-11-04
+- **Resolved**: 2026-11-04
+- **Depends on**: None
+
+#### Why
+Currently, the game uses `Math.random()` to generate a starting seed when no manual seed is provided. While sufficient, this is a pseudo-random process. To introduce "true" randomness, we can harvest entropy from the physical world by capturing the high-resolution timing of the user's interaction with the UI.
+
+#### Wanted
+An entropy-harvesting mechanism that uses `performance.now()` during the character selection event to generate a highly unpredictable seed, while maintaining the existing priority of manual URL seeds.
+
+#### Acceptance Criteria
+- [x] #1 Implement `entropySeed()` helper in `src/format.ts`.
+- [x] #2 Integrate entropy capture into `src/ui-plain.ts` and `src/ui-stage.ts`.
+- [x] #3 Ensure manual seeds via `?seed=...` still override entropy generation.
+- [x] #4 Verify "Undo" functionality remains intact.
+- [x] #5 Update `VERSION` to `0.8.0` and update `CHANGELOG.md`.
+- [x] #6 `npx -p typescript tsc` compiles cleanly.
+
+#### Outcome
+Implemented entropy harvesting via `performance.now()`, `Date.now()`, and `Math.random()` to provide unique seeds for every run. Enforced a seed limit of 0-999,999 to prevent float precision issues. Updated the RNG formula to use a 41.843 multiplier for better purpose separation.
 
 ### [#002] Implement character-specific themes and UI layouts (Student, Worker, PWD)
 - **Status**: `Closed` | **Priority**: `P2` | **Labels**: `UI`, `Feature`, `Theming`
