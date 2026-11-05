@@ -52,7 +52,7 @@ function renderSelect(): void {
     <p class="muted">Travel ${TOTAL_DISTANCE_KM} km without running out of energy or money.</p>
     <h2>Select a character</h2>
     ${buttons}
-    <p class="muted">v${VERSION}</p>`;
+    <p class="muted"><a href="changelog.html">v${VERSION} · changelog</a></p>`;
 }
 
 function offerButton(offer: Offer, index: number): string {

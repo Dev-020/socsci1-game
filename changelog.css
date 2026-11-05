@@ -1,0 +1,346 @@
+/* Changelog page styles: responsive scrolling layout matching game pixel theme. */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--backdrop);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 20px;
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+.changelog-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  width: 100%;
+}
+
+/* ---------- Navigation & Header ---------- */
+
+.nav-bar {
+  margin-bottom: 20px;
+}
+
+.back-link {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 22px;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: var(--line);
+}
+
+.page-header {
+  margin-bottom: 28px;
+}
+
+.page-title {
+  margin: 0 0 14px;
+  font-family: var(--font-title);
+  font-size: 26px;
+  line-height: 1.25;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+
+.page-intro {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* ---------- Entries Container & Version Cards ---------- */
+
+.entries-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.version-card {
+  background: #fffdf9;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 20px 22px;
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 2px dashed #d5d3e0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.version-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.version-number {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 18px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.version-date {
+  font-family: var(--font);
+  font-size: 20px;
+  color: #635b7e;
+}
+
+.compare-link {
+  font-family: var(--font);
+  font-size: 18px;
+  color: #554d77;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.compare-link:hover,
+.compare-link:focus-visible {
+  color: var(--line);
+}
+
+/* ---------- Details / Unreleased Section ---------- */
+
+.unreleased-card {
+  padding: 0;
+}
+
+.unreleased-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: normal;
+  border-radius: 9px;
+  background: #fbf7ff;
+}
+
+.unreleased-summary:hover {
+  background: #f5edff;
+}
+
+.summary-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.unreleased-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: var(--font-title);
+  font-size: 12px;
+  line-height: 1.2;
+  background: var(--panel);
+  color: #fff;
+  border-radius: 4px;
+}
+
+.unreleased-label {
+  font-family: var(--font);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.unreleased-card[open] .unreleased-summary {
+  border-bottom: 2px dashed #d5d3e0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.unreleased-card .card-content {
+  padding: 16px 20px 20px;
+}
+
+.unreleased-meta {
+  margin-bottom: 14px;
+}
+
+/* ---------- Categories and Lists ---------- */
+
+.category-block {
+  margin-bottom: 16px;
+}
+
+.category-block:last-child {
+  margin-bottom: 0;
+}
+
+.category-tag {
+  display: inline-block;
+  font-family: var(--font-title);
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.tag-added {
+  background: #e3f5d3;
+  color: #275914;
+  border: 1px solid #c2e8a6;
+}
+
+.tag-changed {
+  background: #fff0d6;
+  color: #8c5305;
+  border: 1px solid #fedba5;
+}
+
+.tag-fixed {
+  background: #e8e6f8;
+  color: #3b2f7a;
+  border: 1px solid #d3cfee;
+}
+
+.tag-removed {
+  background: #ffe3e6;
+  color: #8d1c2b;
+  border: 1px solid #fec1c7;
+}
+
+.item-list {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.item {
+  margin-bottom: 6px;
+  font-size: 20px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.code-inline {
+  background: #f0edf8;
+  border: 1px solid #dcd7ed;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: ui-monospace, "Cascadia Mono", "Courier New", monospace;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.item-link {
+  color: var(--line);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.item-link:hover,
+.item-link:focus-visible {
+  color: #4b0a88;
+}
+
+/* ---------- Error & Loading States ---------- */
+
+.loading-text {
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.error-card {
+  background: #fff;
+  border: 3px solid var(--frame);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.error-title {
+  margin: 0 0 10px;
+  font-family: var(--font-title);
+  font-size: 16px;
+  color: var(--frame-dark);
+}
+
+.error-text {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+/* ---------- Mobile responsiveness (<= 480px / 375px) ---------- */
+
+@media (max-width: 480px) {
+  .changelog-page {
+    padding: 16px 12px 36px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  .page-intro {
+    font-size: 18px;
+  }
+
+  .version-card {
+    padding: 16px 14px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .version-number {
+    font-size: 16px;
+  }
+
+  .version-date {
+    font-size: 18px;
+  }
+
+  .compare-link {
+    font-size: 16px;
+  }
+
+  .item {
+    font-size: 18px;
+  }
+
+  .unreleased-summary {
+    padding: 14px 14px;
+  }
+
+  .unreleased-card .card-content {
+    padding: 14px 14px 16px;
+  }
+}

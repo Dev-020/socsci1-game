@@ -5,6 +5,8 @@ All notable changes to the game. The format follows
 [Semantic Versioning 2.0.0](https://semver.org).
 
 ## [Unreleased]
+### Added
+- A changelog page now shows what changed in each version. Open it from the version number on the title screen.
 
 ## [0.8.0] - 2026-11-04
 ### Added

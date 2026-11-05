@@ -355,7 +355,9 @@ export function startStageUi(app) {
             delete document.body.dataset.character;
             if (metaTheme)
                 metaTheme.content = "#ffb95f";
-            footnote.textContent = `v${VERSION}`;
+            const link = el("a", "", `v${VERSION} · changelog`);
+            link.href = "changelog.html";
+            footnote.replaceChildren(link);
         }
         else if (screen === "select") {
             delete stage.dataset.character;

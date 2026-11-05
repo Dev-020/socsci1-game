@@ -1,0 +1,35 @@
+/* Base styles: shared fonts and color palette across all pages. */
+
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("fonts/PressStart2P-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VT323";
+  src: url("fonts/VT323-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --backdrop: #ffb95f;
+  --frame: #f8366f;
+  --frame-light: #feba91;
+  --frame-dark: #c11763;
+  --knob: #fb6070;
+  --panel: #a783c5;
+  --line: #690dbc;
+  --money: #ffb95f;
+  --money-edge: #d28222;
+  --energy: #a5dc6c;
+  --energy-edge: #5c7b4a;
+  --track: #f8636a;
+  --flag: #f81834;
+  --pole: #c89c66;
+  --ink: #1b1b5e;
+  --sky-top: #c6e9fc;
+  --sky-bottom: #eaf8ff;
+  --font: "VT323", ui-monospace, "Cascadia Mono", "Courier New", monospace;
+  --font-title: "Press Start 2P", ui-monospace, "Courier New", monospace;
+}
