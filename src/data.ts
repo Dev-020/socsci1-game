@@ -34,7 +34,7 @@ export interface RandomEvent {
   disabledModes: string[]; // Modes unavailable for the next turn
 }
 
-export const VERSION = "0.9.0";
+export const VERSION = "0.9.1";
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
 export const SEED_LIMIT = 1000000;

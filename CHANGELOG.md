@@ -6,6 +6,10 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-11-05
+### Fixed
+- Links inside changelog entries now only open web addresses.
+
 ## [0.9.0] - 2026-11-05
 ### Added
 - A changelog page now shows what changed in each version. Open it from the version number on the title screen.
