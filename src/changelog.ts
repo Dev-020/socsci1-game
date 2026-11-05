@@ -44,13 +44,16 @@ function renderRichText(parent: HTMLElement, text: string): void {
       const code = el("code", "code-inline", match[1]);
       parent.append(code);
     } else if (match[2] !== undefined && match[3] !== undefined) {
-      const link = el("a", "item-link", match[2]);
-      link.href = match[3];
+      // Only web addresses become links; anything else stays plain text.
       if (/^https?:\/\//i.test(match[3])) {
+        const link = el("a", "item-link", match[2]);
+        link.href = match[3];
         link.target = "_blank";
         link.rel = "noopener noreferrer";
+        parent.append(link);
+      } else {
+        parent.append(document.createTextNode(match[2]));
       }
-      parent.append(link);
     }
 
     lastIndex = pattern.lastIndex;
@@ -158,6 +161,23 @@ export function parseChangelog(markdown: string): ChangelogData {
   return { unreleased, releases };
 }
 
+function renderCategories(parent: HTMLElement, categories: ChangelogCategory[]): void {
+  for (const cat of categories) {
+    if (cat.items.length === 0) continue;
+    const catBlock = el("div", "category-block");
+    catBlock.append(el("span", `category-tag tag-${cat.name.toLowerCase()}`, cat.name));
+
+    const list = el("ul", "item-list");
+    for (const itemText of cat.items) {
+      const li = el("li", "item");
+      renderRichText(li, itemText);
+      list.append(li);
+    }
+    catBlock.append(list);
+    parent.append(catBlock);
+  }
+}
+
 function renderCard(rel: ChangelogRelease): HTMLElement {
   const card = el("article", "version-card");
   card.id = `v-${rel.version.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
@@ -184,21 +204,7 @@ function renderCard(rel: ChangelogRelease): HTMLElement {
   card.append(header);
 
   const content = el("div", "card-content");
-  for (const cat of rel.categories) {
-    if (cat.items.length === 0) continue;
-    const catBlock = el("div", "category-block");
-    const tag = el("span", `category-tag tag-${cat.name.toLowerCase()}`, cat.name);
-    catBlock.append(tag);
-
-    const list = el("ul", "item-list");
-    for (const itemText of cat.items) {
-      const li = el("li", "item");
-      renderRichText(li, itemText);
-      list.append(li);
-    }
-    catBlock.append(list);
-    content.append(catBlock);
-  }
+  renderCategories(content, rel.categories);
   card.append(content);
 
   return card;
@@ -226,21 +232,7 @@ function renderUnreleased(rel: ChangelogRelease): HTMLElement {
     content.append(meta);
   }
 
-  for (const cat of rel.categories) {
-    if (cat.items.length === 0) continue;
-    const catBlock = el("div", "category-block");
-    const tag = el("span", `category-tag tag-${cat.name.toLowerCase()}`, cat.name);
-    catBlock.append(tag);
-
-    const list = el("ul", "item-list");
-    for (const itemText of cat.items) {
-      const li = el("li", "item");
-      renderRichText(li, itemText);
-      list.append(li);
-    }
-    catBlock.append(list);
-    content.append(catBlock);
-  }
+  renderCategories(content, rel.categories);
   details.append(content);
 
   return details;
