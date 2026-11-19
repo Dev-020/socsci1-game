@@ -12,10 +12,157 @@ The prioritized task list for maintenance, features, and technical debt for the 
 
 ## 📋 In Progress
 
----
 
 
 ## 📌 Backlog (Open Tasks)
+
+### [#006] Add a character background & commuter profiles web page
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Feature`, `Content`, `Docs`
+- **Created**: 2026-11-14
+- **Depends on**: None
+
+#### Why
+In-game character select shows only basic starting stats (money, energy, discount/penalty). Players and capstone reviewers do not see the real-world socio-economic and lived context behind each persona (Student, Worker, PWD). Adding a dedicated page grounds each persona in synthesized real-life experiences—sourced from articles, academic papers, and interviews—so the characters represent realistic demographic profiles rather than arbitrary stats.
+
+#### Wanted
+A standalone HTML page (e.g. `characters.html` with `src/characters.ts` and `characters.css`, following `docs/conventions/pages-and-screens.md` and using `base.css`) that presents detailed profiles for each in-game character:
+1. Demographics and life context (age, education/occupation such as college student, upbringing, where they come from, household/living situation).
+2. General commuting and travel experiences faced by each demographic in Metro Manila.
+3. Citations/references to the real-life sources (website articles, papers, interviews) the synthesized profiles are drawn from.
+4. Links to and from the game (e.g. from the title or character select screen, plus a `← back to game` link) and URL hash navigation if sectioned by character (`characters.html#student`, etc.).
+5. Readable scrolling layout on both mobile portrait (375 px) and desktop without sideways scrolling.
+
+#### Acceptance Criteria
+- [ ] #1 Follows `docs/conventions/pages-and-screens.md` (own HTML file, entry module in `src/`, page stylesheet, and shared `base.css`).
+- [ ] #2 Displays researched profiles for all three personas (`Student`, `Worker`, `PWD`) including demographics, background, travel experiences, and source references.
+- [ ] #3 Supports linking from the main game and returning cleanly to `./`, with working section links if hash navigation is used.
+- [ ] #4 Readable without sideways scrolling at 375 px wide and at desktop width.
+- [ ] #5 `npx -p typescript tsc` compiles cleanly (and compiled `js/` output is committed), `docs/CODEMAP.md` and `docs/conventions/pages-and-screens.md` inventory are updated, and changes are noted in `CHANGELOG.md`.
+
+#### Notes
+- 2026-11-14: Waiting on the team's compiled demographic research, write-ups, and source citations from articles, papers, and interviews.
+
+---
+
+### [#007] Implement per-character themes across the website from finalized Canva designs
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Design`, `Theming`
+- **Created**: 2026-11-14
+- **Depends on**: #002
+
+#### Why
+`#002` put the theme contract and DOM binding scaffolding in place (`src/theme.ts`, `data-character` attributes, meter modes, badge slots), but all three personas (`student`, `worker`, `pwd`) still inherit `DEFAULT_THEME` placeholders. The team has started drafting and designing distinct character themes in Canva so that each persona changes the look and feel of the entire website.
+
+#### Wanted
+Implement the finalized per-character visual themes once the team completes their Canva designs:
+1. Update `CHARACTER_THEMES` in `src/theme.ts` and theme rules in `stage.css` (and shared/page stylesheets as applicable) with each character's finalized color palettes, typography/meter styles (`segmented` vs `continuous`, `bar` vs `digital`), commuter badge labels, and character/scene/transport PNG assets.
+2. Ensure the selected character's theme applies consistently across the site where designed, and resets cleanly to the default theme when returning to title/select or starting a new session.
+3. Keep `docs/DESIGN_SYSTEM.md` updated with the finalized character tokens and asset specs.
+
+#### Acceptance Criteria
+- [ ] #1 `Student`, `Worker`, and `PWD` each render their distinct finalized Canva palettes, meter styles, badges, and art assets.
+- [ ] #2 Theme applies cleanly on character selection and resets cleanly back to `DEFAULT_THEME` on restart / return to title/select.
+- [ ] #3 Layout, contrast, and asset framing work on desktop and mobile (portrait and landscape) without clipping or overflow.
+- [ ] #4 `npx -p typescript tsc` compiles cleanly (and compiled `js/` output is committed), `docs/DESIGN_SYSTEM.md` reflects the final values, and changes are noted in `CHANGELOG.md`.
+
+#### Notes
+- 2026-11-14: Blocked/waiting on the team to finish drafting and finalizing the character themes in Canva.
+
+---
+
+### [#008] Limit transit options to 3 per turn/run and rebalance option selection & values
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `Core`, `Balance`, `Rules`
+- **Created**: 2026-11-14
+- **Depends on**: None
+
+#### Why
+Right now `availableOptions()` in `src/game.ts` returns every transit mode that passes distance, weather, usage, and event-disable filters (up to 5+ options per turn). The team plans to cap the presented choices to **3 options** instead of showing all available modes, which changes decision tension and requires updating both the option-selection logic and gameplay balance values.
+
+#### Wanted
+1. Define and implement the 3-option selection rule (clarifying whether the 3-option cap applies per turn via deterministic seeded selection/priority or as a 3-mode loadout per run, while preserving a safe fallback such as `Walk` when needed).
+2. Tweak transit stats/costs/energy/limits in `src/data.ts` and selection/filtering rules in `src/game.ts` so all three characters remain balanced and winnable under the 3-option constraint.
+3. Update both `src/ui-stage.ts` (and `stage.css` swipe/card layout if needed) and `src/ui-plain.ts` if presentation assumptions (e.g. 5-card design) change.
+4. Rerun the balance simulations per `AGENTS.md` and update simulation findings/docs.
+
+#### Acceptance Criteria
+- [ ] #1 Option selection in `src/game.ts` limits available choices to at most 3 options as specified, using deterministic `seededRoll()` if random selection is involved.
+- [ ] #2 Balance values in `src/data.ts` (and rules in `src/game.ts`) are tuned and verified by rerunning the simulations, with updated findings recorded in the capstone docs.
+- [ ] #3 Undo (`TurnSnapshot` / `undo()`) and `?ui=plain` continue to work accurately with the new option logic.
+- [ ] #4 `npx -p typescript tsc` compiles cleanly (and compiled `js/` output is committed), `docs/CODEMAP.md` rules summary is updated if changed, and release notes are added to `CHANGELOG.md`.
+
+#### Notes
+- 2026-11-14: Open design question to confirm with the team before implementation: whether "limit possible options per run to 3" means 3 randomly/deterministically offered options per turn, or 3 transit modes locked in for the entire run, and which modes/values are being tweaked.
+
+---
+
+### [#009] Add starting character background buffs and debuffs
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `Core`, `Feature`, `Balance`, `Rules`
+- **Created**: 2026-11-14
+- **Depends on**: None
+
+#### Why
+Per the professor's suggestion, a commuter's personal and social context (for example: happy vs. strained family background, having someone to come home to vs. living alone, or a supportive vs. stressful workplace) strongly shapes their daily commute capacity and resilience. Modeling these as starting "background" buffs/debuffs connects the game's socio-economic theme directly to gameplay mechanics.
+
+#### Wanted
+1. Define a background buff/debuff system (data model in `src/data.ts`, modifiers applied in `src/game.ts`) that assigns or lets runs start with one or more background contexts (e.g., family situation, living alone vs. with household support, workplace environment).
+2. Allow background modifiers to adjust starting stats (starting money, starting/max energy) and/or per-turn transit option values (e.g., energy drain, fare cost, or recovery/resilience).
+3. Surface the active background context and its effects clearly in the UI (`src/ui-stage.ts` and `src/ui-plain.ts`), including on the starting/turn/ending screens, using deterministic `seededRoll()` if rolled per run.
+4. Rerun balance simulations per `AGENTS.md` to verify win/burnout/stranded rates across background combinations.
+
+#### Acceptance Criteria
+- [ ] #1 Background buff/debuff definitions live in `src/data.ts` and rule/modifier application lives in `src/game.ts` (keeping rules separate from UI).
+- [ ] #2 Active background context and stat/transit effects are clearly displayed in both the stage UI and `?ui=plain`.
+- [ ] #3 Seeded runs (`?seed=...`) reproduce the exact same background buffs/debuffs, and `undo()` preserves them cleanly.
+- [ ] #4 Simulations are rerun across background variants and results are documented in the capstone findings.
+- [ ] #5 `npx -p typescript tsc` compiles cleanly (and compiled `js/` output is committed) and changes are recorded in `CHANGELOG.md`.
+
+---
+
+### [#010] Redesign turn transition / result screen with contextual character comments & trivia
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Feature`, `Content`, `Design`
+- **Created**: 2026-11-14
+- **Depends on**: None
+
+#### Why
+Currently, the `result` screen between turns (`showResult()` in `src/ui-stage.ts`) only displays raw numbers (`moved X km`, `paid X pesos`, `used X energy`) and any triggered event card. Adding contextual character reactions, tooltips, trivia, or fun facts tied to what just happened (the chosen transit mode, weather, and event—and optionally the character persona) makes each turn feel alive and reinforces the commuter narrative.
+
+#### Wanted
+Redesign the turn-to-turn transition (`result` screen in `src/ui-stage.ts` and `stage.css`, with presentation-only copy data) so that alongside the final subtracted amounts and event outcome, the character reacts with contextual comments, tooltips, or trivia:
+1. Context-aware reactions/comments keyed by combinations of transit mode, weather, triggered event, and/or character (for example: choosing LRT during Rainy weather → *"thankfully LRT is still available"*, walking during Sunny weather → *"its so hot tho"*, hitting Fare Surcharge on a ride-hail/car → *"omg its so much more expensive"*).
+2. Optional commuter fun facts, tips, or trivia presented cleanly without overflowing the fixed 16:9 stage or mobile layout.
+3. Keep all comment/trivia selection purely presentational (no changes to game rules, costs, or odds in `src/game.ts` / `src/data.ts`; if multiple lines exist for a context, pick deterministically from turn/seed/state without altering gameplay rolls).
+
+#### Acceptance Criteria
+- [ ] #1 The redesigned `result` screen still clearly shows the final turn amounts (km moved, pesos paid, energy used) and any triggered random event.
+- [ ] #2 Contextual character comments/tooltips/trivia appear on the `result` screen based on the turn's transit mode, weather, event, and/or persona, with sensible fallback text when no specific combination matches.
+- [ ] #3 Layout fits cleanly within the console stage on both desktop and mobile (portrait and landscape) without text clipping or overflow.
+- [ ] #4 Game rules, balance values, and RNG rolls in `src/game.ts` and `src/data.ts` remain untouched (no simulation changes needed).
+- [ ] #5 `npx -p typescript tsc` compiles cleanly (and compiled `js/` output is committed), and changes are noted in `CHANGELOG.md`.
+
+---
+
+### [#012] Run UI audit and align docs/DESIGN_SYSTEM.md & docs/COMPONENTS.md with warehouse conventions
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Docs`, `Design`
+- **Created**: 2026-11-16
+- **Depends on**: #011
+
+#### Why
+The repository now pulls `convention/design-system`, `convention/ui-component-list`, and `protocol/audit-lens-ui`. Currently:
+- `docs/DESIGN_SYSTEM.md` predates `convention/design-system` (missing the required header/source-of-truth contract for the Canva import workflow, WCAG 2.2 AA contrast table, and decision log), omits `changelog.html`/`changelog.css` styles, and lists character theme overrides that are still placeholders in `src/theme.ts` and `stage.css`.
+- There is no `docs/COMPONENTS.md` inventory yet (`convention/ui-component-list`).
+
+#### Wanted
+1. Run `protocol/audit-lens-ui` (as a scoped re-audit extending the codemap audit record, or a new audit record in `docs/audits/`) covering `stage.css`, `style.css`, `changelog.css`, `base.css`, `src/ui-stage.ts`, `src/ui-plain.ts`, `src/changelog.ts`, and `src/theme.ts`.
+2. Realign `docs/DESIGN_SYSTEM.md` with `convention/design-system` and `template/design-system` (recording the repo/Canva source-of-truth workflow, accurate token status, accessibility contrast checks, and decision log, without prematurely locking in unfinalized Canva character palettes).
+3. Create `docs/COMPONENTS.md` from the UI lens results per `convention/ui-component-list`, covering Built components (`stage`, `changelog`, `plain`) and Planned components (`#006`, `#007`, `#010`), plus raw hard-coded value mapping.
+4. Triage any UI drift/raw-value findings into `BACKLOG.md` per `protocol/issue-triage`.
+
+#### Acceptance Criteria
+- [ ] #1 Audit record in `docs/audits/` includes `lens-ui.md` with verified `path:line` evidence for all UI components and raw style values.
+- [ ] #2 `docs/DESIGN_SYSTEM.md` follows `convention/design-system` §4 section order, names the single source of truth, reflects actual code status, and includes §8 accessibility contrast checks and §10 decision log.
+- [ ] #3 `docs/COMPONENTS.md` follows `convention/ui-component-list` §7 ("Done when") and accurately maps Built vs. Planned components and statuses.
+- [ ] #4 Any findings from the UI lens are triaged into `BACKLOG.md` and linked back in `lens-ui.md`.
+
+---
 
 ### [#004] Raise the seed limit from 1 million to 1 billion
 - **Status**: `Open` | **Priority**: `P3` | **Labels**: `Core`, `Randomness`
@@ -47,6 +194,45 @@ Do not go above about 10 billion: the statistics start to drift, and past about 
 ---
 
 ## ✅ Completed
+
+### [#011] Audit codebase structure and rebuild docs/CODEMAP.md per warehouse architecture/codemap
+- **Status**: `Closed` | **Priority**: `P2` | **Labels**: `Docs`, `Architecture`
+- **Created**: 2026-11-16
+- **Resolved**: 2026-11-19 (first closed 2026-11-17; reopened 2026-11-19)
+- **Depends on**: None
+
+#### Why
+The repository now pulls `architecture/codemap`, `protocol/codemap-upkeep`, `protocol/codebase-audit`, `convention/audit-record`, and `protocol/audit-lens-structure` from the warehouse. The existing `docs/CODEMAP.md` was written by hand before these conventions existed and is not backed by an audit record in `docs/audits/`.
+
+#### Wanted
+1. Run a light full audit (`protocol/codebase-audit` + `protocol/audit-lens-structure`) pinned to the current commit, saving `00_AUDIT.md`, `core.md`, and `lens-structure.md` under `docs/audits/<date>-<commit>/`.
+2. Rebuild `docs/CODEMAP.md` strictly from that audit record per `architecture/codemap` (commit-pinned header, L0/L1/L3 tables with evidence `path:line`, Mermaid diagrams, structure marks, and `Not shown` section) while keeping useful developer quick-lookup notes if helpful or separated cleanly.
+3. Follow `protocol/codemap-upkeep` (`phase-end` default) for future updates.
+
+#### Acceptance Criteria
+- [x] #1 Audit record `docs/audits/2026-11-16-bb9df24/` (`00_AUDIT.md`, `core.md`, `lens-structure.md`) exists, is pinned to commit `bb9df24`, and has empty `evidence-missing`.
+- [x] #2 `docs/CODEMAP.md` is rebuilt from `docs/audits/2026-11-16-bb9df24/` and satisfies `architecture/codemap` §6 ("Done when").
+- [x] #3 Every unit and interaction in `docs/CODEMAP.md` matches the audit record with verified `path:line` evidence.
+
+#### Notes
+- 2026-11-16: Warehouse documents pulled into `warehouse/` and light structure audit started at commit `bb9df24`.
+- 2026-11-17: Rebuilt `docs/CODEMAP.md` from `docs/audits/2026-11-16-bb9df24/` and moved the narrative lifecycle diagrams, formulas, and developer quick-lookup notes to `docs/DEV_GUIDE.md`.
+- 2026-11-19: **Reopened.** A review by Claude Code (Opus 5.5) found that the codemap does not fully meet `architecture/codemap` §2 rule 1 ("the map never states a fact the record doesn't hold"), so criteria #2 and #3 were unticked:
+  - `core.md` has no relations to the outside things X1–X7. The L0 link types (`reads`, `calls`, `sends`, `configures`, `depends-on`) were written into the map without any record behind them.
+  - `src/format.ts` sits in `engine`, which is described as "pure", but it reads `location.search` (`src/format.ts:8`) and `performance.now()` (`src/format.ts:15`), and its own header calls it screen helpers (`src/format.ts:1`).
+  - `base.css` sits in `game-ui`, which creates a false `changelog-page → game-ui` link at L1 (`changelog.html:8`).
+  - Small issues: two gaps share the id `G1` (core and structure lens), the 0/0 `python-prototype` carries a ★, and `tsconfig.json` is both in `scope.include` and outside thing X4.
+  - The user decided: move `src/format.ts` to `game-ui`, and add a `shared-styles` subsystem for `base.css`. The corrections go into the existing record `docs/audits/2026-11-16-bb9df24/` (the code is still at `bb9df24`), and then the map is rebuilt. Staffing: Hydrogen implementer (medium reasoning) and a separate Hydrogen reviewer (high reasoning), with Claude Code verifying. Brief: `AI/BRIEF_011_codemap-redo.md`. The pre-redo record and map are backed up in `AI/archive/2026-11-19-pre-011-redo/`.
+
+- 2026-11-19: **Closed again.** Hydrogen implementer (medium) corrected the record and rebuilt the map (`AI/REPORT_011_codemap-redo.md`, stops 1–3). A Hydrogen review at high effort (`AI/REVIEW_011_codemap-redo_high.md`) found 2 Minor and 2 Nitpick issues (V1 boundary subgraphs missing from the L1 diagram, V2 `AGENTS.md:19` cited instead of `:18`, V3 X5 evidence incomplete, V4 heading name), and all were fixed. A first review ran at medium effort by mistake (`AI/REVIEW_011_codemap-redo.md`) and found only V1. Claude Code (Opus 5.5) verified every stop against the files. Every change is listed under Corrections in `docs/audits/2026-11-16-bb9df24/00_AUDIT.md`.
+
+#### Outcome (2026-11-19)
+`docs/CODEMAP.md` is rebuilt in full from the corrected record `docs/audits/2026-11-16-bb9df24/`: 5 subsystems (with `src/format.ts` moved to `game-ui` and the new `shared-styles` holding `base.css`), relations R21–R35 to outside things behind every L0 link, recounted central units, unique gap ids G1–G3, and boundary subgraphs on L1. It meets `architecture/codemap` §6.
+
+#### Outcome (2026-11-17, superseded by the 2026-11-19 reopen)
+`docs/CODEMAP.md` is now generated from the verified audit record at `docs/audits/2026-11-16-bb9df24/` (L0, L1, L3 tables, Mermaid diagrams, structure marks, and `Not shown` gaps), and developer reference notes live in `docs/DEV_GUIDE.md`.
+
+---
 
 ### [#005] Add a changelog page and define pages vs screens
 - **Status**: `Closed` | **Priority**: `P2` | **Labels**: `UI`, `Feature`, `Docs`
