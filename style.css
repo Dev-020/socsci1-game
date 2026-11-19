@@ -1,19 +1,14 @@
 :root {
   color-scheme: light dark;
-  --text: #1c1c1c;
-  --muted: #6b6b6b;
-  --line: #d9d9d9;
-  --bg: #fafafa;
-  --fill: #1c1c1c;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #ececec;
-    --muted: #9a9a9a;
-    --line: #3a3a3a;
-    --bg: #161616;
-    --fill: #ececec;
+    --color-plain-text: var(--color-plain-text-dark);
+    --color-plain-muted: var(--color-plain-muted-dark);
+    --color-plain-line: var(--color-plain-line-dark);
+    --color-plain-bg: var(--color-plain-bg-dark);
+    --color-plain-fill: var(--color-plain-fill-dark);
   }
 }
 
@@ -23,38 +18,40 @@
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.5 system-ui, sans-serif;
+  background: var(--color-plain-bg);
+  color: var(--color-plain-text);
+  font-family: var(--font-family-plain);
+  font-size: var(--font-size-page-16);
+  line-height: var(--font-line-height-relaxed);
 }
 
 main {
-  max-width: 30rem;
+  max-width: var(--space-page-plain-max);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-page-32) var(--space-page-16);
 }
 
 h1 {
-  margin: 0 0 1rem;
-  font-size: 1.5rem;
+  margin: 0 0 var(--space-page-16);
+  font-size: var(--font-size-page-24);
 }
 
 h2 {
-  margin: 1.5rem 0 0.5rem;
-  font-size: 1rem;
+  margin: var(--space-page-24) 0 var(--space-page-8);
+  font-size: var(--font-size-page-16);
 }
 
 p {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--space-page-8);
 }
 
 .muted {
-  color: var(--muted);
-  font-size: 0.875rem;
+  color: var(--color-plain-muted);
+  font-size: var(--font-size-page-14);
 }
 
 .stat {
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-page-12);
 }
 
 .stat-row {
@@ -63,22 +60,22 @@ p {
 }
 
 .bar {
-  height: 6px;
-  border-radius: 3px;
-  background: var(--line);
+  height: var(--space-page-6);
+  border-radius: var(--radius-page-4);
+  background: var(--color-plain-line);
   overflow: hidden;
 }
 
 .bar div {
   height: 100%;
-  background: var(--fill);
+  background: var(--color-plain-fill);
 }
 
 .report {
-  margin-top: 0.75rem;
-  padding: 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  margin-top: var(--space-page-12);
+  padding: var(--space-page-12);
+  border: var(--border-width-page-1) solid var(--color-plain-line);
+  border-radius: var(--radius-page-8);
 }
 
 .report strong {
@@ -88,10 +85,10 @@ p {
 button {
   display: block;
   width: 100%;
-  margin-bottom: 0.5rem;
-  padding: 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  margin-bottom: var(--space-page-8);
+  padding: var(--space-page-12);
+  border: var(--border-width-page-1) solid var(--color-plain-line);
+  border-radius: var(--radius-page-8);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -100,19 +97,19 @@ button {
 }
 
 button:hover:enabled {
-  border-color: var(--text);
+  border-color: var(--color-plain-text);
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }
 
 .restart {
-  margin-top: 1.5rem;
+  margin-top: var(--space-page-24);
 }
 
 button small {
   display: block;
-  color: var(--muted);
+  color: var(--color-plain-muted);
 }

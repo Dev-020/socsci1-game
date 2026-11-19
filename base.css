@@ -1,4 +1,4 @@
-/* Base styles: shared fonts and color palette across all pages. */
+/* Base styles: shared fonts and design tokens across all pages. */
 
 @font-face {
   font-family: "Press Start 2P";
@@ -13,23 +13,245 @@
 }
 
 :root {
-  --backdrop: #ffb95f;
-  --frame: #f8366f;
-  --frame-light: #feba91;
-  --frame-dark: #c11763;
-  --knob: #fb6070;
-  --panel: #a783c5;
-  --line: #690dbc;
-  --money: #ffb95f;
-  --money-edge: #d28222;
-  --energy: #a5dc6c;
-  --energy-edge: #5c7b4a;
-  --track: #f8636a;
-  --flag: #f81834;
-  --pole: #c89c66;
-  --ink: #1b1b5e;
-  --sky-top: #c6e9fc;
-  --sky-bottom: #eaf8ff;
-  --font: "VT323", ui-monospace, "Cascadia Mono", "Courier New", monospace;
-  --font-title: "Press Start 2P", ui-monospace, "Courier New", monospace;
+  /* Primitives */
+  --neutral-white: #fff;
+  --neutral-black: #000;
+
+  /* Surface, console & backdrop colours */
+  --color-surface-backdrop: #ffb95f;
+  --color-surface-backdrop-glow: #ffc676;
+  --color-surface-panel: #a783c5;
+  --color-surface-panel-hover: #b898d3;
+  --color-surface-card: var(--neutral-white);
+  --color-surface-disabled: #c9c0d1;
+  --color-surface-placeholder: rgba(255, 255, 255, 0.55);
+  --color-surface-scrim: rgba(27, 27, 94, 0.45);
+  --color-surface-code: #f0edf8;
+  --color-surface-subtle: #fbf7ff;
+  --color-surface-subtle-hover: #f5edff;
+  --color-console-frame: #f8366f;
+  --color-console-frame-light: #feba91;
+  --color-console-frame-dark: #c11763;
+  --color-console-knob: #fb6070;
+  --color-scene-sky-top: #c6e9fc;
+  --color-scene-sky-bottom: #eaf8ff;
+
+  /* Accent, ink, text, link & border colours */
+  --color-accent-primary: #690dbc;
+  --color-ink-primary: #1b1b5e;
+  --color-text-inverse: var(--neutral-white);
+  --color-text-footnote: #a85d0e;
+  --color-text-muted: #635b7e;
+  --color-text-disabled: #7d7189;
+  --color-link-subtle: #554d77;
+  --color-link-hover: #4b0a88;
+  --color-border-disabled: #8a7d99;
+  --color-border-subtle: #d5d3e0;
+  --color-focus-ring: var(--neutral-white);
+  --color-mask-opaque: var(--neutral-black);
+
+  /* Fills, shadows, cards, stats, track & status colours */
+  --color-fill-meter-track: rgba(0, 0, 0, 0.08);
+  --color-fill-hover-light: rgba(255, 255, 255, 0.2);
+  --color-fill-badge: rgba(255, 255, 255, 0.25);
+  --color-shadow-frame-glow: rgba(255, 255, 255, 0.3);
+  --color-card-worker: #c49e6c;
+  --color-card-worker-edge: #7a7255;
+  --color-stat-money: #ffb95f;
+  --color-stat-money-edge: #d28222;
+  --color-stat-energy: #a5dc6c;
+  --color-stat-energy-edge: #5c7b4a;
+  --color-track-bar: #f8636a;
+  --color-track-pole: #c89c66;
+  --color-status-danger: #f81834;
+  --color-status-win: #3f9a1c;
+  --color-status-added-bg: #e3f5d3;
+  --color-status-added-text: #275914;
+  --color-status-added-border: #c2e8a6;
+  --color-status-changed-bg: #fff0d6;
+  --color-status-changed-text: #8c5305;
+  --color-status-changed-border: #fedba5;
+  --color-status-fixed-bg: #e8e6f8;
+  --color-status-fixed-text: #3b2f7a;
+  --color-status-fixed-border: #d3cfee;
+  --color-status-removed-bg: #ffe3e6;
+  --color-status-removed-text: #8d1c2b;
+  --color-status-removed-border: #fec1c7;
+
+  /* Plain UI colours */
+  --color-plain-text: #1c1c1c;
+  --color-plain-muted: #6b6b6b;
+  --color-plain-line: #d9d9d9;
+  --color-plain-bg: #fafafa;
+  --color-plain-fill: #1c1c1c;
+  --color-plain-text-dark: #ececec;
+  --color-plain-muted-dark: #9a9a9a;
+  --color-plain-line-dark: #3a3a3a;
+  --color-plain-bg-dark: #161616;
+  --color-plain-fill-dark: #ececec;
+
+  /* Typography */
+  --font-family-body: "VT323", ui-monospace, "Cascadia Mono", "Courier New", monospace;
+  --font-family-display: "Press Start 2P", ui-monospace, "Courier New", monospace;
+  --font-family-plain: system-ui, sans-serif;
+  --font-family-mono: ui-monospace, "Cascadia Mono", "Courier New", monospace;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --font-letter-spacing-tight: -0.5px;
+  --font-line-height-tight: 1;
+  --font-line-height-snug: 1.1;
+  --font-line-height-heading: 1.2;
+  --font-line-height-body: 1.4;
+  --font-line-height-relaxed: 1.5;
+  --font-size-page-11: 11px;
+  --font-size-page-12: 12px;
+  --font-size-page-14: 0.875rem;
+  --font-size-page-16: 16px;
+  --font-size-page-18: 18px;
+  --font-size-page-20: 20px;
+  --font-size-page-22: 22px;
+  --font-size-page-24: 1.5rem;
+  --font-size-page-26: 26px;
+
+  /* Spacing (page scale & em) */
+  --space-stage-pill-gap: 0.35em;
+  --space-page-2: 2px;
+  --space-page-4: 4px;
+  --space-page-6: 6px;
+  --space-page-8: 8px;
+  --space-page-10: 10px;
+  --space-page-12: 12px;
+  --space-page-14: 14px;
+  --space-page-16: 16px;
+  --space-page-20: 20px;
+  --space-page-24: 24px;
+  --space-page-28: 28px;
+  --space-page-32: 2rem;
+  --space-page-36: 36px;
+  --space-page-48: 48px;
+  --space-page-plain-max: 30rem;
+  --space-page-changelog-max: 720px;
+
+  /* Radius (page scale) */
+  --radius-page-4: 4px;
+  --radius-page-8: 8px;
+  --radius-page-12: 12px;
+
+  /* Shadows (page scale) */
+  --shadow-page-card: 4px 4px 0 var(--color-ink-primary);
+
+  /* Borders (page scale) */
+  --border-width-page-1: 1px;
+  --border-width-page-2: 2px;
+  --border-width-page-3: 3px;
+
+  /* Breakpoints, motion & opacity */
+  --breakpoint-page-mobile: 480px;
+  --breakpoint-stage-portrait: 700px;
+  --motion-duration-fast: 0.15s;
+  --motion-duration-normal: 0.25s;
+  --motion-duration-slow: 0.6s;
+  --motion-duration-none: 0s;
+  --motion-duration-drive: 1.4s;
+  --motion-delay-swipe-settle: 120ms;
+  --motion-timeout-move: 2000ms;
+  --motion-scale-hover: 1.08;
+  --motion-scale-pop-start: 0.9;
+  --motion-scale-rest: 1;
+  --opacity-disabled: 0.5;
+  --opacity-visible: 1;
+}
+
+/* Stage-scaled tokens live on .stage so calc(... * var(--px)) resolves against .stage's --px. */
+.stage {
+  /* Stage typography */
+  --font-line-height-stage-47: calc(47 * var(--px));
+  --font-line-height-stage-50: calc(50 * var(--px));
+  --font-line-height-stage-53: calc(53 * var(--px));
+  --font-size-stage-24: calc(24 * var(--px));
+  --font-size-stage-30: calc(30 * var(--px));
+  --font-size-stage-34: calc(34 * var(--px));
+  --font-size-stage-38: calc(38 * var(--px));
+  --font-size-stage-40: calc(40 * var(--px));
+  --font-size-stage-42: calc(42 * var(--px));
+  --font-size-stage-46: calc(46 * var(--px));
+  --font-size-stage-48: calc(48 * var(--px));
+  --font-size-stage-50: calc(50 * var(--px));
+  --font-size-stage-52: calc(52 * var(--px));
+  --font-size-stage-58: calc(58 * var(--px));
+  --font-size-stage-62: calc(62 * var(--px));
+  --font-size-stage-74: calc(74 * var(--px));
+  --font-size-stage-78: calc(78 * var(--px));
+  --font-size-stage-88: calc(88 * var(--px));
+  --font-size-stage-110: calc(110 * var(--px));
+
+  /* Stage spacing */
+  --space-stage-2: calc(2 * var(--px));
+  --space-stage-4: calc(4 * var(--px));
+  --space-stage-6: calc(6 * var(--px));
+  --space-stage-8: calc(8 * var(--px));
+  --space-stage-10: calc(10 * var(--px));
+  --space-stage-12: calc(12 * var(--px));
+  --space-stage-14: calc(14 * var(--px));
+  --space-stage-16: calc(16 * var(--px));
+  --space-stage-18: calc(18 * var(--px));
+  --space-stage-20: calc(20 * var(--px));
+  --space-stage-24: calc(24 * var(--px));
+  --space-stage-34: calc(34 * var(--px));
+  --space-stage-40: calc(40 * var(--px));
+  --space-stage-54: calc(54 * var(--px));
+  --space-stage-62: calc(62 * var(--px));
+  --space-stage-160: calc(160 * var(--px));
+
+  /* Stage radius */
+  --radius-stage-8: calc(8 * var(--px));
+  --radius-stage-10: calc(10 * var(--px));
+  --radius-stage-16: calc(16 * var(--px));
+  --radius-stage-24: calc(24 * var(--px));
+  --radius-stage-30: calc(30 * var(--px));
+  --radius-stage-34: calc(34 * var(--px));
+  --radius-stage-38: calc(38 * var(--px));
+  --radius-stage-44: calc(44 * var(--px));
+  --radius-stage-48: calc(48 * var(--px));
+  --radius-stage-62: calc(62 * var(--px));
+  --radius-stage-65: calc(65 * var(--px));
+
+  /* Stage shadows */
+  --shadow-stage-text-sm: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--color-ink-primary);
+  --shadow-stage-text-outline: calc(2 * var(--px)) 0 0, calc(-2 * var(--px)) 0 0, 0 calc(2 * var(--px)) 0, 0 calc(-2 * var(--px)) 0, calc(2 * var(--px)) calc(2 * var(--px)) 0;
+  --shadow-stage-text-md: calc(3 * var(--px)) calc(3 * var(--px)) 0 var(--color-ink-primary);
+  --shadow-stage-text-lg: calc(4 * var(--px)) calc(4 * var(--px)) 0 var(--color-ink-primary);
+  --shadow-stage-text-xl: calc(5 * var(--px)) calc(5 * var(--px)) 0 var(--color-ink-primary);
+  --shadow-stage-frame-bevel: calc(10 * var(--px)) calc(10 * var(--px)) 0 var(--color-console-frame-dark);
+  --shadow-stage-frame-glow: 0 0 calc(70 * var(--px)) var(--color-shadow-frame-glow);
+  --shadow-stage-knob-bevel: calc(9 * var(--px)) 0 0 var(--color-console-frame-dark);
+  --shadow-stage-scene-recess: calc(-12 * var(--px)) calc(-12 * var(--px)) 0 var(--color-console-frame-dark);
+
+  /* Stage borders */
+  --border-width-stage-3: calc(3 * var(--px));
+  --border-width-stage-4: calc(4 * var(--px));
+  --border-width-stage-5: calc(5 * var(--px));
+  --border-width-stage-7: calc(7 * var(--px));
+  --border-width-stage-8: calc(8 * var(--px));
+  --border-width-stage-9: calc(9 * var(--px));
+  --border-width-stage-10: calc(10 * var(--px));
+  --border-width-stage-12: calc(12 * var(--px));
+
+  /* Stage motion lifts */
+  --motion-lift-card: calc(-10 * var(--px));
+  --motion-lift-option: calc(-8 * var(--px));
+
+  /* Shared stage layout */
+  --layout-screen-x: calc(222 * var(--px));
+  --layout-screen-y: calc(155 * var(--px));
+  --layout-screen-w: calc(1476 * var(--px));
+  --layout-screen-h: calc(760 * var(--px));
+  --layout-panel-col-x: calc(542 * var(--px));
+  --layout-panel-row-top-y: calc(625 * var(--px));
+  --layout-stat-bar-x: calc(710 * var(--px));
+  --layout-stat-bar-w: calc(330 * var(--px));
+  --layout-stat-money-y: calc(723 * var(--px));
+  --layout-stat-energy-y: calc(785 * var(--px));
+  --layout-btn-h: calc(96 * var(--px));
+  --layout-turn-content-x: calc(240 * var(--px));
 }

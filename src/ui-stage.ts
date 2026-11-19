@@ -15,7 +15,8 @@ const ENERGY_SEGMENTS = 10;
 const SPEECH = "saan kaya ako sasakay..?";
 
 // If the vehicle's animationend never fires, move on after this long.
-const MOVE_TIMEOUT_MS = 2000;
+const MOVE_TIMEOUT_MS = 2000; // motion.timeout.move
+const SWIPE_SETTLE_MS = 120; // motion.delay.swipe-settle
 
 const EVENT_ART: Record<string, string> = {
   "Traffic Congestion": "event-traffic",
@@ -33,7 +34,10 @@ const ENDINGS = {
 };
 
 // Phones held upright get the swipe row of options.
-const PORTRAIT_PHONE = "(orientation: portrait) and (max-width: 700px)";
+function portraitPhoneQuery(): string {
+  const bp = getComputedStyle(document.documentElement).getPropertyValue("--breakpoint-stage-portrait").trim();
+  return `(orientation: portrait) and (max-width: ${bp})`;
+}
 
 // ---------- small helpers ----------
 
@@ -279,7 +283,7 @@ export function startStageUi(app: HTMLElement): void {
   // settles in before or after, the row jumps one group's width to the same
   // picture in main, so it can be swiped forever in either direction.
 
-  const portraitQuery = window.matchMedia(PORTRAIT_PHONE);
+  const portraitQuery = window.matchMedia(portraitPhoneQuery());
   let touching = false;
   let touchMoved = false;
   let touchStart = { x: 0, y: 0 };
@@ -316,7 +320,7 @@ export function startStageUi(app: HTMLElement): void {
 
   function settleSoon(): void {
     window.clearTimeout(settleTimer);
-    settleTimer = window.setTimeout(settle, 120);
+    settleTimer = window.setTimeout(settle, SWIPE_SETTLE_MS);
   }
 
   options.addEventListener("scroll", () => {
@@ -449,13 +453,17 @@ export function startStageUi(app: HTMLElement): void {
   function render(): void {
     stage.dataset.screen = screen;
     const metaTheme = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+    const syncThemeColor = (): void => {
+      if (!metaTheme) return;
+      metaTheme.content = getComputedStyle(document.body).getPropertyValue("--color-surface-backdrop").trim();
+    };
     if (screen === "title") {
       delete stage.dataset.character;
       delete stage.dataset.energyStyle;
       delete stage.dataset.moneyStyle;
       delete stage.dataset.hasBadge;
       delete document.body.dataset.character;
-      if (metaTheme) metaTheme.content = "#ffb95f";
+      syncThemeColor();
       const link = el("a", "", `v${VERSION} · changelog`);
       link.href = "changelog.html";
       footnote.replaceChildren(link);
@@ -465,7 +473,7 @@ export function startStageUi(app: HTMLElement): void {
       delete stage.dataset.moneyStyle;
       delete stage.dataset.hasBadge;
       delete document.body.dataset.character;
-      if (metaTheme) metaTheme.content = "#ffb95f";
+      syncThemeColor();
       footnote.textContent = "";
     } else if (game) {
       const charSlug = slug(game.player.name);
@@ -481,9 +489,7 @@ export function startStageUi(app: HTMLElement): void {
         commuterBadge.textContent = "";
         delete stage.dataset.hasBadge;
       }
-      if (metaTheme && theme.accentPalette.backdrop) {
-        metaTheme.content = theme.accentPalette.backdrop;
-      }
+      syncThemeColor();
       if (screen === "turn") showTurn(game);
       else if (screen === "moving") showMoving();
       else if (screen === "result") showResult(game);

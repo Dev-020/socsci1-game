@@ -1,19 +1,11 @@
 // Theme definitions, visual contracts, and default theme templates.
-// All layout variations, meter modes, and color tokens for character personas are declared here.
+// All layout variations and meter modes for character personas are declared here;
+// colour overrides live in CSS custom properties on [data-character].
 export const DEFAULT_THEME = {
     id: "default",
     name: "Arcade Console",
     energyBarStyle: "segmented",
     moneyDisplayStyle: "bar",
-    accentPalette: {
-        panel: "#a783c5",
-        line: "#690dbc",
-        frame: "#f8366f",
-        frameLight: "#feba91",
-        frameDark: "#c11763",
-        knob: "#fb6070",
-        backdrop: "#ffb95f",
-    },
 };
 // All characters currently use the baseline default values until the team finalizes their themes.
 export const CHARACTER_THEMES = {

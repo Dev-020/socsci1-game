@@ -12,11 +12,8 @@ The prioritized task list for maintenance, features, and technical debt for the 
 
 ## 📋 In Progress
 
-
-## 📌 Backlog (Open Tasks)
-
 ### [#013] Apply the design system to the code (#012 follow-up)
-- **Status**: `Open` | **Priority**: `P1` | **Labels**: `UI`, `Design`, `Accessibility`
+- **Status**: `In Progress` | **Priority**: `P1` | **Labels**: `UI`, `Design`, `Accessibility`
 - **Created**: 2026-11-19
 - **Severity**: `Major` | **Likelihood**: `Frequent`
 - **Depends on**: #012
@@ -51,7 +48,15 @@ First add the approved tokens to `base.css` `:root` and apply the 19 approved to
 - [ ] #3 Simulations are rerun only if game rules change (they should not change for this styling/accessibility pass).
 - [ ] #4 The UI audit re-runs in judged mode and `docs/components.json` / `docs/COMPONENTS.md` are rebuilt (`python AI/tools/build_components.py --check` exits 0).
 
+#### Notes
+- 2026-11-19: Plan `AI/PLAN_013_apply-design-system.md` (P1 move the code onto tokens, P2 the owner's choices: contrast options, near-misses, an asset-slot list for the placeholder art, P3 apply and re-audit). Work on branch `013-apply-design-system`.
+- 2026-11-19: P1 done: all approved tokens in `base.css` (stage-sized tokens in a `.stage` block, because a `:root` token can't see `.stage`'s `--px`), the 19 renames applied, raw values replaced, and no hex values left in `src/theme.ts`. Style snapshots before and after show only the approved merges (1,100 settled diffs, all traced). Contrast ratios unchanged. Review `AI/REVIEW_013_P1.md`, 2 findings fixed, 1 deferred to P3.
+
 ---
+
+
+## 📌 Backlog (Open Tasks)
+
 
 ### [#006] Add a character background & commuter profiles web page
 - **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Feature`, `Content`, `Docs`

@@ -8,7 +8,8 @@ import { getCharacterTheme } from "./theme.js";
 const ENERGY_SEGMENTS = 10;
 const SPEECH = "saan kaya ako sasakay..?";
 // If the vehicle's animationend never fires, move on after this long.
-const MOVE_TIMEOUT_MS = 2000;
+const MOVE_TIMEOUT_MS = 2000; // motion.timeout.move
+const SWIPE_SETTLE_MS = 120; // motion.delay.swipe-settle
 const EVENT_ART = {
     "Traffic Congestion": "event-traffic",
     "Station Queue": "event-queue",
@@ -23,7 +24,10 @@ const ENDINGS = {
     STRANDED: { title: "stranded", text: "not enough energy and money to reach the destination.", css: "lose" },
 };
 // Phones held upright get the swipe row of options.
-const PORTRAIT_PHONE = "(orientation: portrait) and (max-width: 700px)";
+function portraitPhoneQuery() {
+    const bp = getComputedStyle(document.documentElement).getPropertyValue("--breakpoint-stage-portrait").trim();
+    return `(orientation: portrait) and (max-width: ${bp})`;
+}
 // ---------- small helpers ----------
 function el(tag, className = "", text) {
     const node = document.createElement(tag);
@@ -198,7 +202,7 @@ export function startStageUi(app) {
     // Three identical groups of cards: before, main and after. After a swipe
     // settles in before or after, the row jumps one group's width to the same
     // picture in main, so it can be swiped forever in either direction.
-    const portraitQuery = window.matchMedia(PORTRAIT_PHONE);
+    const portraitQuery = window.matchMedia(portraitPhoneQuery());
     let touching = false;
     let touchMoved = false;
     let touchStart = { x: 0, y: 0 };
@@ -234,7 +238,7 @@ export function startStageUi(app) {
     }
     function settleSoon() {
         window.clearTimeout(settleTimer);
-        settleTimer = window.setTimeout(settle, 120);
+        settleTimer = window.setTimeout(settle, SWIPE_SETTLE_MS);
     }
     options.addEventListener("scroll", () => {
         if (!looping())
@@ -347,14 +351,18 @@ export function startStageUi(app) {
     function render() {
         stage.dataset.screen = screen;
         const metaTheme = document.querySelector('meta[name="theme-color"]');
+        const syncThemeColor = () => {
+            if (!metaTheme)
+                return;
+            metaTheme.content = getComputedStyle(document.body).getPropertyValue("--color-surface-backdrop").trim();
+        };
         if (screen === "title") {
             delete stage.dataset.character;
             delete stage.dataset.energyStyle;
             delete stage.dataset.moneyStyle;
             delete stage.dataset.hasBadge;
             delete document.body.dataset.character;
-            if (metaTheme)
-                metaTheme.content = "#ffb95f";
+            syncThemeColor();
             const link = el("a", "", `v${VERSION} · changelog`);
             link.href = "changelog.html";
             footnote.replaceChildren(link);
@@ -365,8 +373,7 @@ export function startStageUi(app) {
             delete stage.dataset.moneyStyle;
             delete stage.dataset.hasBadge;
             delete document.body.dataset.character;
-            if (metaTheme)
-                metaTheme.content = "#ffb95f";
+            syncThemeColor();
             footnote.textContent = "";
         }
         else if (game) {
@@ -384,9 +391,7 @@ export function startStageUi(app) {
                 commuterBadge.textContent = "";
                 delete stage.dataset.hasBadge;
             }
-            if (metaTheme && theme.accentPalette.backdrop) {
-                metaTheme.content = theme.accentPalette.backdrop;
-            }
+            syncThemeColor();
             if (screen === "turn")
                 showTurn(game);
             else if (screen === "moving")

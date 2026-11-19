@@ -15,7 +15,7 @@ if (!plain) {
   viewport.content = "width=device-width, initial-scale=1, viewport-fit=cover";
   const color = document.createElement("meta");
   color.name = "theme-color";
-  color.content = "#ffb95f";
+  color.content = getComputedStyle(document.body).getPropertyValue("--color-surface-backdrop").trim();
   document.head.append(color);
 }
 
