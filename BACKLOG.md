@@ -13,8 +13,45 @@ The prioritized task list for maintenance, features, and technical debt for the 
 ## 📋 In Progress
 
 
-
 ## 📌 Backlog (Open Tasks)
+
+### [#013] Apply the design system to the code (#012 follow-up)
+- **Status**: `Open` | **Priority**: `P1` | **Labels**: `UI`, `Design`, `Accessibility`
+- **Created**: 2026-11-19
+- **Severity**: `Major` | **Likelihood**: `Frequent`
+- **Depends on**: #012
+
+#### Why
+The P3 judged UI audit (`docs/audits/2026-11-16-bb9df24/lens-ui.md`) found 322 findings across the stage, plain UI, changelog, and `src/theme.ts`: 218 token-use (`U1`), 57 component-drift (`U3`), 6 layout near-misses (`U4`), and 41 non-exempt WCAG 2.2 AA contrast failures (`A1`, of which 22 are `Major`/`Frequent` fix-now findings).
+
+#### Wanted
+First add the approved tokens to `base.css` `:root` and apply the 19 approved token renames (`docs/design-system/decisions.md`), then work the checklist below (fix-now `P1` contrast items first, grouped by file and criterion):
+
+**Fix-now (`P1`, `Major` + `Frequent`):**
+- [ ] **P1 (stage.css — A1):** F287–F291, F293–F295, F300–F313 (22 failing contrast pairs on character cards, distance HUD, option cards, panel stats/meters/buttons, and focus rings)
+
+**Remaining findings by file and criterion:**
+- [ ] **stage.css (U1):** F1, F7, F11, F13–F16, F20–F23, F25–F26, F38, F44, F46, F49–F54, F57–F61, F63, F68, F77, F79–F102, F106–F108, F112, F114, F116–F117, F119–F121, F123, F127–F128, F130–F131, F133–F134, F140–F141, F144–F145, F148–F151, F153, F155–F158, F160–F161, F163–F169, F171–F172, F174–F176, F179–F184, F186–F192, F195, F197–F203, F205–F210, F214–F217 — migrate 129 raw style values to approved tokens
+- [ ] **stage.css (U3):** F219–F258 — align 40 drifting components with their design-system specs
+- [ ] **stage.css (U4):** F276–F281 — resolve 6 layout near-misses (`layout-map.md` §3)
+- [ ] **stage.css (A1):** F282–F286, F292, F296–F299, F314–F318 — resolve 15 `Minor`/`Occasional` contrast failures
+- [ ] **style.css (U1):** F2–F3, F5, F12, F19, F29, F33, F37, F56, F66–F67, F71, F74, F104, F109–F111, F126, F138–F139, F152, F170, F177, F193, F213 — migrate 25 raw style values to approved tokens
+- [ ] **style.css (U3):** F259–F265, F275 — align 8 drifting components with their design-system specs
+- [ ] **style.css (A1):** F319–F320 — resolve 2 `Minor`/`Occasional` contrast failures
+- [ ] **changelog.css (U1):** F4, F6, F8–F10, F17–F18, F24, F27–F28, F30–F32, F34–F35, F39, F41–F42, F45, F47–F48, F55, F62, F64–F65, F69–F70, F72–F73, F75–F76, F78, F103, F105, F113, F115, F118, F122, F124–F125, F129, F132, F135–F137, F142–F143, F146–F147, F154, F159, F162, F173, F178, F185, F194, F196, F204 — migrate 58 raw style values to approved tokens
+- [ ] **changelog.css (U3):** F266–F274 — align 9 drifting components with their design-system specs
+- [ ] **changelog.css (A1):** F321–F322 — resolve 2 `Minor`/`Occasional` contrast failures
+- [ ] **src/ui-stage.ts (U1):** F211–F212 — migrate 2 raw style values to approved tokens
+- [ ] **src/ui.ts (U1):** F43 — migrate 1 raw style value to approved tokens
+- [ ] **src/theme.ts (U1):** F36, F40, F218 — replace 7 hand-copied palette hexes in `DEFAULT_THEME.accentPalette` with `base.css` token references
+
+#### Acceptance Criteria
+- [ ] #1 No raw style value remains outside the design system's listed exceptions (`docs/DESIGN_SYSTEM.md` §10).
+- [ ] #2 `python AI/tools/contrast.py --check` exits 0 with all 41 non-exempt failing pairs resolved, or each remaining pair approved by the owner as an accepted gap.
+- [ ] #3 Simulations are rerun only if game rules change (they should not change for this styling/accessibility pass).
+- [ ] #4 The UI audit re-runs in judged mode and `docs/components.json` / `docs/COMPONENTS.md` are rebuilt (`python AI/tools/build_components.py --check` exits 0).
+
+---
 
 ### [#006] Add a character background & commuter profiles web page
 - **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Feature`, `Content`, `Docs`
@@ -140,30 +177,6 @@ Redesign the turn-to-turn transition (`result` screen in `src/ui-stage.ts` and `
 
 ---
 
-### [#012] Run UI audit and align docs/DESIGN_SYSTEM.md & docs/COMPONENTS.md with warehouse conventions
-- **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Docs`, `Design`
-- **Created**: 2026-11-16
-- **Depends on**: #011
-
-#### Why
-The repository now pulls `convention/design-system`, `convention/ui-component-list`, and `protocol/audit-lens-ui`. Currently:
-- `docs/DESIGN_SYSTEM.md` predates `convention/design-system` (missing the required header/source-of-truth contract for the Canva import workflow, WCAG 2.2 AA contrast table, and decision log), omits `changelog.html`/`changelog.css` styles, and lists character theme overrides that are still placeholders in `src/theme.ts` and `stage.css`.
-- There is no `docs/COMPONENTS.md` inventory yet (`convention/ui-component-list`).
-
-#### Wanted
-1. Run `protocol/audit-lens-ui` (as a scoped re-audit extending the codemap audit record, or a new audit record in `docs/audits/`) covering `stage.css`, `style.css`, `changelog.css`, `base.css`, `src/ui-stage.ts`, `src/ui-plain.ts`, `src/changelog.ts`, and `src/theme.ts`.
-2. Realign `docs/DESIGN_SYSTEM.md` with `convention/design-system` and `template/design-system` (recording the repo/Canva source-of-truth workflow, accurate token status, accessibility contrast checks, and decision log, without prematurely locking in unfinalized Canva character palettes).
-3. Create `docs/COMPONENTS.md` from the UI lens results per `convention/ui-component-list`, covering Built components (`stage`, `changelog`, `plain`) and Planned components (`#006`, `#007`, `#010`), plus raw hard-coded value mapping.
-4. Triage any UI drift/raw-value findings into `BACKLOG.md` per `protocol/issue-triage`.
-
-#### Acceptance Criteria
-- [ ] #1 Audit record in `docs/audits/` includes `lens-ui.md` with verified `path:line` evidence for all UI components and raw style values.
-- [ ] #2 `docs/DESIGN_SYSTEM.md` follows `convention/design-system` §4 section order, names the single source of truth, reflects actual code status, and includes §8 accessibility contrast checks and §10 decision log.
-- [ ] #3 `docs/COMPONENTS.md` follows `convention/ui-component-list` §7 ("Done when") and accurately maps Built vs. Planned components and statuses.
-- [ ] #4 Any findings from the UI lens are triaged into `BACKLOG.md` and linked back in `lens-ui.md`.
-
----
-
 ### [#004] Raise the seed limit from 1 million to 1 billion
 - **Status**: `Open` | **Priority**: `P3` | **Labels**: `Core`, `Randomness`
 - **Created**: 2026-11-04
@@ -194,6 +207,41 @@ Do not go above about 10 billion: the statistics start to drift, and past about 
 ---
 
 ## ✅ Completed
+
+### [#012] Run UI audit and align docs/DESIGN_SYSTEM.md & docs/COMPONENTS.md with warehouse conventions
+- **Status**: `Closed` | **Priority**: `P2` | **Labels**: `UI`, `Docs`, `Design`
+- **Created**: 2026-11-16
+- **Resolved**: 2026-11-19
+- **Depends on**: #011
+
+#### Why
+The repository now pulls `convention/design-system`, `convention/ui-component-list`, and `protocol/audit-lens-ui`. Currently:
+- `docs/DESIGN_SYSTEM.md` predates `convention/design-system` (missing the required header/source-of-truth contract for the Canva import workflow, WCAG 2.2 AA contrast table, and decision log), omits `changelog.html`/`changelog.css` styles, and lists character theme overrides that are still placeholders in `src/theme.ts` and `stage.css`.
+- There is no `docs/COMPONENTS.md` inventory yet (`convention/ui-component-list`).
+
+#### Wanted
+1. Run `protocol/audit-lens-ui` (as a scoped re-audit extending the codemap audit record, or a new audit record in `docs/audits/`) covering `stage.css`, `style.css`, `changelog.css`, `base.css`, `src/ui-stage.ts`, `src/ui-plain.ts`, `src/changelog.ts`, and `src/theme.ts`.
+2. Realign `docs/DESIGN_SYSTEM.md` with `convention/design-system` and `template/design-system` (recording the repo/Canva source-of-truth workflow, accurate token status, accessibility contrast checks, and decision log, without prematurely locking in unfinalized Canva character palettes).
+3. Create `docs/COMPONENTS.md` from the UI lens results per `convention/ui-component-list`, covering Built components (`stage`, `changelog`, `plain`) and Planned components (`#006`, `#007`, `#010`), plus raw hard-coded value mapping.
+4. Triage any UI drift/raw-value findings into `BACKLOG.md` per `protocol/issue-triage`.
+
+#### Acceptance Criteria
+- [x] #1 Audit record in `docs/audits/` includes `lens-ui.md` with verified `path:line` evidence for all UI components and raw style values.
+- [x] #2 `docs/DESIGN_SYSTEM.md` follows `convention/design-system` §4 section order, names the single source of truth, reflects actual code status, and includes §8 accessibility contrast checks and §10 decision log.
+- [x] #3 `docs/COMPONENTS.md` follows `convention/ui-component-list` §7 ("Done when") and accurately maps Built vs. Planned components and statuses.
+- [x] #4 Any findings from the UI lens are triaged into `BACKLOG.md` and linked back in `lens-ui.md`.
+
+#### Notes
+- 2026-11-19: Plan written at `AI/PLAN_012_design-system-audit.md`. It reorders the work: P1 an inventory UI lens, P2 the design system rewrite, P3 a judged lens with `COMPONENTS.md`, triage into one follow-up item (#013) and a codemap rebuild. The user approved P1 only, and will review its output before P2 because the files may need splitting so agents can read them cheaply. Brief: `AI/BRIEF_012_P1.md`.
+- 2026-11-19: P1 done (UI lens in inventory mode: 58 components, 286 raw values, 116 placement rows; review `AI/REVIEW_012_P1.md`, 6 findings fixed). The plan's P2 and P3 now follow Shadow Cursor's split layout (a short core, one file per spec, `components.json` plus a short index), citing warehouse tickets `ISS-20261116-design-system-document-split-rules-from-data-a-sho`, `ISS-20261116-component-list-keep-the-generated-data-in-json-wit` and `ISS-20261115-design-system-convention-covers-only-one-document`. The user approved P2. Brief: `AI/BRIEF_012_P2.md`.
+- 2026-11-19: P2 done: core `docs/DESIGN_SYSTEM.md`, 16 specs and topic files in `docs/design-system/`, `ds-mapping.md`, `AI/tools/contrast.py`. Review `AI/REVIEW_012_P2.md`, 6 findings fixed. Proposals await the owner: 184 tokens (12 layout), 19 renames, 6 near-misses, 41 failing contrast pairs.
+- 2026-11-19: The owner approved the P2 proposals (recorded in `docs/design-system/decisions.md`) and P3. Brief: `AI/BRIEF_012_P3.md`.
+- 2026-11-19: P3 done: judged lens (322 findings, all into #013, 22 fix-now contrast pairs), `docs/components.json` and `docs/COMPONENTS.md` (built by `AI/tools/build_components.py`), codemap rebuilt. Review `AI/REVIEW_012_P3.md`, 5 findings fixed. The user approved closing #012.
+
+#### Outcome (2026-11-19)
+The UI audit, design system and component list now follow the warehouse conventions. `lens-ui.md` in `docs/audits/2026-11-16-bb9df24/` judges 58 components and 286 raw values against the design system, with 322 findings. `docs/DESIGN_SYSTEM.md` is a short core with `docs/design-system/` beside it (16 specs, the stage layout map, patterns, the decision log with the owner's approvals, and a contrast table generated by `AI/tools/contrast.py`), following Shadow Cursor's split layout as a recorded deviation. `docs/components.json` and `docs/COMPONENTS.md` hold 58 built and 3 planned components, built by `AI/tools/build_components.py`. Every finding is triaged into #013, with 22 contrast failures marked fix-now. `docs/CODEMAP.md` was rebuilt. No code or style changed.
+
+---
 
 ### [#011] Audit codebase structure and rebuild docs/CODEMAP.md per warehouse architecture/codemap
 - **Status**: `Closed` | **Priority**: `P2` | **Labels**: `Docs`, `Architecture`
