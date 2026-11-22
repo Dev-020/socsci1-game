@@ -79,8 +79,7 @@ button:disabled {
 }
 
 button:focus-visible {
-  outline: var(--border-width-stage-5) solid var(--color-focus-ring);
-  outline-offset: var(--border-width-stage-3);
+  outline: none;
 }
 
 /* ---------- console frame ---------- */
@@ -99,7 +98,7 @@ button:focus-visible {
 }
 
 .knob {
-  top: calc(471 * var(--px));
+  top: calc(470 * var(--px));
   width: calc(120 * var(--px));
   height: calc(120 * var(--px));
   border-radius: 50%;
@@ -250,6 +249,7 @@ button:focus-visible {
   text-align: center;
   font-family: var(--font-family-display);
   font-size: var(--font-size-stage-78);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-xl);
   text-transform: uppercase;
   line-height: var(--font-line-height-heading);
 }
@@ -261,7 +261,7 @@ button:focus-visible {
   text-align: center;
   font-size: var(--font-size-stage-52);
   color: var(--color-text-inverse);
-  text-shadow: var(--shadow-stage-text-md);
+  text-shadow: var(--shadow-stage-text-outline-ink-thin), var(--shadow-stage-text-md);
 }
 
 .menu-btn {
@@ -278,7 +278,8 @@ button:focus-visible {
   transition: transform var(--motion-duration-fast);
 }
 
-.menu-btn:hover {
+.menu-btn:hover,
+.menu-btn:focus-visible {
   transform: scale(var(--motion-scale-hover));
 }
 
@@ -303,6 +304,7 @@ button:focus-visible {
   top: calc(235 * var(--px));
   font-family: var(--font-family-display);
   font-size: var(--font-size-stage-46);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-xl);
   line-height: var(--font-line-height-heading);
 }
 
@@ -323,7 +325,8 @@ button:focus-visible {
   transition: transform var(--motion-duration-fast);
 }
 
-.character-card:hover {
+.character-card:hover,
+.character-card:focus-visible {
   transform: translateY(var(--motion-lift-card));
 }
 
@@ -367,7 +370,7 @@ button:focus-visible {
   top: calc(150 * var(--px));
   color: var(--color-text-inverse);
   font-size: var(--font-size-stage-48);
-  text-shadow: var(--shadow-stage-text-sm);
+  text-shadow: var(--shadow-stage-text-outline-ink-thin), var(--shadow-stage-text-sm);
   white-space: nowrap;
 }
 
@@ -419,7 +422,7 @@ button:focus-visible {
   left: calc(1480 * var(--px));
   top: calc(182 * var(--px));
   width: calc(185 * var(--px));
-  height: calc(184 * var(--px));
+  height: calc(185 * var(--px));
   border: var(--border-width-stage-8) solid var(--color-accent-primary);
   border-radius: var(--radius-stage-30);
   overflow: hidden;
@@ -488,12 +491,7 @@ button:focus-visible {
 
 .option-energy {
   color: var(--color-stat-energy);
-  text-shadow:
-    var(--space-stage-2) 0 0 var(--color-stat-energy-edge),
-    calc(-1 * var(--space-stage-2)) 0 0 var(--color-stat-energy-edge),
-    0 var(--space-stage-2) 0 var(--color-stat-energy-edge),
-    0 calc(-1 * var(--space-stage-2)) 0 var(--color-stat-energy-edge),
-    var(--space-stage-2) var(--space-stage-2) 0 var(--color-stat-energy-edge);
+  text-shadow: var(--shadow-stage-text-outline-energy-edge);
 }
 
 .option-km {
@@ -506,7 +504,8 @@ button:focus-visible {
   text-shadow: none;
 }
 
-.option:not(:disabled):hover {
+.option:not(:disabled):hover,
+.option:not(:disabled):focus-visible {
   transform: translateY(var(--motion-lift-option));
 }
 
@@ -553,7 +552,7 @@ button:focus-visible {
 }
 
 .portrait {
-  left: calc(250 * var(--px));
+  left: calc(252 * var(--px));
   top: var(--layout-panel-row-top-y);
   width: calc(260 * var(--px));
   height: calc(260 * var(--px));
@@ -584,7 +583,7 @@ button:focus-visible {
   color: var(--color-text-inverse);
   font-size: var(--font-size-stage-34);
   line-height: var(--font-line-height-tight);
-  text-shadow: var(--shadow-stage-text-sm);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-sm);
   white-space: nowrap;
 }
 
@@ -598,7 +597,7 @@ button:focus-visible {
   font-size: var(--font-size-stage-58);
   line-height: var(--font-line-height-stage-47);
   color: var(--color-text-inverse);
-  text-shadow: var(--shadow-stage-text-sm);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-sm);
 }
 
 .stat-value {
@@ -620,6 +619,8 @@ button:focus-visible {
   top: var(--layout-stat-energy-y);
 }
 
+.money-label,
+.money-value,
 .energy-label,
 .energy-value {
   line-height: var(--font-line-height-stage-53);
@@ -627,18 +628,18 @@ button:focus-visible {
 
 .money-value {
   color: var(--color-stat-money);
-  text-shadow: var(--space-stage-2) var(--space-stage-2) 0 var(--color-stat-money-edge);
+  text-shadow: var(--shadow-stage-text-outline-money-edge);
 }
 
 .energy-value {
   color: var(--color-stat-energy);
-  text-shadow: var(--space-stage-2) var(--space-stage-2) 0 var(--color-stat-energy-edge);
+  text-shadow: var(--shadow-stage-text-outline-energy-edge);
 }
 
 .money-bar {
   left: var(--layout-stat-bar-x);
   width: var(--layout-stat-bar-w);
-  height: calc(47 * var(--px));
+  height: calc(53 * var(--px));
   border: var(--border-width-stage-4) solid var(--color-stat-money-edge);
   background: var(--color-fill-meter-track);
   overflow: hidden;
@@ -696,7 +697,7 @@ button:focus-visible {
   color: var(--color-text-inverse);
   font-size: var(--font-size-stage-48);
   white-space: nowrap;
-  text-shadow: var(--shadow-stage-text-sm);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-sm);
   display: none;
 }
 
@@ -706,10 +707,11 @@ button:focus-visible {
 
 .return-btn {
   top: calc(772 * var(--px));
-  left: calc(1380 * var(--px));
+  left: calc(1375 * var(--px));
 }
 
-.panel-btn:hover {
+.panel-btn:hover,
+.panel-btn:focus-visible {
   background: var(--color-fill-hover-light);
 }
 
@@ -786,8 +788,8 @@ button:focus-visible {
 
 .result-box {
   display: none;
-  top: calc(275 * var(--px));
-  height: calc(310 * var(--px));
+  top: calc(280 * var(--px));
+  height: calc(300 * var(--px));
   border: var(--border-width-stage-7) solid var(--color-accent-primary);
   border-radius: var(--radius-stage-34);
   background: var(--color-surface-card);
@@ -935,10 +937,11 @@ button:focus-visible {
   background: var(--color-surface-panel);
   color: var(--color-text-inverse);
   font-size: var(--font-size-stage-58);
-  text-shadow: var(--shadow-stage-text-sm);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-sm);
 }
 
-.ending-btn:hover {
+.ending-btn:hover,
+.ending-btn:focus-visible {
   background: var(--color-surface-panel-hover);
 }
 
@@ -1029,6 +1032,10 @@ button:focus-visible {
 
   .option:not(:disabled):hover {
     transform: none;
+  }
+
+  .option:not(:disabled):focus-visible {
+    transform: translateY(var(--motion-lift-option));
   }
 
   .option-pill {

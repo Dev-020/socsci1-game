@@ -29,7 +29,7 @@
   --color-surface-code: #f0edf8;
   --color-surface-subtle: #fbf7ff;
   --color-surface-subtle-hover: #f5edff;
-  --color-console-frame: #f8366f;
+  --color-console-frame: #d90058;
   --color-console-frame-light: #feba91;
   --color-console-frame-dark: #c11763;
   --color-console-knob: #fb6070;
@@ -37,17 +37,16 @@
   --color-scene-sky-bottom: #eaf8ff;
 
   /* Accent, ink, text, link & border colours */
-  --color-accent-primary: #690dbc;
+  --color-accent-primary: #6500b6;
   --color-ink-primary: #1b1b5e;
   --color-text-inverse: var(--neutral-white);
-  --color-text-footnote: #a85d0e;
+  --color-text-footnote: #804400;
   --color-text-muted: #635b7e;
   --color-text-disabled: #7d7189;
   --color-link-subtle: #554d77;
   --color-link-hover: #4b0a88;
   --color-border-disabled: #8a7d99;
   --color-border-subtle: #d5d3e0;
-  --color-focus-ring: var(--neutral-white);
   --color-mask-opaque: var(--neutral-black);
 
   /* Fills, shadows, cards, stats, track & status colours */
@@ -59,12 +58,14 @@
   --color-card-worker-edge: #7a7255;
   --color-stat-money: #ffb95f;
   --color-stat-money-edge: #d28222;
+  --color-stat-money-edge-deep: #7b4700;
   --color-stat-energy: #a5dc6c;
   --color-stat-energy-edge: #5c7b4a;
-  --color-track-bar: #f8636a;
-  --color-track-pole: #c89c66;
-  --color-status-danger: #f81834;
-  --color-status-win: #3f9a1c;
+  --color-stat-energy-edge-deep: #415e2f;
+  --color-track-bar: #e24e58;
+  --color-track-pole: #a57a45;
+  --color-status-danger: #ed002d;
+  --color-status-win: #2f8800;
   --color-status-added-bg: #e3f5d3;
   --color-status-added-text: #275914;
   --color-status-added-border: #c2e8a6;
@@ -81,12 +82,12 @@
   /* Plain UI colours */
   --color-plain-text: #1c1c1c;
   --color-plain-muted: #6b6b6b;
-  --color-plain-line: #d9d9d9;
+  --color-plain-line: #919191;
   --color-plain-bg: #fafafa;
   --color-plain-fill: #1c1c1c;
   --color-plain-text-dark: #ececec;
   --color-plain-muted-dark: #9a9a9a;
-  --color-plain-line-dark: #3a3a3a;
+  --color-plain-line-dark: #636363;
   --color-plain-bg-dark: #161616;
   --color-plain-fill-dark: #ececec;
 
@@ -218,7 +219,28 @@
 
   /* Stage shadows */
   --shadow-stage-text-sm: calc(2 * var(--px)) calc(2 * var(--px)) 0 var(--color-ink-primary);
-  --shadow-stage-text-outline: calc(2 * var(--px)) 0 0, calc(-2 * var(--px)) 0 0, 0 calc(2 * var(--px)) 0, 0 calc(-2 * var(--px)) 0, calc(2 * var(--px)) calc(2 * var(--px)) 0;
+  --shadow-stage-text-outline-ink:
+    var(--space-stage-2) 0 0 var(--color-ink-primary),
+    calc(-1 * var(--space-stage-2)) 0 0 var(--color-ink-primary),
+    0 var(--space-stage-2) 0 var(--color-ink-primary),
+    0 calc(-1 * var(--space-stage-2)) 0 var(--color-ink-primary);
+  --shadow-stage-text-outline-ink-thin:
+    max(1px, calc(1 * var(--px))) 0 0 var(--color-ink-primary),
+    calc(-1 * max(1px, calc(1 * var(--px)))) 0 0 var(--color-ink-primary),
+    0 max(1px, calc(1 * var(--px))) 0 var(--color-ink-primary),
+    0 calc(-1 * max(1px, calc(1 * var(--px)))) 0 var(--color-ink-primary);
+  --shadow-stage-text-outline-money-edge:
+    var(--space-stage-2) 0 0 var(--color-stat-money-edge-deep),
+    calc(-1 * var(--space-stage-2)) 0 0 var(--color-stat-money-edge-deep),
+    0 var(--space-stage-2) 0 var(--color-stat-money-edge-deep),
+    0 calc(-1 * var(--space-stage-2)) 0 var(--color-stat-money-edge-deep),
+    var(--space-stage-2) var(--space-stage-2) 0 var(--color-stat-money-edge-deep);
+  --shadow-stage-text-outline-energy-edge:
+    var(--space-stage-2) 0 0 var(--color-stat-energy-edge-deep),
+    calc(-1 * var(--space-stage-2)) 0 0 var(--color-stat-energy-edge-deep),
+    0 var(--space-stage-2) 0 var(--color-stat-energy-edge-deep),
+    0 calc(-1 * var(--space-stage-2)) 0 var(--color-stat-energy-edge-deep),
+    var(--space-stage-2) var(--space-stage-2) 0 var(--color-stat-energy-edge-deep);
   --shadow-stage-text-md: calc(3 * var(--px)) calc(3 * var(--px)) 0 var(--color-ink-primary);
   --shadow-stage-text-lg: calc(4 * var(--px)) calc(4 * var(--px)) 0 var(--color-ink-primary);
   --shadow-stage-text-xl: calc(5 * var(--px)) calc(5 * var(--px)) 0 var(--color-ink-primary);
