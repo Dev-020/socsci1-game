@@ -5,6 +5,10 @@ All notable changes to the game. The format follows
 [Semantic Versioning 2.0.0](https://semver.org).
 
 ## [Unreleased]
+### Changed
+- Game and page styles now use shared design tokens.
+### Fixed
+- Improved text and border readability with outlines and deeper shades, and replaced the keyboard focus box on stage buttons with their hover effect.
 
 ## [0.9.1] - 2026-11-05
 ### Fixed

@@ -12,47 +12,6 @@ The prioritized task list for maintenance, features, and technical debt for the 
 
 ## 📋 In Progress
 
-### [#013] Apply the design system to the code (#012 follow-up)
-- **Status**: `In Progress` | **Priority**: `P1` | **Labels**: `UI`, `Design`, `Accessibility`
-- **Created**: 2026-11-19
-- **Severity**: `Major` | **Likelihood**: `Frequent`
-- **Depends on**: #012
-
-#### Why
-The P3 judged UI audit (`docs/audits/2026-11-16-bb9df24/lens-ui.md`) found 322 findings across the stage, plain UI, changelog, and `src/theme.ts`: 218 token-use (`U1`), 57 component-drift (`U3`), 6 layout near-misses (`U4`), and 41 non-exempt WCAG 2.2 AA contrast failures (`A1`, of which 22 are `Major`/`Frequent` fix-now findings).
-
-#### Wanted
-First add the approved tokens to `base.css` `:root` and apply the 19 approved token renames (`docs/design-system/decisions.md`), then work the checklist below (fix-now `P1` contrast items first, grouped by file and criterion):
-
-**Fix-now (`P1`, `Major` + `Frequent`):**
-- [ ] **P1 (stage.css — A1):** F287–F291, F293–F295, F300–F313 (22 failing contrast pairs on character cards, distance HUD, option cards, panel stats/meters/buttons, and focus rings)
-
-**Remaining findings by file and criterion:**
-- [ ] **stage.css (U1):** F1, F7, F11, F13–F16, F20–F23, F25–F26, F38, F44, F46, F49–F54, F57–F61, F63, F68, F77, F79–F102, F106–F108, F112, F114, F116–F117, F119–F121, F123, F127–F128, F130–F131, F133–F134, F140–F141, F144–F145, F148–F151, F153, F155–F158, F160–F161, F163–F169, F171–F172, F174–F176, F179–F184, F186–F192, F195, F197–F203, F205–F210, F214–F217 — migrate 129 raw style values to approved tokens
-- [ ] **stage.css (U3):** F219–F258 — align 40 drifting components with their design-system specs
-- [ ] **stage.css (U4):** F276–F281 — resolve 6 layout near-misses (`layout-map.md` §3)
-- [ ] **stage.css (A1):** F282–F286, F292, F296–F299, F314–F318 — resolve 15 `Minor`/`Occasional` contrast failures
-- [ ] **style.css (U1):** F2–F3, F5, F12, F19, F29, F33, F37, F56, F66–F67, F71, F74, F104, F109–F111, F126, F138–F139, F152, F170, F177, F193, F213 — migrate 25 raw style values to approved tokens
-- [ ] **style.css (U3):** F259–F265, F275 — align 8 drifting components with their design-system specs
-- [ ] **style.css (A1):** F319–F320 — resolve 2 `Minor`/`Occasional` contrast failures
-- [ ] **changelog.css (U1):** F4, F6, F8–F10, F17–F18, F24, F27–F28, F30–F32, F34–F35, F39, F41–F42, F45, F47–F48, F55, F62, F64–F65, F69–F70, F72–F73, F75–F76, F78, F103, F105, F113, F115, F118, F122, F124–F125, F129, F132, F135–F137, F142–F143, F146–F147, F154, F159, F162, F173, F178, F185, F194, F196, F204 — migrate 58 raw style values to approved tokens
-- [ ] **changelog.css (U3):** F266–F274 — align 9 drifting components with their design-system specs
-- [ ] **changelog.css (A1):** F321–F322 — resolve 2 `Minor`/`Occasional` contrast failures
-- [ ] **src/ui-stage.ts (U1):** F211–F212 — migrate 2 raw style values to approved tokens
-- [ ] **src/ui.ts (U1):** F43 — migrate 1 raw style value to approved tokens
-- [ ] **src/theme.ts (U1):** F36, F40, F218 — replace 7 hand-copied palette hexes in `DEFAULT_THEME.accentPalette` with `base.css` token references
-
-#### Acceptance Criteria
-- [ ] #1 No raw style value remains outside the design system's listed exceptions (`docs/DESIGN_SYSTEM.md` §10).
-- [ ] #2 `python AI/tools/contrast.py --check` exits 0 with all 41 non-exempt failing pairs resolved, or each remaining pair approved by the owner as an accepted gap.
-- [ ] #3 Simulations are rerun only if game rules change (they should not change for this styling/accessibility pass).
-- [ ] #4 The UI audit re-runs in judged mode and `docs/components.json` / `docs/COMPONENTS.md` are rebuilt (`python AI/tools/build_components.py --check` exits 0).
-
-#### Notes
-- 2026-11-19: Plan `AI/PLAN_013_apply-design-system.md` (P1 move the code onto tokens, P2 the owner's choices: contrast options, near-misses, an asset-slot list for the placeholder art, P3 apply and re-audit). Work on branch `013-apply-design-system`.
-- 2026-11-19: P1 done: all approved tokens in `base.css` (stage-sized tokens in a `.stage` block, because a `:root` token can't see `.stage`'s `--px`), the 19 renames applied, raw values replaced, and no hex values left in `src/theme.ts`. Style snapshots before and after show only the approved merges (1,100 settled diffs, all traced). Contrast ratios unchanged. Review `AI/REVIEW_013_P1.md`, 2 findings fixed, 1 deferred to P3.
-
----
 
 
 ## 📌 Backlog (Open Tasks)
@@ -243,6 +202,53 @@ Do not go above about 10 billion: the statistics start to drift, and past about 
 ---
 
 ## ✅ Completed
+
+### [#013] Apply the design system to the code (#012 follow-up)
+- **Status**: `Closed` | **Priority**: `P1` | **Labels**: `UI`, `Design`, `Accessibility`
+- **Created**: 2026-11-19
+- **Severity**: `Major` | **Likelihood**: `Frequent`
+- **Depends on**: #012
+
+#### Why
+The P3 judged UI audit (`docs/audits/2026-11-16-bb9df24/lens-ui.md`) found 322 findings across the stage, plain UI, changelog, and `src/theme.ts`: 218 token-use (`U1`), 57 component-drift (`U3`), 6 layout near-misses (`U4`), and 41 non-exempt WCAG 2.2 AA contrast failures (`A1`, of which 22 are `Major`/`Frequent` fix-now findings).
+
+#### Wanted
+First add the approved tokens to `base.css` `:root` and apply the 19 approved token renames (`docs/design-system/decisions.md`), then work the checklist below (fix-now `P1` contrast items first, grouped by file and criterion):
+
+**Fix-now (`P1`, `Major` + `Frequent`):**
+- [x] **P1 (stage.css — A1):** F287–F291, F293–F295, F300–F313 (22 failing contrast pairs on character cards, distance HUD, option cards, panel stats/meters/buttons, and focus rings)
+
+**Remaining findings by file and criterion:**
+- [x] **stage.css (U1):** F1, F7, F11, F13–F16, F20–F23, F25–F26, F38, F44, F46, F49–F54, F57–F61, F63, F68, F77, F79–F102, F106–F108, F112, F114, F116–F117, F119–F121, F123, F127–F128, F130–F131, F133–F134, F140–F141, F144–F145, F148–F151, F153, F155–F158, F160–F161, F163–F169, F171–F172, F174–F176, F179–F184, F186–F192, F195, F197–F203, F205–F210, F214–F217 — migrate 129 raw style values to approved tokens
+- [x] **stage.css (U3):** F219–F258 — align 40 drifting components with their design-system specs
+- [x] **stage.css (U4):** F276–F281 — resolve 6 layout near-misses (`layout-map.md` §3)
+- [x] **stage.css (A1):** F282–F286, F292, F296–F299, F314–F318 — resolve 15 `Minor`/`Occasional` contrast failures
+- [x] **style.css (U1):** F2–F3, F5, F12, F19, F29, F33, F37, F56, F66–F67, F71, F74, F104, F109–F111, F126, F138–F139, F152, F170, F177, F193, F213 — migrate 25 raw style values to approved tokens
+- [x] **style.css (U3):** F259–F265, F275 — align 8 drifting components with their design-system specs
+- [x] **style.css (A1):** F319–F320 — resolve 2 `Minor`/`Occasional` contrast failures
+- [x] **changelog.css (U1):** F4, F6, F8–F10, F17–F18, F24, F27–F28, F30–F32, F34–F35, F39, F41–F42, F45, F47–F48, F55, F62, F64–F65, F69–F70, F72–F73, F75–F76, F78, F103, F105, F113, F115, F118, F122, F124–F125, F129, F132, F135–F137, F142–F143, F146–F147, F154, F159, F162, F173, F178, F185, F194, F196, F204 — migrate 58 raw style values to approved tokens
+- [x] **changelog.css (U3):** F266–F274 — align 9 drifting components with their design-system specs
+- [x] **changelog.css (A1):** F321–F322 — resolve 2 `Minor`/`Occasional` contrast failures
+- [x] **src/ui-stage.ts (U1):** F211–F212 — migrate 2 raw style values to approved tokens
+- [x] **src/ui.ts (U1):** F43 — migrate 1 raw style value to approved tokens
+- [x] **src/theme.ts (U1):** F36, F40, F218 — replace 7 hand-copied palette hexes in `DEFAULT_THEME.accentPalette` with `base.css` token references
+
+#### Acceptance Criteria
+- [x] #1 No raw style value remains outside the design system's listed exceptions (`docs/DESIGN_SYSTEM.md` §10).
+- [x] #2 `python AI/tools/contrast.py --check` exits 0 with all 41 non-exempt failing pairs resolved, or each remaining pair approved by the owner as an accepted gap. (28 fixed, 10 accepted in the Findings Register, and the 3 focus-ring pairs removed with the focus box. The 2 disabled-exempt pairs, outside the 41, are noted there too.)
+- [x] #3 Simulations are rerun only if game rules change (they should not change for this styling/accessibility pass).
+- [x] #4 The UI audit re-runs in judged mode and `docs/components.json` / `docs/COMPONENTS.md` are rebuilt (`python AI/tools/build_components.py --check` exits 0).
+
+#### Notes
+- 2026-11-19: Plan `AI/PLAN_013_apply-design-system.md` (P1 move the code onto tokens, P2 the owner's choices: contrast options, near-misses, an asset-slot list for the placeholder art, P3 apply and re-audit). Work on branch `013-apply-design-system`.
+- 2026-11-19: P1 done: all approved tokens in `base.css` (stage-sized tokens in a `.stage` block, because a `:root` token can't see `.stage`'s `--px`), the 19 renames applied, raw values replaced, and no hex values left in `src/theme.ts`. Style snapshots before and after show only the approved merges (1,100 settled diffs, all traced). Contrast ratios unchanged. Review `AI/REVIEW_013_P1.md`, 2 findings fixed, 1 deferred to P3.
+- 2026-11-21: The owner rejected the first P2 contrast options (they swapped colours to navy). P2b redo: same hue, lightness only, plus outlines in each text's own shadow colour (WCAG 2.2 Understanding 1.4.3 note 5). Review `AI/REVIEW_013_P2b.md`, 4 findings fixed. The owner picked the recommended options, asked for thinner outlines on the tagline and distance label, and replaced the white focus box with each button's hover effect (WCAG 2.4.7 needs only a visible change).
+- 2026-11-22: P3 part A (`a161d07`) applied the choices and the 6 near-miss alignments; review `AI/REVIEW_013_P3A.md`, 2 findings fixed; the owner approved all 20 screens. Part B: re-audit `docs/audits/2026-11-22-a161d07/`, component list rebuilt, design-system docs, Findings Register, changelog; review `AI/REVIEW_013_P3B.md`, 5 findings fixed. The owner approved closing #013.
+
+#### Outcome (2026-11-22)
+The code now runs on the design system. `base.css` holds every approved token, the style sheets use them, and `src/theme.ts` copies no colours. Contrast: 28 of the 41 failing pairs are fixed by outlines in each text's own shadow colour and slightly deeper shades of the same hues, 10 are accepted by the owner (in the Findings Register, with the 2 disabled-exempt pairs), and the 3 focus-ring pairs went away with the focus box: keyboard focus now shows each button's hover effect. The 6 layout near-misses are aligned. The re-audit at `a161d07` finds U1 = 0 and U4 = 0, all 58 components `matches`, and every #013 finding resolved or recorded. Rules, balance and odds are unchanged.
+
+---
 
 ### [#012] Run UI audit and align docs/DESIGN_SYSTEM.md & docs/COMPONENTS.md with warehouse conventions
 - **Status**: `Closed` | **Priority**: `P2` | **Labels**: `UI`, `Docs`, `Design`
@@ -455,3 +461,9 @@ Authored [`docs/DESIGN_SYSTEM.md`](file:///C:/GitBash/Automation/socsci1-game/do
 ---
 
 ## 🔎 Findings Register
+
+### Known Gaps Accepted Deliberately
+
+- **Panel text (5 shadowless pairs) — accepted by the owner 2026-11-21 (#013):** `.card-0` Student (`--color-text-inverse` on `--color-surface-panel`, `3.14:1` vs `4.5:1`), `.card-1` Worker (`--color-text-inverse` on `--color-card-worker`, `2.48:1` vs `4.5:1`), `.card-2` PWD (`--color-text-inverse` on `--color-console-knob`, `3.00:1` vs `4.5:1`), `.option-pill` label (`--color-text-inverse` on `--color-surface-panel`, `3.14:1` vs `4.5:1`), and `.unreleased-badge` text (`--color-text-inverse` on `--color-surface-panel`, `3.14:1` vs `4.5:1`). Kept without outlines to preserve the pill/card surface look; already-shadowed panel text (`.stat-label`, `.commuter-badge`, `.panel-btn`, `.ending-btn`) received navy outlines.
+- **Meter bars & borders (5 pairs) — accepted by the owner 2026-11-21 (#013):** `.money-bar` border (`--color-stat-money-edge` on `--color-surface-panel`, `1.04:1` vs `3.0:1`), `.money-fill` (`--color-stat-money` on `--color-fill-meter-track` over `--color-surface-panel`, `2.14:1` vs `3.0:1`), `.energy-seg` border (`--color-stat-energy-edge` on `--color-surface-panel`, `1.53:1` vs `3.0:1`), `.energy-seg` fill (`--color-stat-energy` on `--color-fill-meter-track` over `--color-surface-panel`, `2.26:1` vs `3.0:1`), and continuous `.energy-bar` outer border (`--color-stat-energy-edge` on `--color-surface-panel`, `1.53:1` vs `3.0:1`). Kept unchanged to preserve meter colours alongside numeric readouts (`.money-value`, `.energy-value`), which use `-deep` edge outlines at `4.50:1` and `4.55:1`.
+- **Disabled transit options (2 pairs) — WCAG disabled-control exempt (#013):** `.option:disabled .option-pill` text (`--color-text-disabled` on `--color-surface-disabled`, `2.60:1` vs `4.5:1`) and `.option:disabled .option-line` on sky (`--color-text-disabled` on `--color-scene-sky-bottom`, `4.22:1` vs `4.5:1`). Exempt under WCAG 2.2 SC 1.4.3 (inactive UI components) and accepted by the owner 2026-11-21.
