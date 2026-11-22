@@ -182,6 +182,37 @@ Redesign the turn-to-turn transition (`result` screen in `src/ui-stage.ts` and `
 
 ---
 
+### [#014] Build a visual design-system page (local only)
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `UI`, `Design`, `Docs`
+- **Created**: 2026-11-20
+- **Depends on**: #013
+
+#### Why
+The design system (`docs/DESIGN_SYSTEM.md`, `docs/design-system/`) describes the palette, type, spacing and components only as text, token names and hex codes. The owner and the art team need to *see* it: the real colours, the real outlines, the real components at their real sizes. A page drawn from the live tokens can't drift from the code the way a hand-written list can.
+
+#### Wanted
+One local-only HTML page under the gitignored `docs/` (for example `docs/design-system/index.html`), opened through `python -m http.server` from the repo root. It loads the real `base.css` and the game's style sheets and reads token values with `getComputedStyle`, so it updates itself when `base.css` changes:
+1. **Palette:** a swatch per colour token, grouped (surfaces, text, accents, stats, status, scene), each with its name, hex value and where it's used; click to copy the token name.
+2. **Contrast:** each pair from `AI/tools/contrast_pairs.txt` drawn as real text on its real background (outlines included), with its ratio and a pass / accepted-gap mark.
+3. **Type, spacing, borders, radii and shadows:** each token shown at its real size, including the outline shadow tokens.
+4. **Components:** the real game pieces (buttons, character cards, panel, meters, HUD, ending card, changelog cards) built with the game's own CSS classes, labelled with their component ids from `docs/COMPONENTS.md`.
+5. **Art slots:** each slot from `docs/design-system/asset-slots.md` as a box at its real size and aspect ratio, with its file name and export size.
+6. **Later, with #007:** a theme switcher that re-renders the page under each `[data-character]` theme.
+
+#### Acceptance Criteria
+- [ ] #1 Nothing new is committed or published: the page lives under `docs/` (gitignored) and never ships to the live site; the game's files, `js/` and `CHANGELOG.md` are unchanged by it.
+- [ ] #2 Every colour token in `base.css` appears as a swatch, read from the live CSS (no hex values copied into the page).
+- [ ] #3 Every contrast pair renders with the same ratio and pass/fail as `python AI/tools/contrast.py`.
+- [ ] #4 Components render with the game's own classes and match the game's screenshots at the same scale.
+- [ ] #5 Art slots match `asset-slots.md` box sizes and aspect ratios.
+- [ ] #6 Readable at desktop width and at 375 px without sideways scrolling; `docs/DESIGN_SYSTEM.md` links to it.
+
+#### Notes
+- 2026-11-20: Owner chose local only (not on the live site). Start after #013 closes, so it shows the final colours and outlines.
+- 2026-11-20: To settle in the plan: the page's script lives under `docs/` too, so it can't go through `tsc` into the committed `js/`; decide between a small plain-JS module under `docs/` (an exception to the TypeScript rule, local only) or a gitignored TS build.
+
+---
+
 ### [#004] Raise the seed limit from 1 million to 1 billion
 - **Status**: `Open` | **Priority**: `P3` | **Labels**: `Core`, `Randomness`
 - **Created**: 2026-11-04
