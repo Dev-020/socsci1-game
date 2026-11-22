@@ -5,10 +5,13 @@ All notable changes to the game. The format follows
 [Semantic Versioning 2.0.0](https://semver.org).
 
 ## [Unreleased]
+
+## [0.10.0] - 2026-11-22
 ### Changed
-- Game and page styles now use shared design tokens.
-### Fixed
-- Improved text and border readability with outlines and deeper shades, and replaced the keyboard focus box on stage buttons with their hover effect.
+- Titles, labels and the money and energy numbers now have outlines, so they are easier to read on the sky and the purple panel.
+- The purple borders, the win and loss titles, the Start button and the page footnote are a little deeper in colour.
+- When you move through the buttons with the Tab key, the selected button now pops up or lifts like it does under the mouse, instead of showing a white box.
+- A few boxes and buttons moved by a few pixels so their edges line up.
 
 ## [0.9.1] - 2026-11-05
 ### Fixed
