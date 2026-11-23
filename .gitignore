@@ -2,7 +2,10 @@ __pycache__/
 
 # AI Documentation
 AI
-docs
+docs/audits/
+
+# Internal issue tracker (public issues go to GitHub Issues)
+BACKLOG.md
 
 # Warehouse 
 warehouse
