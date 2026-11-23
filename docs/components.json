@@ -1,0 +1,1863 @@
+{
+  "audit-id": "2026-11-22-a161d07",
+  "commit": "a161d07",
+  "record": "docs/audits/2026-11-22-a161d07/",
+  "date": "2026-11-22",
+  "design-system": {
+    "path": "docs/DESIGN_SYSTEM.md",
+    "last-reviewed": "2026-11-22"
+  },
+  "built-by": "AI/tools/build_components.py",
+  "entries": [
+    {
+      "id": "C48",
+      "record-id": "C48",
+      "unit": "src/changelog.ts:init",
+      "name": "changelog-page",
+      "kind": "screen",
+      "path": "src/changelog.ts",
+      "purpose": "Fetches CHANGELOG.md and renders cards or .error-card into #changelog-entries",
+      "uses": [
+        {
+          "id": "R103",
+          "evidence": "src/changelog.ts:275"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "loading",
+          "evidence": "changelog.html:23"
+        },
+        {
+          "name": "error",
+          "evidence": "src/changelog.ts:260"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C37",
+      "record-id": "C37",
+      "unit": "src/ui-stage.ts:endingLayer",
+      "name": "ending-screen",
+      "kind": "screen",
+      "path": "src/ui-stage.ts",
+      "purpose": "Ending screen overlay layer (.layer-ending)",
+      "uses": [
+        {
+          "id": "R69",
+          "evidence": "src/ui-stage.ts:229"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:224"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:233"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/ending-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C43",
+      "record-id": "C43",
+      "unit": "src/ui-plain.ts:renderOutcome",
+      "name": "plain-outcome-screen",
+      "kind": "screen",
+      "path": "src/ui-plain.ts",
+      "purpose": "Renders the plain win/loss outcome screen into #app",
+      "uses": [
+        {
+          "id": "R95",
+          "evidence": "src/ui-plain.ts:118"
+        }
+      ],
+      "variants": [
+        {
+          "name": "WIN",
+          "evidence": "src/ui-plain.ts:91"
+        },
+        {
+          "name": "BURNOUT",
+          "evidence": "src/ui-plain.ts:97"
+        },
+        {
+          "name": "STRANDED",
+          "evidence": "src/ui-plain.ts:102"
+        }
+      ],
+      "states": [],
+      "props": [
+        {
+          "name": "current",
+          "note": "Game instance state"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C42",
+      "record-id": "C42",
+      "unit": "src/ui-plain.ts:renderPlay",
+      "name": "plain-play-screen",
+      "kind": "screen",
+      "path": "src/ui-plain.ts",
+      "purpose": "Renders the plain turn-play screen into #app",
+      "uses": [
+        {
+          "id": "R96",
+          "evidence": "src/ui-plain.ts:119"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C41",
+      "record-id": "C41",
+      "unit": "src/ui-plain.ts:renderSelect",
+      "name": "plain-select-screen",
+      "kind": "screen",
+      "path": "src/ui-plain.ts",
+      "purpose": "Renders the plain character-select screen into #app",
+      "uses": [
+        {
+          "id": "R94",
+          "evidence": "src/ui-plain.ts:117"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C12",
+      "record-id": "C12",
+      "unit": "src/ui-stage.ts:selectLayer",
+      "name": "select-screen",
+      "kind": "screen",
+      "path": "src/ui-stage.ts",
+      "purpose": "Character select screen layer (.layer-select)",
+      "uses": [
+        {
+          "id": "R46",
+          "evidence": "src/ui-stage.ts:229"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:224"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:228"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/select-screen-and-character-card.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C8",
+      "record-id": "C8",
+      "unit": "src/ui-stage.ts:titleLayer",
+      "name": "title-screen",
+      "kind": "screen",
+      "path": "src/ui-stage.ts",
+      "purpose": "Title screen layer (.layer-title) holding game title, tagline, and start button",
+      "uses": [
+        {
+          "id": "R44",
+          "evidence": "src/ui-stage.ts:229"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:224"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:227"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/title-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C15",
+      "record-id": "C15",
+      "unit": "src/ui-stage.ts:turnLayer",
+      "name": "turn-screen",
+      "kind": "screen",
+      "path": "src/ui-stage.ts",
+      "purpose": "Turn screen layer (.layer-turn) hosting turn, moving, and result states",
+      "uses": [
+        {
+          "id": "R49",
+          "evidence": "src/ui-stage.ts:229"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:224"
+        },
+        {
+          "name": "turn",
+          "evidence": "src/ui-stage.ts:491"
+        },
+        {
+          "name": "moving",
+          "evidence": "src/ui-stage.ts:394"
+        },
+        {
+          "name": "result",
+          "evidence": "src/ui-stage.ts:408"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:229"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/turn-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C52",
+      "record-id": "C52",
+      "unit": "src/changelog.ts:renderCategories",
+      "name": "category-block",
+      "kind": "composite",
+      "path": "src/changelog.ts",
+      "purpose": "Builds .category-block sections with .category-tag badges and .item-list items",
+      "uses": [
+        {
+          "id": "R99",
+          "evidence": "src/changelog.ts:207"
+        },
+        {
+          "id": "R100",
+          "evidence": "src/changelog.ts:235"
+        }
+      ],
+      "variants": [
+        {
+          "name": "tag-added",
+          "evidence": "changelog.css:209"
+        },
+        {
+          "name": "tag-changed",
+          "evidence": "changelog.css:215"
+        },
+        {
+          "name": "tag-fixed",
+          "evidence": "changelog.css:221"
+        },
+        {
+          "name": "tag-removed",
+          "evidence": "changelog.css:227"
+        }
+      ],
+      "states": [],
+      "props": [
+        {
+          "name": "categories",
+          "note": "list of ChangelogCategory names and items"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C14",
+      "record-id": "C14",
+      "unit": "src/ui-stage.ts:card",
+      "name": "character-card",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Selectable character card button (.character-card) built per CHARACTERS entry",
+      "uses": [
+        {
+          "id": "R47",
+          "evidence": "src/ui-stage.ts:146"
+        }
+      ],
+      "variants": [
+        {
+          "name": "card-0",
+          "evidence": "stage.css:345"
+        },
+        {
+          "name": "card-1",
+          "evidence": "stage.css:351"
+        },
+        {
+          "name": "card-2",
+          "evidence": "stage.css:357"
+        }
+      ],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "stage.css:328"
+        },
+        {
+          "name": "focus",
+          "evidence": "stage.css:329"
+        },
+        {
+          "name": "disabled",
+          "evidence": "stage.css:77"
+        }
+      ],
+      "props": [
+        {
+          "name": "character",
+          "note": "character name, starting money, maxEnergy, and portrait art"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/select-screen-and-character-card.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C39",
+      "record-id": "C39",
+      "unit": "src/ui-stage.ts:endingBox",
+      "name": "ending-box",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Ending summary modal card (.ending-box)",
+      "uses": [
+        {
+          "id": "R70",
+          "evidence": "src/ui-stage.ts:227"
+        }
+      ],
+      "variants": [
+        {
+          "name": "win",
+          "evidence": "src/ui-stage.ts:30"
+        },
+        {
+          "name": "lose",
+          "evidence": "stage.css:916"
+        }
+      ],
+      "states": [],
+      "props": [
+        {
+          "name": "outcome",
+          "note": "WIN | BURNOUT | STRANDED"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/ending-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C55",
+      "record-id": "C55",
+      "unit": "src/changelog.ts:errorCard",
+      "name": "error-card",
+      "kind": "composite",
+      "path": "src/changelog.ts",
+      "purpose": "Builds the .error-card fallback element inside init",
+      "uses": [
+        {
+          "id": "R106",
+          "evidence": "src/changelog.ts:270"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C22",
+      "record-id": "C22",
+      "unit": "src/ui-stage.ts:offerButton",
+      "name": "option",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Builds a transport .option button with pill, stats, and uses label; nested in startStageUi",
+      "uses": [
+        {
+          "id": "R73",
+          "evidence": "src/ui-stage.ts:369"
+        }
+      ],
+      "variants": [
+        {
+          "name": "copy",
+          "evidence": "src/ui-stage.ts:261"
+        },
+        {
+          "name": "portrait",
+          "evidence": "stage.css:1022"
+        }
+      ],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "stage.css:507"
+        },
+        {
+          "name": "focus",
+          "evidence": "stage.css:508"
+        },
+        {
+          "name": "disabled",
+          "evidence": "stage.css:515"
+        }
+      ],
+      "props": [
+        {
+          "name": "offer",
+          "note": "option key, cost, drain, km, affordable, usesLeft"
+        },
+        {
+          "name": "copy",
+          "note": "marks duplicate carousel cards aria-hidden and tabIndex -1"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/transit-option-card.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C21",
+      "record-id": "C21",
+      "unit": "src/ui-stage.ts:options",
+      "name": "options",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Transport offer row/carousel container (.options)",
+      "uses": [
+        {
+          "id": "R54",
+          "evidence": "src/ui-stage.ts:200"
+        }
+      ],
+      "variants": [
+        {
+          "name": "loop",
+          "evidence": "src/ui-stage.ts:364"
+        }
+      ],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:432"
+        },
+        {
+          "name": "hidden",
+          "evidence": "stage.css:763"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/transit-option-card.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C27",
+      "record-id": "C27",
+      "unit": "src/ui-stage.ts:portrait",
+      "name": "portrait",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Character portrait frame (.portrait) in the bottom panel",
+      "uses": [
+        {
+          "id": "R59",
+          "evidence": "src/ui-stage.ts:205"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/bottom-panel.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C24",
+      "record-id": "C24",
+      "unit": "src/ui-stage.ts:resultEvent",
+      "name": "result-event",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Turn random event card (.result-event)",
+      "uses": [
+        {
+          "id": "R56",
+          "evidence": "src/ui-stage.ts:202"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:790"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:825"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/result-boxes.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C23",
+      "record-id": "C23",
+      "unit": "src/ui-stage.ts:resultMove",
+      "name": "result-move",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Turn movement summary card (.result-move)",
+      "uses": [
+        {
+          "id": "R55",
+          "evidence": "src/ui-stage.ts:201"
+        }
+      ],
+      "variants": [
+        {
+          "name": "with-event",
+          "evidence": "stage.css:810"
+        }
+      ],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:790"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:800"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/result-boxes.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C4",
+      "record-id": "C4",
+      "unit": "src/ui-stage.ts:scene",
+      "name": "scene",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Viewport .scene container holding background art and moving vehicle",
+      "uses": [
+        {
+          "id": "R40",
+          "evidence": "src/ui-stage.ts:118"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/scene.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C1",
+      "record-id": "C1",
+      "unit": "src/ui-stage.ts:stage",
+      "name": "stage",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Root .stage 16:9 container element holding all layers and screen/theme data attributes",
+      "uses": [
+        {
+          "id": "R38",
+          "evidence": "src/ui-stage.ts:108"
+        }
+      ],
+      "variants": [
+        {
+          "name": "student",
+          "evidence": "src/ui-stage.ts:477"
+        },
+        {
+          "name": "worker",
+          "evidence": "src/ui-stage.ts:477"
+        },
+        {
+          "name": "pwd",
+          "evidence": "src/ui-stage.ts:477"
+        },
+        {
+          "name": "energy-segmented",
+          "evidence": "src/ui-stage.ts:479"
+        },
+        {
+          "name": "energy-continuous",
+          "evidence": "stage.css:677"
+        },
+        {
+          "name": "has-badge",
+          "evidence": "stage.css:591"
+        }
+      ],
+      "states": [
+        {
+          "name": "title",
+          "evidence": "stage.css:227"
+        },
+        {
+          "name": "select",
+          "evidence": "stage.css:228"
+        },
+        {
+          "name": "turn",
+          "evidence": "stage.css:229"
+        },
+        {
+          "name": "moving",
+          "evidence": "stage.css:231"
+        },
+        {
+          "name": "result",
+          "evidence": "stage.css:232"
+        },
+        {
+          "name": "ending",
+          "evidence": "stage.css:233"
+        }
+      ],
+      "props": [
+        {
+          "name": "screen",
+          "note": "active screen/state (title | select | turn | moving | result | ending)"
+        },
+        {
+          "name": "character",
+          "note": "selected character theme slug"
+        },
+        {
+          "name": "energyStyle",
+          "note": "segmented | continuous"
+        },
+        {
+          "name": "moneyStyle",
+          "note": "bar | digital"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/console-shell.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C51",
+      "record-id": "C51",
+      "unit": "src/changelog.ts:renderUnreleased",
+      "name": "unreleased-card",
+      "kind": "composite",
+      "path": "src/changelog.ts",
+      "purpose": "Builds a collapsible details.version-card.unreleased-card",
+      "uses": [
+        {
+          "id": "R101",
+          "evidence": "src/changelog.ts:254"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "changelog.css:146"
+        },
+        {
+          "name": "selected",
+          "evidence": "changelog.css:174"
+        }
+      ],
+      "props": [
+        {
+          "name": "rel",
+          "note": "Unreleased ChangelogRelease entries and compareUrl"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C6",
+      "record-id": "C6",
+      "unit": "src/ui-stage.ts:vehicle",
+      "name": "vehicle",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Animated .vehicle container driven across the scene during the moving state",
+      "uses": [
+        {
+          "id": "R42",
+          "evidence": "src/ui-stage.ts:117"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:771"
+        },
+        {
+          "name": "moving",
+          "evidence": "stage.css:783"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/scene.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C50",
+      "record-id": "C50",
+      "unit": "src/changelog.ts:renderCard",
+      "name": "version-card",
+      "kind": "composite",
+      "path": "src/changelog.ts",
+      "purpose": "Builds an article.version-card release card",
+      "uses": [
+        {
+          "id": "R102",
+          "evidence": "src/changelog.ts:258"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [
+        {
+          "name": "rel",
+          "note": "ChangelogRelease version, date, categories, compareUrl"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C20",
+      "record-id": "C20",
+      "unit": "src/ui-stage.ts:weatherBox",
+      "name": "weather-box",
+      "kind": "composite",
+      "path": "src/ui-stage.ts",
+      "purpose": "Weather icon frame (.weather-box) in the upper-right of the turn screen",
+      "uses": [
+        {
+          "id": "R52",
+          "evidence": "src/ui-stage.ts:199"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/scene.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C49",
+      "record-id": "C49",
+      "unit": "changelog.html",
+      "name": "back-link",
+      "kind": "primitive",
+      "path": "changelog.html",
+      "purpose": "Standalone scrolling changelog HTML document loading base.css, changelog.css, and compiled js/changelog.js",
+      "uses": [],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "changelog.css:40"
+        },
+        {
+          "name": "focus",
+          "evidence": "changelog.css:41"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C58",
+      "record-id": "C58",
+      "outside": "X8",
+      "name": "Browser <a> (stage footnote)",
+      "kind": "primitive",
+      "path": "—",
+      "purpose": "Browser element (Browser HTML elements (button, a, h1-h3, p, …)) styled directly",
+      "uses": [
+        {
+          "id": "R80",
+          "evidence": "src/ui-stage.ts:463"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/footnote.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C46",
+      "record-id": "C46",
+      "outside": "X8",
+      "name": "Browser <button> (plain offer)",
+      "kind": "primitive",
+      "path": "—",
+      "purpose": "Browser element (Browser HTML elements (button, a, h1-h3, p, …)) styled directly",
+      "uses": [
+        {
+          "id": "R87",
+          "evidence": "src/ui-plain.ts:63"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "style.css:102"
+        },
+        {
+          "name": "disabled",
+          "evidence": "style.css:106"
+        }
+      ],
+      "props": [
+        {
+          "name": "offer",
+          "note": "option name, distance, cost, drain, usesLeft"
+        },
+        {
+          "name": "affordable",
+          "note": "sets disabled attribute"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C47",
+      "record-id": "C47",
+      "outside": "X8",
+      "name": "Browser HTML elements (button, a, h1, h2, p — plain UI)",
+      "kind": "primitive",
+      "path": "—",
+      "purpose": "Browser element (Browser HTML elements (button, a, h1-h3, p, …)) styled directly",
+      "uses": [
+        {
+          "id": "R86",
+          "evidence": "src/ui-plain.ts:41-55"
+        },
+        {
+          "id": "R88",
+          "evidence": "src/ui-plain.ts:74-80"
+        },
+        {
+          "id": "R92",
+          "evidence": "src/ui-plain.ts:86-111"
+        }
+      ],
+      "variants": [
+        {
+          "name": "muted",
+          "evidence": "style.css:51"
+        }
+      ],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "style.css:102"
+        },
+        {
+          "name": "disabled",
+          "evidence": "style.css:106"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C53",
+      "record-id": "C53",
+      "unit": "src/changelog.ts:code",
+      "name": "code-inline",
+      "kind": "primitive",
+      "path": "src/changelog.ts",
+      "purpose": "Builds an inline code.code-inline element inside renderRichText",
+      "uses": [
+        {
+          "id": "R107",
+          "evidence": "src/changelog.ts:45"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C29",
+      "record-id": "C29",
+      "unit": "src/ui-stage.ts:commuterBadge",
+      "name": "commuter-badge",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Optional theme badge (.commuter-badge) shown when theme.badgeLabel is set",
+      "uses": [
+        {
+          "id": "R62",
+          "evidence": "src/ui-stage.ts:207"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:577"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:591"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/bottom-panel.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C56",
+      "record-id": "C56",
+      "unit": "src/changelog.ts:compareLink",
+      "name": "compare-link",
+      "kind": "primitive",
+      "path": "src/changelog.ts",
+      "purpose": "Builds the a.compare-link element; declared as const compareLink in both renderCard (src/changelog.ts:198) and renderUnreleased (src/changelog.ts:227)",
+      "uses": [
+        {
+          "id": "R104",
+          "evidence": "src/changelog.ts:198"
+        },
+        {
+          "id": "R105",
+          "evidence": "src/changelog.ts:227"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "changelog.css:121"
+        },
+        {
+          "name": "focus",
+          "evidence": "changelog.css:122"
+        }
+      ],
+      "props": [
+        {
+          "name": "href",
+          "note": "GitHub compare/tree URL"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C35",
+      "record-id": "C35",
+      "unit": "src/ui-stage.ts:continueButton",
+      "name": "continue-btn",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Result-state continue button (.continue-btn)",
+      "uses": [
+        {
+          "id": "R67",
+          "evidence": "src/ui-stage.ts:214"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:700"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:718"
+        },
+        {
+          "name": "hover",
+          "evidence": "stage.css:713"
+        },
+        {
+          "name": "focus",
+          "evidence": "stage.css:713"
+        },
+        {
+          "name": "disabled",
+          "evidence": "stage.css:77"
+        },
+        {
+          "name": "hidden",
+          "evidence": "stage.css:722"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/stage-buttons.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C16",
+      "record-id": "C16",
+      "unit": "src/ui-stage.ts:distanceLabel",
+      "name": "distance-label",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Remaining distance text readout (.distance-label)",
+      "uses": [
+        {
+          "id": "R50",
+          "evidence": "src/ui-stage.ts:155"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/distance-track.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C17",
+      "record-id": "C17",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "distance-track",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/distance-track.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C40",
+      "record-id": "C40",
+      "unit": "src/ui-stage.ts:againButton",
+      "name": "ending-btn",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Ending screen play-again button (.ending-btn)",
+      "uses": [
+        {
+          "id": "R71",
+          "evidence": "src/ui-stage.ts:226"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "stage.css:942"
+        },
+        {
+          "name": "focus",
+          "evidence": "stage.css:942"
+        },
+        {
+          "name": "disabled",
+          "evidence": "stage.css:77"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/stage-buttons.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C38",
+      "record-id": "C38",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "ending-scrim",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/ending-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C34",
+      "record-id": "C34",
+      "unit": "src/ui-stage.ts:energyBar",
+      "name": "energy-bar",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Segmented or continuous energy bar (.energy-bar) with 10 .energy-seg children",
+      "uses": [
+        {
+          "id": "R65",
+          "evidence": "src/ui-stage.ts:212"
+        }
+      ],
+      "variants": [
+        {
+          "name": "segmented",
+          "evidence": "src/theme.ts:19"
+        },
+        {
+          "name": "continuous",
+          "evidence": "stage.css:677"
+        }
+      ],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/meters.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C32",
+      "record-id": "C32",
+      "unit": "src/ui-stage.ts:energyValue",
+      "name": "energy-value",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Numeric energy readout (.energy-value)",
+      "uses": [
+        {
+          "id": "R66",
+          "evidence": "src/ui-stage.ts:213"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/meters.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C18",
+      "record-id": "C18",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "flag-end",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/distance-track.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C19",
+      "record-id": "C19",
+      "unit": "src/ui-stage.ts:flagNow",
+      "name": "flag-now",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Current-progress flag marker (.flag-now) on the distance track",
+      "uses": [
+        {
+          "id": "R51",
+          "evidence": "src/ui-stage.ts:158"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/distance-track.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C7",
+      "record-id": "C7",
+      "unit": "src/ui-stage.ts:footnote",
+      "name": "footnote",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Bottom .footnote bar displaying the changelog link on title or the active seed",
+      "uses": [
+        {
+          "id": "R43",
+          "evidence": "src/ui-stage.ts:229"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/footnote.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C2",
+      "record-id": "C2",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "frame",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/console-shell.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C9",
+      "record-id": "C9",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "game-title",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/title-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C5",
+      "record-id": "C5",
+      "unit": "src/ui-stage.ts:placeholderImage",
+      "name": "imgbox",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Builds an .imgbox placeholder container that swaps to an <img> on load",
+      "uses": [
+        {
+          "id": "R39",
+          "evidence": "src/ui-stage.ts:111"
+        },
+        {
+          "id": "R41",
+          "evidence": "src/ui-stage.ts:115"
+        },
+        {
+          "id": "R48",
+          "evidence": "src/ui-stage.ts:138"
+        },
+        {
+          "id": "R53",
+          "evidence": "src/ui-stage.ts:162"
+        },
+        {
+          "id": "R60",
+          "evidence": "src/ui-stage.ts:172"
+        },
+        {
+          "id": "R78",
+          "evidence": "src/ui-stage.ts:428"
+        }
+      ],
+      "variants": [
+        {
+          "name": "card-art",
+          "evidence": "src/ui-stage.ts:139"
+        },
+        {
+          "name": "event-art",
+          "evidence": "src/ui-stage.ts:429"
+        }
+      ],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:198"
+        },
+        {
+          "name": "loaded",
+          "evidence": "stage.css:216"
+        }
+      ],
+      "props": [
+        {
+          "name": "src",
+          "note": "image asset path"
+        },
+        {
+          "name": "label",
+          "note": "placeholder text and img alt"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/scene.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C54",
+      "record-id": "C54",
+      "unit": "src/changelog.ts:link",
+      "name": "item-link",
+      "kind": "primitive",
+      "path": "src/changelog.ts",
+      "purpose": "Builds an a.item-link external link inside renderRichText",
+      "uses": [
+        {
+          "id": "R108",
+          "evidence": "src/changelog.ts:53"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "changelog.css:265"
+        },
+        {
+          "name": "focus",
+          "evidence": "changelog.css:266"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/changelog-page.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C3",
+      "record-id": "C3",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "knob",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [
+        {
+          "name": "knob-left",
+          "evidence": "stage.css:133"
+        },
+        {
+          "name": "knob-right",
+          "evidence": "stage.css:137"
+        }
+      ],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/console-shell.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C11",
+      "record-id": "C11",
+      "unit": "src/ui-stage.ts:startButton",
+      "name": "menu-btn",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Title screen start button (.menu-btn)",
+      "uses": [
+        {
+          "id": "R45",
+          "evidence": "src/ui-stage.ts:129"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "stage.css:282"
+        },
+        {
+          "name": "focus",
+          "evidence": "stage.css:283"
+        },
+        {
+          "name": "disabled",
+          "evidence": "stage.css:77"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/stage-buttons.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C33",
+      "record-id": "C33",
+      "unit": "src/ui-stage.ts:moneyBar",
+      "name": "money-bar",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Money progress bar (.money-bar) with inner .money-fill",
+      "uses": [
+        {
+          "id": "R63",
+          "evidence": "src/ui-stage.ts:209"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/meters.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C31",
+      "record-id": "C31",
+      "unit": "src/ui-stage.ts:moneyValue",
+      "name": "money-value",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Numeric money readout (.money-value)",
+      "uses": [
+        {
+          "id": "R64",
+          "evidence": "src/ui-stage.ts:210"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/meters.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C26",
+      "record-id": "C26",
+      "unit": "src/ui-stage.ts:panel",
+      "name": "panel",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Bottom HUD panel background (.panel)",
+      "uses": [
+        {
+          "id": "R57",
+          "evidence": "src/ui-stage.ts:203"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/bottom-panel.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C44",
+      "record-id": "C44",
+      "unit": "src/ui-plain.ts:bar",
+      "name": "plain-bar",
+      "kind": "primitive",
+      "path": "src/ui-plain.ts",
+      "purpose": "Returns HTML string for a .stat/.bar progress bar",
+      "uses": [
+        {
+          "id": "R89",
+          "evidence": "src/ui-plain.ts:77-78"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [
+        {
+          "name": "label",
+          "note": "stat label"
+        },
+        {
+          "name": "value",
+          "note": "formatted stat readout"
+        },
+        {
+          "name": "percent",
+          "note": "fill bar width percentage"
+        }
+      ],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C45",
+      "record-id": "C45",
+      "unit": "src/ui-plain.ts:reportHtml",
+      "name": "plain-report",
+      "kind": "primitive",
+      "path": "src/ui-plain.ts",
+      "purpose": "Returns HTML string for .report move and event summary boxes",
+      "uses": [
+        {
+          "id": "R90",
+          "evidence": "src/ui-plain.ts:79"
+        },
+        {
+          "id": "R93",
+          "evidence": "src/ui-plain.ts:112"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C28",
+      "record-id": "C28",
+      "unit": "src/ui-stage.ts:playerName",
+      "name": "player-name",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Active character heading (.player-name) in the bottom panel",
+      "uses": [
+        {
+          "id": "R61",
+          "evidence": "src/ui-stage.ts:206"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/bottom-panel.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C57",
+      "record-id": "C57",
+      "unit": "src/ui-plain.ts:renderOutcome",
+      "name": "restart",
+      "kind": "primitive",
+      "path": "src/ui-plain.ts",
+      "purpose": "Renders the plain win/loss outcome screen into #app",
+      "uses": [
+        {
+          "id": "R95",
+          "evidence": "src/ui-plain.ts:118"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "hover",
+          "evidence": "style.css:102"
+        },
+        {
+          "name": "disabled",
+          "evidence": "style.css:106"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/plain-ui.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C36",
+      "record-id": "C36",
+      "unit": "src/ui-stage.ts:returnButton",
+      "name": "return-btn",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Result-state undo/return button (.return-btn)",
+      "uses": [
+        {
+          "id": "R68",
+          "evidence": "src/ui-stage.ts:215"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:700"
+        },
+        {
+          "name": "selected",
+          "evidence": "stage.css:718"
+        },
+        {
+          "name": "hover",
+          "evidence": "stage.css:713"
+        },
+        {
+          "name": "focus",
+          "evidence": "stage.css:713"
+        },
+        {
+          "name": "disabled",
+          "evidence": "stage.css:77"
+        },
+        {
+          "name": "hidden",
+          "evidence": "stage.css:722"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/stage-buttons.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C13",
+      "record-id": "C13",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "select-heading",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/select-screen-and-character-card.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C25",
+      "record-id": "C25",
+      "unit": "src/ui-stage.ts:speech",
+      "name": "speech",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Commuter speech bubble (.speech) in the bottom panel",
+      "uses": [
+        {
+          "id": "R58",
+          "evidence": "src/ui-stage.ts:204"
+        }
+      ],
+      "variants": [],
+      "states": [
+        {
+          "name": "default",
+          "evidence": "stage.css:526"
+        },
+        {
+          "name": "hidden",
+          "evidence": "stage.css:726"
+        }
+      ],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/speech-bubble.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C30",
+      "record-id": "C30",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "stat-label",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [
+        {
+          "name": "money-label",
+          "evidence": "stage.css:611"
+        },
+        {
+          "name": "energy-label",
+          "evidence": "stage.css:617"
+        }
+      ],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/bottom-panel.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    },
+    {
+      "id": "C10",
+      "record-id": "C10",
+      "unit": "src/ui-stage.ts:startStageUi",
+      "name": "tagline",
+      "kind": "primitive",
+      "path": "src/ui-stage.ts",
+      "purpose": "Entry controller building the arcade stage DOM, anonymous chrome/labels, and managing screen state",
+      "uses": [
+        {
+          "id": "R37",
+          "evidence": "src/ui.ts:23"
+        }
+      ],
+      "variants": [],
+      "states": [],
+      "props": [],
+      "raw-values": [],
+      "spec": "docs/design-system/components/title-screen.md",
+      "status": "matches",
+      "confidence": "CONFIRMED"
+    }
+  ]
+}
