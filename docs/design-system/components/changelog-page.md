@@ -12,7 +12,7 @@
 4. **Variants:** `tag-{added,changed,fixed,removed}`; below `breakpoint.page.mobile` (`480px`), header stacks and type scales down (`font.size.page.16–20`).
 5. **States:** `loading`, `error`, `hover`/`focus` on links (`color.accent.primary` / `color.link.hover`), `hover` on `unreleased-summary` (`color.surface.subtle-hover`), `selected` (`[open]` on `unreleased-card`).
 6. **Behaviour:** Fetches `CHANGELOG.md` and builds safe DOM nodes (`renderRichText`).
-7. **Accessibility:** All pairs pass (`>= 4.5:1` / `>= 3.0:1`, including `.error-card` border at `3.02:1`), except `.unreleased-badge` (`3.14:1` vs `4.5:1`), accepted by the owner 2026-11-21 (`BACKLOG.md` Findings Register, `contrast.md`).
+7. **Accessibility:** All pairs pass (`>= 4.5:1` / `>= 3.0:1`, including `.error-card` border at `3.02:1`), except `.unreleased-badge` (`3.14:1` vs `4.5:1`), accepted by the owner 2026-11-21 (`DESIGN_SYSTEM.md` §9, `contrast.md`).
 8. **Status:** `matches` (`C48`, `C49`, `C50`, `C51`, `C52`, `C53`, `C54`, `C55`, `C56`)
 
 **Copies today:**

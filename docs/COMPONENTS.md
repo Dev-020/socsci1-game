@@ -2,10 +2,10 @@
 type: component-list
 audit-id: 2026-11-22-a161d07
 commit: a161d07
-record: "docs/audits/2026-11-22-a161d07/"
+record: "local only (docs/audits/2026-11-22-a161d07/), not published"
 date: 2026-11-22
 design-system: { path: "docs/DESIGN_SYSTEM.md", last-reviewed: 2026-11-22 }
-built-by: "AI/tools/build_components.py"
+built-by: "a local generator script (not published)"
 ---
 
 # socsci1-game components
@@ -22,7 +22,7 @@ grep -n '"id": "C12"' docs/components.json
 git diff --name-only a161d07..HEAD -- src/ index.html changelog.html stage.css style.css changelog.css base.css
 ```
 
-**Raw values:** See [`lens-ui.md`](audits/2026-11-22-a161d07/lens-ui.md) (`raw-values: []`; `U1 = 0` at `a161d07`) and [`ds-mapping.md`](audits/2026-11-16-bb9df24/ds-mapping.md).
+**Raw values:** none left outside `base.css` tokens (`U1 = 0` in audit `2026-11-22-a161d07` at `a161d07`).
 
 ## Built
 

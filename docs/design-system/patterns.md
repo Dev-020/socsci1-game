@@ -49,9 +49,9 @@ Every optional art slot (`scene`, `card-art`, `weather-box`, `portrait`, `vehicl
 New UI parts—such as tooltips, fun facts, or the #010 trivia and comment panel—start on the design system before any CSS or TypeScript is written:
 
 1. **Write its spec first** in `docs/design-system/components/`, copying the 8-part structure of an existing spec (status `specified`).
-2. **Use tokens only**, adding any new token to `base.css` (`:root` or `.stage`), the audit's token mapping (`ds-mapping.md` or its P3 successor), and [`decisions.md`](decisions.md).
+2. **Use tokens only**, adding any new token to `base.css` (`:root` or `.stage`), and [`decisions.md`](decisions.md).
 3. **Add a planned entry** under `## Planned` in [`docs/COMPONENTS.md`](../COMPONENTS.md) (`status: planned`).
-4. **Check contrast pairs** by adding every new foreground/background pair to `AI/tools/contrast_pairs.txt` and running `python AI/tools/contrast.py`.
-5. **Re-audit to graduate:** the next UI audit and `AI/tools/build_components.py` turn the planned entry into a `built` entry.
+4. **Check contrast pairs:** every new foreground/background pair must reach WCAG AA (`4.5:1` for text, `3.0:1` for borders and fills) and be added to [`contrast.md`](contrast.md).
+5. **Re-audit to graduate:** the next UI audit turns the planned entry into a `built` entry.
 
 *(For character themes in #007, do not duplicate CSS rules—override semantic tokens in the `[data-character]` block only.)*

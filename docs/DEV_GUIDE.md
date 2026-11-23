@@ -131,7 +131,7 @@ Defined in [`src/data.ts`](../src/data.ts), [`src/theme.ts`](../src/theme.ts), a
 | **Add or edit character themes, meter styles & palettes** | [`src/theme.ts`](../src/theme.ts) & [`stage.css`](../stage.css) | `export const CHARACTER_THEMES`, `.stage[data-character="..."]` |
 | **Inspect design tokens, typography, and component blueprints** | [`docs/DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) | Whole document |
 | **Review pages vs screens rules for adding new content** | [`docs/conventions/pages-and-screens.md`](conventions/pages-and-screens.md) | Whole document |
-| **Track tasks, acceptance criteria, and project debt** | [`BACKLOG.md`](../BACKLOG.md) | `In Progress`, `Backlog (Open Tasks)` |
+| **Report a bug or suggest a change** | [GitHub Issues](https://github.com/Dev-020/socsci1-game/issues) | Open a new issue |
 | **Add or tune random events** | [`src/data.ts`](../src/data.ts) | `export const EVENTS` |
 | **Change event trigger probability or distance goal** | [`src/data.ts`](../src/data.ts) | `EVENT_PROBABILITY`, `TOTAL_DISTANCE_KM` |
 | **Adjust fare formulas or PWD penalties** | [`src/game.ts`](../src/game.ts) | `function fare()`, `function energyDrain()` |

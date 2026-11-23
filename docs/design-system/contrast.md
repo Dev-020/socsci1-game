@@ -1,7 +1,7 @@
 # Contrast Pairs
 
 > Part of the [Commuter Game design system](../DESIGN_SYSTEM.md) (§9).
-> Generated from [`base.css`](../../base.css) (`:root`), proposed tokens in [`ds-mapping.md`](../audits/2026-11-16-bb9df24/ds-mapping.md), and `AI/tools/contrast_pairs.txt` by `AI/tools/contrast.py`: edit those, not the table.
+> Generated from [`base.css`](../../base.css) (`:root`) and a list of foreground/background pairs by a local script (not published). Don't edit the table by hand: change `base.css` and regenerate it.
 > Text shadows and outlines are ignored in WCAG contrast ratios. Translucent fills (`rgba(...)`) are composited over their adjacent opaque ground. Failing pairs are listed in `DESIGN_SYSTEM.md` §9 as proposed findings for P3.
 
 <!-- generated:contrast -->

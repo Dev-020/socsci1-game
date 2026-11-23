@@ -1,6 +1,6 @@
 # Design System — Commuter Game
 
-> **Follows:** `convention/design-system` 0.1.0, split with `docs/design-system/` (§10, 2026-11-19) from scoped re-audit [`2026-11-22-a161d07`](audits/2026-11-22-a161d07/00_AUDIT.md). Tokens, outlines, focus behaviour, and near-miss alignments applied in `a161d07` (#013); accepted contrast gaps are recorded in [`BACKLOG.md`](../BACKLOG.md#🔎-findings-register).
+> **Follows:** `convention/design-system` 0.1.0, split with `docs/design-system/` (§10, 2026-11-19) from scoped re-audit `2026-11-22-a161d07`. Tokens, outlines, focus behaviour, and near-miss alignments applied in `a161d07` (#013); the accepted contrast gaps are listed in §9.
 
 **Read this first, then only what the task needs:**
 
@@ -14,7 +14,6 @@
 | Art asset slots & sizes | [`design-system/asset-slots.md`](design-system/asset-slots.md) (generated) |
 | Decisions & approvals | [`design-system/decisions.md`](design-system/decisions.md) |
 | Contrast ratios | [`design-system/contrast.md`](design-system/contrast.md) (generated) |
-| Raw value → token map | [`ds-mapping.md`](audits/2026-11-16-bb9df24/ds-mapping.md) |
 
 ## 1. Header
 
@@ -146,8 +145,8 @@ WCAG 2.2 AA: 4.5:1 text (3:1 headings `font.size.stage >= 48` or `font.size.page
 
 | Group | Failing pairs (`ratio` / `needs`) | Status |
 |---|---|---|
-| `panel-text` (5) | `color.text.inverse` on `.card-0` (`3.14`), `.card-1` (`2.48`), `.card-2` (`3.00`), `.option-pill` (`3.14`), `.unreleased-badge` (`3.14` vs `4.5`) | Accepted by owner 2026-11-21 ([`BACKLOG.md`](../BACKLOG.md#🔎-findings-register)) |
-| `meters` (5) | `.money-bar` border (`1.04`), `.money-fill` (`2.14`), `.energy-seg` border (`1.53`), `.energy-seg` fill (`2.26`), continuous `.energy-bar` border (`1.53` vs `3.0`) | Accepted by owner 2026-11-21 ([`BACKLOG.md`](../BACKLOG.md#🔎-findings-register)) |
+| `panel-text` (5) | `color.text.inverse` on `.card-0` (`3.14`), `.card-1` (`2.48`), `.card-2` (`3.00`), `.option-pill` (`3.14`), `.unreleased-badge` (`3.14` vs `4.5`) | Accepted by owner 2026-11-21 |
+| `meters` (5) | `.money-bar` border (`1.04`), `.money-fill` (`2.14`), `.energy-seg` border (`1.53`), `.energy-seg` fill (`2.26`), continuous `.energy-bar` border (`1.53` vs `3.0`) | Accepted by owner 2026-11-21 |
 | `disabled` (2) | `.option:disabled .option-pill` (`2.60`), `.option:disabled .option-line` (`4.22` vs `4.5`) | WCAG 1.4.3 disabled-control exempt |
 
 ## 10. Changes and decision log

@@ -17,7 +17,7 @@
    - Card `hover` & `focus` (`:focus-visible`): translates up by `motion.lift.card` over `motion.duration.fast` (shared rule; `outline: none`).
    - Card `disabled`: `not-allowed` cursor (unused today).
 6. **Behaviour:** Clicking a card creates a `Game` for the chosen character with a URL or entropy seed and opens `turn-screen`.
-7. **Accessibility:** `select-heading` meets `9.05:1` (`4.5:1` needed) using `color.ink.primary` halo (`contrast.md`). `color.text.inverse` on the three shadowless card fills (`2.48–3.14:1`) is an accepted gap (`BACKLOG.md` Findings Register).
+7. **Accessibility:** `select-heading` meets `9.05:1` (`4.5:1` needed) using `color.ink.primary` halo (`contrast.md`). `color.text.inverse` on the three shadowless card fills (`2.48–3.14:1`) is an accepted gap (`DESIGN_SYSTEM.md` §9).
 8. **Status:** `matches` (`C12`, `C13`, `C14`)
 
 **Copies today:**

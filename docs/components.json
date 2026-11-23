@@ -1,13 +1,13 @@
 {
   "audit-id": "2026-11-22-a161d07",
   "commit": "a161d07",
-  "record": "docs/audits/2026-11-22-a161d07/",
+  "record": "local only (docs/audits/2026-11-22-a161d07/), not published",
   "date": "2026-11-22",
   "design-system": {
     "path": "docs/DESIGN_SYSTEM.md",
     "last-reviewed": "2026-11-22"
   },
-  "built-by": "AI/tools/build_components.py",
+  "built-by": "a local generator script (not published)",
   "entries": [
     {
       "id": "C48",

@@ -18,7 +18,7 @@
    - `focus` (`:focus-visible`, enabled): shares `motion.lift.option` translate (kept in portrait too; `outline: none`).
    - `disabled` (unaffordable): pill uses `color.surface.disabled` fill, `color.border.disabled` border, `color.text.disabled` label; stat lines use `color.text.disabled` with `line-through` and no shadow.
 6. **Behaviour:** Portrait swipe row suppresses clicks while touching or during `motion.delay.swipe-settle` settling and silently resets scroll position to `.opt-main`.
-7. **Accessibility:** Duplicate loop cards are hidden from screen readers and keyboard focus (`aria-hidden`, `tabIndex=-1`). `.option-pesos` (`9.05:1`), `.option-energy` (`4.55:1` via `color.stat.energy-edge-deep`), `.option-km` (`14.19:1`), and `.option-uses` (`8.69:1`) pass WCAG AA; `.option-pill` (`3.14:1`) is an accepted gap and disabled pairs (`2.60:1`, `4.22:1`) are WCAG disabled-exempt (`BACKLOG.md` Findings Register, `contrast.md`).
+7. **Accessibility:** Duplicate loop cards are hidden from screen readers and keyboard focus (`aria-hidden`, `tabIndex=-1`). `.option-pesos` (`9.05:1`), `.option-energy` (`4.55:1` via `color.stat.energy-edge-deep`), `.option-km` (`14.19:1`), and `.option-uses` (`8.69:1`) pass WCAG AA; `.option-pill` (`3.14:1`) is an accepted gap and disabled pairs (`2.60:1`, `4.22:1`) are WCAG disabled-exempt (`DESIGN_SYSTEM.md` §9, `contrast.md`).
 8. **Status:** `matches` (`C21`, `C22`)
 
 **Copies today:**

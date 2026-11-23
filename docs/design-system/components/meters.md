@@ -14,7 +14,7 @@
    - `continuous` (`data-energy-style="continuous"`): collapses segment gaps/borders and applies `border.width.stage.4` in `color.stat.energy-edge` plus `radius.stage.8` to `.energy-bar`.
 5. **States:** Fill widths transition over `motion.duration.slow` (`0s` under reduced motion).
 6. **Behaviour:** `showBars` sets inline percentage widths (`player.money / startMoney` and per-segment energy fraction) and updates text readouts.
-7. **Accessibility:** Numeric readouts pair with visual bars and pass `4.5:1` via `-deep` edge halos (`.money-value` `4.50:1`, `.energy-value` `4.55:1`). The 5 bar/border pairs against `color.surface.panel` (`1.04–2.26:1`) are accepted gaps (`BACKLOG.md` Findings Register, `contrast.md`).
+7. **Accessibility:** Numeric readouts pair with visual bars and pass `4.5:1` via `-deep` edge halos (`.money-value` `4.50:1`, `.energy-value` `4.55:1`). The 5 bar/border pairs against `color.surface.panel` (`1.04–2.26:1`) are accepted gaps (`DESIGN_SYSTEM.md` §9, `contrast.md`).
 8. **Status:** `matches` (`C31`, `C32`, `C33`, `C34`)
 
 **Copies today:**

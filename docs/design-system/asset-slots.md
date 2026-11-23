@@ -1,6 +1,6 @@
 # Asset Slots
 
-> Part of the [Commuter Game design system](../DESIGN_SYSTEM.md) (§8). Generated table built from `src/data.ts`, `src/ui-stage.ts`, `base.css`, and `stage.css` by `AI/tools/build_asset_slots.py` — edit the code or this hand-written guide, not the table between markers.
+> Part of the [Commuter Game design system](../DESIGN_SYSTEM.md) (§8). Generated table built from `src/data.ts`, `src/ui-stage.ts`, `base.css`, and `stage.css` by a local script (not published) — edit the code or this hand-written guide, not the table between markers.
 
 ## Slots (23 files)
 
