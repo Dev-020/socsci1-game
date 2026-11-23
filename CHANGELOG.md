@@ -6,6 +6,11 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-11-23
+### Changed
+- Each turn now offers 3 rides, picked at random from the ones you can take. If you can't afford any of them, you can still walk.
+- Seed links from before 0.11.0 now play out differently, and earlier simulation results no longer match.
+
 ## [0.10.0] - 2026-11-22
 ### Changed
 - Titles, labels and the money and energy numbers now have outlines, so they are easier to read on the sky and the purple panel.
