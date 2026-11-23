@@ -1,9 +1,10 @@
 // Game engine: resource calculations, event rolls, and win/loss conditions.
 // Contains no page or display code.
-import { EVENTS, EVENT_PROBABILITY, PWD_EXTRA_DRAIN, PWD_PENALTY_MODES, SEED, SEED_LIMIT, TOTAL_DISTANCE_KM, TRANSIT, WEATHER, } from "./data.js";
+import { EVENTS, EVENT_PROBABILITY, OPTIONS_PER_TURN, PWD_EXTRA_DRAIN, PWD_PENALTY_MODES, SEED, SEED_LIMIT, TOTAL_DISTANCE_KM, TRANSIT, WEATHER, } from "./data.js";
 // What each roll decides. Every turn has one fixed roll per purpose, so a
 // player's choices cannot change the rolls that come later.
-const Roll = { weather: 1, motorKm: 2, carKm: 3, eventChance: 4, eventPick: 5 };
+// Purpose 6 is taken by the simulation bots' choices.
+const Roll = { weather: 1, motorKm: 2, carKm: 3, eventChance: 4, eventPick: 5, offerPick: 7 };
 // Taylor series for sin(x), with a fixed number of terms. Unlike Math.sin,
 // it uses only arithmetic that gives the same result in every browser.
 function fixedSin(x) {
@@ -29,6 +30,19 @@ function randomInt(min, max, roll) {
 }
 function pick(items, roll) {
     return items[Math.floor(roll * items.length)];
+}
+// Every set of `size` items, each listed once and in the items' own order.
+// Exported so the offer check can confirm the sets.
+export function setsOf(items, size) {
+    if (size === 0)
+        return [[]];
+    const sets = [];
+    for (let first = 0; first <= items.length - size; first++) {
+        for (const rest of setsOf(items.slice(first + 1), size - 1)) {
+            sets.push([items[first], ...rest]);
+        }
+    }
+    return sets;
 }
 export function fare(option, km, discount) {
     const distance = Math.min(option.distanceKm, km);
@@ -115,7 +129,7 @@ export class Game {
     }
     advance() {
         this.outcome = this.checkOutcome();
-        this.offers = this.outcome ? [] : this.buildOffers();
+        this.offers = this.outcome ? [] : this.buildOffers(this.offeredOptions());
     }
     usesOf(option) {
         return this.usage[option.key] ?? 0;
@@ -134,13 +148,22 @@ export class Game {
             !this.disabled.includes(option.key));
         return options.length > 0 ? options : [TRANSIT.walk];
     }
-    buildOffers() {
+    // The rides shown this turn: one set of OPTIONS_PER_TURN, drawn with equal
+    // chance from every such set of the available rides. One roll picks the
+    // whole set, and each set keeps the rides in their usual order.
+    offeredOptions() {
+        const pool = this.availableOptions();
+        if (pool.length <= OPTIONS_PER_TURN)
+            return pool;
+        return pick(setsOf(pool, OPTIONS_PER_TURN), this.roll(Roll.offerPick));
+    }
+    buildOffers(shown) {
         const kmLeft = Math.max(1, Math.trunc(this.distanceLeft));
         const rolled = {
             motor: randomInt(1, kmLeft, this.roll(Roll.motorKm)),
             car: randomInt(1, kmLeft, this.roll(Roll.carKm)),
         };
-        return this.availableOptions().map((option) => {
+        const offerFor = (option) => {
             const km = rolled[option.key] ?? Math.min(option.distanceKm, this.distanceLeft);
             const cost = fare(option, km, this.player.discount);
             return {
@@ -151,7 +174,14 @@ export class Game {
                 affordable: this.player.money >= cost,
                 usesLeft: option.maxUses === null ? null : option.maxUses - this.usesOf(option),
             };
-        });
+        };
+        const offers = shown.map(offerFor);
+        // Walk is added as a last card only when none of the shown rides can be paid for.
+        const noneAffordable = offers.every((offer) => !offer.affordable);
+        const walkShown = offers.some((offer) => offer.option.key === "walk");
+        if (noneAffordable && !walkShown)
+            offers.push(offerFor(TRANSIT.walk));
+        return offers;
     }
     rollEvent(option) {
         if (this.roll(Roll.eventChance) >= EVENT_PROBABILITY)
@@ -172,7 +202,9 @@ export class Game {
             return "WIN";
         if (this.player.energy <= 0)
             return "BURNOUT";
-        // Stranded: cannot afford any ride and cannot walk the rest of the way.
+        // Stranded: cannot afford any available ride and cannot walk the rest of the way.
+        // This checks every available ride, not only the ones shown this turn: the
+        // shown rides are drawn again next turn, so a ride you can afford may come up.
         const walk = TRANSIT.walk;
         const walkLegs = Math.ceil(this.distanceLeft / walk.distanceKm);
         const walkDrainNeeded = (walkLegs - 1) * energyDrain(walk, this.player, this.weather);

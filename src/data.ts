@@ -37,6 +37,7 @@ export interface RandomEvent {
 export const VERSION = "0.10.0";
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
+export const OPTIONS_PER_TURN = 3; // Rides shown each turn, drawn from the ones available
 export const SEED_LIMIT = 1000000;
 export const SEED: number | null = null; // null = new random seed each run
 export const PWD_EXTRA_DRAIN = 8;
