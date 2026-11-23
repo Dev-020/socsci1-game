@@ -70,31 +70,6 @@ Implement the finalized per-character visual themes once the team completes thei
 
 ---
 
-### [#008] Limit transit options to 3 per turn/run and rebalance option selection & values
-- **Status**: `Open` | **Priority**: `P2` | **Labels**: `Core`, `Balance`, `Rules`
-- **Created**: 2026-11-14
-- **Depends on**: None
-
-#### Why
-Right now `availableOptions()` in `src/game.ts` returns every transit mode that passes distance, weather, usage, and event-disable filters (up to 5+ options per turn). The team plans to cap the presented choices to **3 options** instead of showing all available modes, which changes decision tension and requires updating both the option-selection logic and gameplay balance values.
-
-#### Wanted
-1. Define and implement the 3-option selection rule (clarifying whether the 3-option cap applies per turn via deterministic seeded selection/priority or as a 3-mode loadout per run, while preserving a safe fallback such as `Walk` when needed).
-2. Tweak transit stats/costs/energy/limits in `src/data.ts` and selection/filtering rules in `src/game.ts` so all three characters remain balanced and winnable under the 3-option constraint.
-3. Update both `src/ui-stage.ts` (and `stage.css` swipe/card layout if needed) and `src/ui-plain.ts` if presentation assumptions (e.g. 5-card design) change.
-4. Rerun the balance simulations per `AGENTS.md` and update simulation findings/docs.
-
-#### Acceptance Criteria
-- [ ] #1 Option selection in `src/game.ts` limits available choices to at most 3 options as specified, using deterministic `seededRoll()` if random selection is involved.
-- [ ] #2 Balance values in `src/data.ts` (and rules in `src/game.ts`) are tuned and verified by rerunning the simulations, with updated findings recorded in the capstone docs.
-- [ ] #3 Undo (`TurnSnapshot` / `undo()`) and `?ui=plain` continue to work accurately with the new option logic.
-- [ ] #4 `npx -p typescript tsc` compiles cleanly (and compiled `js/` output is committed), `docs/CODEMAP.md` rules summary is updated if changed, and release notes are added to `CHANGELOG.md`.
-
-#### Notes
-- 2026-11-14: Open design question to confirm with the team before implementation: whether "limit possible options per run to 3" means 3 randomly/deterministically offered options per turn, or 3 transit modes locked in for the entire run, and which modes/values are being tweaked.
-
----
-
 ### [#009] Add starting character background buffs and debuffs
 - **Status**: `Open` | **Priority**: `P2` | **Labels**: `Core`, `Feature`, `Balance`, `Rules`
 - **Created**: 2026-11-14
@@ -202,6 +177,51 @@ Do not go above about 10 billion: the statistics start to drift, and past about 
 ---
 
 ## ✅ Completed
+
+### [#008] Limit transit options to 3 per turn and rebalance option selection & values
+- **Status**: `Closed` | **Priority**: `P2` | **Labels**: `Core`, `Balance`, `Rules`
+- **Created**: 2026-11-14
+- **Depends on**: None
+
+#### Why
+`availableOptions()` in `src/game.ts` returned every transit mode that passed the distance, weather, usage and event filters (up to 5 per turn), so every turn showed the same menu and runs came down to "take Train while it lasts". The team wanted the choice capped at **3 options** to add decision tension and variety between runs.
+
+#### Wanted
+1. A 3-option rule per turn, seeded, with a safe Walk fallback.
+2. Values tuned if the simulations call for it.
+3. Both UIs keep working.
+4. Simulations rerun and findings recorded.
+
+#### Acceptance Criteria
+- [x] #1 At most 3 options per turn, chosen with the seeded roll (purpose 7). Walk is added as a 4th card only when none of the 3 is affordable.
+- [x] #2 Simulations rerun (0.10.0 vs 0.11.0) and recorded in the capstone `Game_Balance_Simulation_Findings.md`. Values kept as they are by the owner's choice (tuning waits for #009).
+- [x] #3 Undo and `?ui=plain` work with the new offers (`AI/tools/check_offers.mjs`, 100,000 seeds per character; owner's live test 2026-11-23).
+- [x] #4 `npx -p typescript tsc` compiles cleanly, compiled `js/` committed, `docs/CODEMAP.md` updated, and released as `0.11.0` in `CHANGELOG.md`.
+
+#### Notes
+- 2026-11-23: Plan `AI/PLAN_008_three-options.md`, run as Tier 2 (author plus one reviewer). Branch `008-three-options`.
+- 2026-11-23: The owner's rules:
+  - an equal-chance draw over every set of 3 of the available rides, using one roll (the "combination method");
+  - unaffordable rides stay shown;
+  - Walk is added as a 4th card only when all 3 are unaffordable;
+  - no Bus.
+- 2026-11-23: The first draft checked Stranded against only the 3 shown rides. It was dropped (option B), because an unlucky draw then ended about 24% of the Student and PWD runs that got stranded, while a ride they could afford was still in the pool. Stranded still checks every available ride.
+- 2026-11-23: Review `AI/REVIEW_008.md` (Gemini 4 Hydrogen, high): 0 engine defects and 4 gaps in the check script, all fixed and confirmed by the reviewer's probes.
+
+#### Outcome (2026-11-23)
+Each turn now offers 3 of the available rides, drawn with equal chance by one seeded roll. Walk is the fallback 4th card. Weather, distance and event rolls are unchanged for every seed.
+
+Balanced play win rates, 0.10.0 to 0.11.0:
+
+| Character | Before | After |
+|---|---|---|
+| Student | 99.9% | 99.0% |
+| Worker | 98.5% | 97.5% |
+| PWD | 80.4% | 52.2% |
+
+PWD uses about 41 of its 50 energy even in a winning run, so a turn without Train or Car often ends in burnout. Student pays more in fares (₱58 to ₱87 with Balanced play) but has the money for it. Random play is unchanged, by design.
+
+---
 
 ### [#013] Apply the design system to the code (#012 follow-up)
 - **Status**: `Closed` | **Priority**: `P1` | **Labels**: `UI`, `Design`, `Accessibility`
