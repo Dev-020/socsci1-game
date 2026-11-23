@@ -70,6 +70,34 @@ Implement the finalized per-character visual themes once the team completes thei
 
 ---
 
+### [#015] Build a local balance diagnostics tool with an HTML report
+- **Status**: `Open` | **Priority**: `P2` | **Labels**: `Tooling`, `Balance`, `Simulation`
+- **Created**: 2026-11-23
+- **Depends on**: #008
+
+#### Why
+Every balance change so far has needed one-off scripts to measure it: `dist.mjs` for end-of-run results, `picks.mjs` for which rides get picked, plus a spending script and a before/after comparison written during #008. Each time they had to be found again or rewritten, and an unclear column name led to a misread figure in #008. #009 (background buffs and debuffs) will need the same measurements, compared before and after.
+
+#### Wanted
+One local tool, never committed and never on the live site, that plays a chosen number of seeded games per character and play style, then writes a self-contained HTML report:
+1. Win, burnout and stranded rates per character and play style.
+2. Money and energy spent and left, and turns per run, each with central tendency (mean and median), spread (standard deviation and percentiles) and a distribution chart.
+3. For each ride: how often it's shown, how often it's taken when shown, rides per run and share of distance.
+4. A before/after comparison against any earlier release or commit (for example `game@0.10.0`).
+5. The four play styles (Random, Energy saver, Balanced, Hypothesis), each with its logic written out, and a disclaimer that the results come from those fixed rules, not from real players.
+
+#### Acceptance Criteria
+- [ ] #1 Lives under the gitignored `AI/`; nothing in the game, `js/` or `CHANGELOG.md` changes, and it adds no npm packages.
+- [ ] #2 With the same seeds and run counts, its win rates and end-of-run means match `GAME/simulation/dist.mjs` and `picks.mjs` exactly.
+- [ ] #3 The report opens directly in a browser, with no server needed, and is readable at desktop width and at 375 px.
+- [ ] #4 Each play style's logic and the disclaimer appear in the report.
+- [ ] #5 `--compare <git ref>` shows both builds side by side in the tables and the charts.
+
+#### Notes
+- 2026-11-23: Owner asked for it before #009. Choices so far: a local HTML page with distribution charts; `dist.mjs` and `picks.mjs` stay unchanged (the 0.8.0 findings cite them); the four play styles kept, each explained, with the disclaimer.
+
+---
+
 ### [#009] Add starting character background buffs and debuffs
 - **Status**: `Open` | **Priority**: `P2` | **Labels**: `Core`, `Feature`, `Balance`, `Rules`
 - **Created**: 2026-11-14
