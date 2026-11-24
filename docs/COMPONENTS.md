@@ -10,7 +10,7 @@ built-by: "a local generator script (not published)"
 
 # socsci1-game components
 
-Built from audit `2026-11-22-a161d07` at commit `a161d07` (58 built components across `stage.css`, `style.css`, and `changelog.css`, plus 5 planned components). Full structured fields (`uses`, `variants`, `states`, `props`, `raw-values`) live in [`docs/components.json`](components.json).
+Built from audit `2026-11-22-a161d07` at commit `a161d07` (58 built components across `stage.css`, `style.css`, and `changelog.css`, plus 6 planned components). Full structured fields (`uses`, `variants`, `states`, `props`, `raw-values`) live in [`docs/components.json`](components.json).
 
 **How to look one up:**
 ```sh
@@ -137,6 +137,16 @@ name: life-row
 kind: composite
 purpose: "Third bottom-panel row with one icon per starting condition (weather excluded) and a hover, focus or tap tooltip giving its description and effects"
 spec: "design-system/components/life-row.md"
+status: planned
+backlog: "#009"
+```
+
+### C64 stage-scroll
+```yaml
+name: stage-scroll
+kind: primitive
+purpose: "Stage box whose content scrolls up and down inside it, with a thin accent-coloured scrollbar sized to the stage; first used for the condition card text"
+spec: "design-system/components/stage-scroll.md"
 status: planned
 backlog: "#009"
 ```

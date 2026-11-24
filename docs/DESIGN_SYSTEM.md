@@ -132,6 +132,7 @@ All 58 components (`C1`–`C58`) match their specs (`2026-11-22-a161d07`). Butto
 | 7.16 | [Changelog page](design-system/components/changelog-page.md) | C48–C56 |
 | 7.17 | [Conditions screen](design-system/components/conditions-screen.md) | C62 (planned) |
 | 7.18 | [Life row & tooltip](design-system/components/life-row.md) | C63 (planned) |
+| 7.19 | [Stage scroll area](design-system/components/stage-scroll.md) | C64 (planned) |
 
 ## 8. Patterns
 

@@ -156,8 +156,12 @@
   --motion-duration-drive: 1.4s;
   --motion-delay-swipe-settle: 120ms;
   --motion-timeout-move: 2000ms;
-  --motion-duration-reel: 0.9s; /* one condition reel spinning to a stop */
-  --motion-delay-reel-stagger: 0.3s; /* each reel starts this long after the one on its left */
+  --motion-delay-reel-hold: 1s; /* the condition cards stand still this long before rolling */
+  --motion-duration-reel-spin-up: 0.8s; /* the reels ease up to full speed */
+  --motion-duration-reel-spin: 3s; /* from the start of rolling until the leftmost reel starts to stop */
+  --motion-duration-reel-stop: 1.2s; /* one reel easing to a stop */
+  --motion-delay-reel-stagger: 0.6s; /* each reel starts stopping this long after the one on its left */
+  --motion-rate-reel: 7; /* icons per second at full speed (a number, not a time) */
   --motion-scale-hover: 1.08;
   --motion-scale-pop-start: 0.9;
   --motion-scale-rest: 1;
@@ -253,6 +257,7 @@
 
   /* Stage borders */
   --border-width-stage-3: calc(3 * var(--px));
+  --size-stage-scrollbar: calc(10 * var(--px)); /* the stage scroll area's scrollbar */
   --border-width-stage-4: calc(4 * var(--px));
   --border-width-stage-5: calc(5 * var(--px));
   --border-width-stage-7: calc(7 * var(--px));

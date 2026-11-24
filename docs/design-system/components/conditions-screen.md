@@ -19,29 +19,33 @@
      - **`.cond-category`:** `font.size.stage.30`, `color.ink.primary`, one line.
      - **`.cond-reel`:** a 180 × 180 icon window with border `border.width.stage.4` in `color.accent.primary` and radius `radius.stage.24`.
      - **`.cond-strip`:** the strip of `.cond-face` icons inside the window (each a `C5` image box).
+     - **`.cond-body`:** a stage scroll area (`7.19`) under the icon window that holds the name, description and effects. It fills the rest of the card, and its text scrolls inside the card when it is too long to fit.
      - **`.cond-name`:** `font.size.stage.46`, `color.text.inverse` with `shadow.stage.text-outline-ink` + `shadow.stage.text-sm`.
-     - **`.cond-desc` and `.cond-effects`:** `font.size.stage.30`, `color.ink.primary`. The effects line sits at the bottom of the card.
+     - **`.cond-desc` and `.cond-effects`:** `font.size.stage.30`, `color.ink.primary`. The effects line sits at the bottom of the card when the text fits.
 4. **Variants:**
    - Phone held upright (`breakpoint.stage.portrait`): the row becomes a swipe row with two cards in view. The icons are 220 × 220, the category and effects text use `font.size.stage.50` and the name uses `font.size.stage.74`. The description is hidden.
    - Icons: weather uses its `weather-*.png` art (`C20`); every other option uses `assets/cond-<category>-<option>.png` (see [`asset-slots.md`](../asset-slots.md)).
 5. **States:**
-   - **Card `spinning`:** the strip slides through every option of its category and lands on the rolled one. It runs over `motion.duration.reel`, and each card starts `motion.delay.reel-stagger` after the one on its left. The name, description and effects are hidden.
+   - **Cards `holding`:** for `motion.delay.reel-hold` (`1s`) after the screen opens, every card stands still.
+   - **Cards `spinning`:** all the cards start rolling together. Each strip loops through its category's options, easing up to full speed over `motion.duration.reel-spin-up` (`0.8s`) and then rolling at about `motion.rate.reel` (`7`) icons per second. The name, description and effects are hidden.
+   - **Card `stopping`:** `motion.duration.reel-spin` (`3s`) after rolling starts, the leftmost card eases to a stop over `motion.duration.reel-stop` (`1.2s`). Each card to its right starts stopping `motion.delay.reel-stagger` (`0.6s`) later, so they stop one by one from left to right. Each reel's speed is adjusted slightly so it lands exactly on the rolled option.
    - **Card `stopped` (`.stopped`):** the strip rests on the rolled icon. The text fades in over `motion.duration.normal`.
    - **Screen `revealed` (`.revealed`):** all cards have stopped, so the start button fades in.
 6. **Behaviour:**
    - The game picks the conditions when it is created, so the spin is only for show.
    - A click anywhere on the stage during the spin stops every card at once.
    - With `prefers-reduced-motion: reduce`, the cards show stopped straight away.
-   - If an `animationend` never arrives (a hidden tab, say), a timer reveals everything after the full reel time plus 500 ms.
+   - The reels are moved by a `requestAnimationFrame` loop, with each position worked out from the time since the screen opened. A slow frame therefore never puts a reel out of step.
+   - If frames stop coming (a hidden tab, say), a timer reveals everything after the full reel time plus 500 ms.
    - The start button opens `turn-screen`.
 7. **Accessibility:** all text pairs pass (see [`contrast.md`](../contrast.md)):
    - `color.ink.primary` on `color.surface.panel` is `4.91:1` (`4.5:1` needed);
    - `.cond-name` on its ink halo is `15.38:1`;
    - the card and reel borders are `8.69:1` on the sky and `3.00:1` on the panel (`3.0:1` needed).
    
-   The rolled values also show as text, so the icons never carry meaning alone.
+   The rolled values also show as text, so the icons never carry meaning alone. A card whose text overflows becomes keyboard-focusable so it can be scrolled (`7.19`).
 8. **Status:** `planned` (`C62`). Built in #009; the component list picks it up at its next audit.
 
 **Copies today:**
-- `src/ui-stage.ts:173` (layer), `:421` (`conditionCard`), `:462` (`showConditions`)
-- `stage.css:370` (`.begin-btn`), `:379` (`.cond-row`), `:389` (`.cond-card`), `:1128` (`@keyframes reel`)
+- `src/ui-stage.ts:191` (layer), `:441` (`conditionCard`), `:470` (`placeStrip`), `:493` (`showConditions`)
+- `stage.css:370` (`.begin-btn`), `:379` (`.cond-row`), `:389` (`.cond-card`), `:435` (`.cond-body`)

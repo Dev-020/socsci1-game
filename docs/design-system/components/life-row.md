@@ -32,5 +32,5 @@
 8. **Status:** `planned` (`C63`). Built in #009; the component list picks it up at its next audit.
 
 **Copies today:**
-- `src/ui-stage.ts:224` (row and tooltip), `:483` (`fillLife`), `:498` (`showTip`)
-- `stage.css:793` (`.life-label`), `:798` (`.life-row`), `:807` (`.life-icon`), `:828` (`.cond-tip`)
+- `src/ui-stage.ts:242` (row and tooltip), `:557` (`fillLife`), `:572` (`showTip`)
+- `stage.css:829` (`.life-label`), `:834` (`.life-row`), `:843` (`.life-icon`), `:864` (`.cond-tip`)

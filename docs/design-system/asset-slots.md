@@ -9,45 +9,45 @@ Every slot currently shows **placeholder** (`assets/` does not exist yet in the 
 <!-- generated:asset-slots -->
 | File path | Shows | Slot (`C` id, class) | Box (wireframe px) | Export 2× (px) | Aspect ratio | Portrait differs | Code line | State |
 |---|---|---|---|---|---|---|---|---|
-| `assets/scene-normal.png` | Scene backdrop (Normal weather) | `C4` (`.scene` > `.imgbox`) | 1476 × 760 | 2952 × 1520 | 369:190 (1.94:1) | — | `src/ui-stage.ts:134,552` | placeholder |
-| `assets/scene-rainy.png` | Scene backdrop (Rainy weather) | `C4` (`.scene` > `.imgbox`) | 1476 × 760 | 2952 × 1520 | 369:190 (1.94:1) | — | `src/ui-stage.ts:552` | placeholder |
-| `assets/scene-sunny.png` | Scene backdrop (Sunny weather) | `C4` (`.scene` > `.imgbox`) | 1476 × 760 | 2952 × 1520 | 369:190 (1.94:1) | — | `src/ui-stage.ts:552` | placeholder |
-| `assets/weather-normal.png` | Weather icon (Normal) | `C20` (`.weather-box`) | 185 × 185 | 370 × 370 | 1:1 | — | `src/ui-stage.ts:192,553` | placeholder |
-| `assets/weather-rainy.png` | Weather icon (Rainy) | `C20` (`.weather-box`) | 185 × 185 | 370 × 370 | 1:1 | — | `src/ui-stage.ts:553` | placeholder |
-| `assets/weather-sunny.png` | Weather icon (Sunny) | `C20` (`.weather-box`) | 185 × 185 | 370 × 370 | 1:1 | — | `src/ui-stage.ts:553` | placeholder |
-| `assets/transport-jeep.png` | Transit vehicle (Jeepney) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:570` | placeholder |
-| `assets/transport-train.png` | Transit vehicle (Train (LRT/MRT)) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:570` | placeholder |
-| `assets/transport-motor.png` | Transit vehicle (Motorcycle) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:570` | placeholder |
-| `assets/transport-car.png` | Transit vehicle (Private Car / Ride-Hail) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:570` | placeholder |
-| `assets/transport-walk.png` | Transit vehicle (Walk) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:138,570` | placeholder |
-| `assets/transport-tricycle.png` | Transit vehicle (Tricycle) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:570` | placeholder |
-| `assets/transport-bus.png` | Transit vehicle (Bus) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:570` | placeholder |
-| `assets/character-student.png` | Commuter (Student) | `C14` (`.card-art`), `C27` (`.portrait`) | 254 × 254 (card), 260 × 260 (portrait) | 520 × 520 | 1:1 | — | `src/ui-stage.ts:89,161,202,554` | placeholder |
-| `assets/character-worker.png` | Commuter (Worker) | `C14` (`.card-art`), `C27` (`.portrait`) | 254 × 254 (card), 260 × 260 (portrait) | 520 × 520 | 1:1 | — | `src/ui-stage.ts:89,161,554` | placeholder |
-| `assets/character-pwd.png` | Commuter (PWD) | `C14` (`.card-art`), `C27` (`.portrait`) | 254 × 254 (card), 260 × 260 (portrait) | 520 × 520 | 1:1 | — | `src/ui-stage.ts:89,161,554` | placeholder |
-| `assets/event-traffic.png` | Random event (Traffic Congestion) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/event-queue.png` | Random event (Station Queue) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/event-flood.png` | Random event (Road Obstruction / Flood) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/event-track-fault.png` | Random event (Track Fault / Station Power Outage) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/event-clear-traffic.png` | Random event (Clear Traffic Flow) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/event-surcharge.png` | Random event (Fare Surcharge) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/event.png` | Random event fallback (unmapped event) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:602` | placeholder |
-| `assets/cond-work-average.png` | Condition icon (work: Average) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-work-stressful.png` | Condition icon (work: Stressful) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-work-fulfilling.png` | Condition icon (work: Fulfilling) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-work-shorter-free-days.png` | Condition icon (work: Shorter Free Days) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-work-star-performer.png` | Condition icon (work: Star Performer) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-living-rich.png` | Condition icon (living: Rich) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-living-comfortable.png` | Condition icon (living: Comfortable) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-living-poor.png` | Condition icon (living: Poor) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-family-happy.png` | Condition icon (family: Happy) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-family-strained.png` | Condition icon (family: Strained) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-family-ordinary.png` | Condition icon (family: Ordinary) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-family-provider.png` | Condition icon (family: Provider) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-family-golden-child.png` | Condition icon (family: Golden Child) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-personal-nothing-outstanding.png` | Condition icon (personal: Nothing Outstanding) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-personal-fear-of-motorcycles.png` | Condition icon (personal: Fear of Motorcycles) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
-| `assets/cond-personal-motion-sickness.png` | Condition icon (personal: Motion Sickness) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,431,492` | placeholder |
+| `assets/scene-normal.png` | Scene backdrop (Normal weather) | `C4` (`.scene` > `.imgbox`) | 1476 × 760 | 2952 × 1520 | 369:190 (1.94:1) | — | `src/ui-stage.ts:152,626` | placeholder |
+| `assets/scene-rainy.png` | Scene backdrop (Rainy weather) | `C4` (`.scene` > `.imgbox`) | 1476 × 760 | 2952 × 1520 | 369:190 (1.94:1) | — | `src/ui-stage.ts:626` | placeholder |
+| `assets/scene-sunny.png` | Scene backdrop (Sunny weather) | `C4` (`.scene` > `.imgbox`) | 1476 × 760 | 2952 × 1520 | 369:190 (1.94:1) | — | `src/ui-stage.ts:626` | placeholder |
+| `assets/weather-normal.png` | Weather icon (Normal) | `C20` (`.weather-box`) | 185 × 185 | 370 × 370 | 1:1 | — | `src/ui-stage.ts:210,627` | placeholder |
+| `assets/weather-rainy.png` | Weather icon (Rainy) | `C20` (`.weather-box`) | 185 × 185 | 370 × 370 | 1:1 | — | `src/ui-stage.ts:627` | placeholder |
+| `assets/weather-sunny.png` | Weather icon (Sunny) | `C20` (`.weather-box`) | 185 × 185 | 370 × 370 | 1:1 | — | `src/ui-stage.ts:627` | placeholder |
+| `assets/transport-jeep.png` | Transit vehicle (Jeepney) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:644` | placeholder |
+| `assets/transport-train.png` | Transit vehicle (Train (LRT/MRT)) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:644` | placeholder |
+| `assets/transport-motor.png` | Transit vehicle (Motorcycle) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:644` | placeholder |
+| `assets/transport-car.png` | Transit vehicle (Private Car / Ride-Hail) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:644` | placeholder |
+| `assets/transport-walk.png` | Transit vehicle (Walk) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:156,644` | placeholder |
+| `assets/transport-tricycle.png` | Transit vehicle (Tricycle) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:644` | placeholder |
+| `assets/transport-bus.png` | Transit vehicle (Bus) | `C6` (`.vehicle`) | 300 × 190 | 600 × 380 | 30:19 (1.58:1) | — | `src/ui-stage.ts:644` | placeholder |
+| `assets/character-student.png` | Commuter (Student) | `C14` (`.card-art`), `C27` (`.portrait`) | 254 × 254 (card), 260 × 260 (portrait) | 520 × 520 | 1:1 | — | `src/ui-stage.ts:89,179,220,628` | placeholder |
+| `assets/character-worker.png` | Commuter (Worker) | `C14` (`.card-art`), `C27` (`.portrait`) | 254 × 254 (card), 260 × 260 (portrait) | 520 × 520 | 1:1 | — | `src/ui-stage.ts:89,179,628` | placeholder |
+| `assets/character-pwd.png` | Commuter (PWD) | `C14` (`.card-art`), `C27` (`.portrait`) | 254 × 254 (card), 260 × 260 (portrait) | 520 × 520 | 1:1 | — | `src/ui-stage.ts:89,179,628` | placeholder |
+| `assets/event-traffic.png` | Random event (Traffic Congestion) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/event-queue.png` | Random event (Station Queue) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/event-flood.png` | Random event (Road Obstruction / Flood) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/event-track-fault.png` | Random event (Track Fault / Station Power Outage) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/event-clear-traffic.png` | Random event (Clear Traffic Flow) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/event-surcharge.png` | Random event (Fare Surcharge) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/event.png` | Random event fallback (unmapped event) | `C24` (`.event-art`) | 160 × 160 | 320 × 320 | 1:1 | — | `src/ui-stage.ts:676` | placeholder |
+| `assets/cond-work-average.png` | Condition icon (work: Average) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-work-stressful.png` | Condition icon (work: Stressful) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-work-fulfilling.png` | Condition icon (work: Fulfilling) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-work-shorter-free-days.png` | Condition icon (work: Shorter Free Days) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-work-star-performer.png` | Condition icon (work: Star Performer) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-living-rich.png` | Condition icon (living: Rich) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-living-comfortable.png` | Condition icon (living: Comfortable) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-living-poor.png` | Condition icon (living: Poor) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-family-happy.png` | Condition icon (family: Happy) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-family-strained.png` | Condition icon (family: Strained) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-family-ordinary.png` | Condition icon (family: Ordinary) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-family-provider.png` | Condition icon (family: Provider) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-family-golden-child.png` | Condition icon (family: Golden Child) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-personal-nothing-outstanding.png` | Condition icon (personal: Nothing Outstanding) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-personal-fear-of-motorcycles.png` | Condition icon (personal: Fear of Motorcycles) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
+| `assets/cond-personal-motion-sickness.png` | Condition icon (personal: Motion Sickness) | `.cond-reel` > `.cond-face`, `.life-icon` | 180 × 180 (card), 62 × 62 (panel) | 360 × 360 | 1:1 | yes | `src/ui-stage.ts:94,450,566` | placeholder |
 <!-- /generated:asset-slots -->
 
 ## Export Rules

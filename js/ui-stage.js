@@ -86,6 +86,10 @@ function cssTimeMs(token) {
     const value = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
     return value.endsWith("ms") ? parseFloat(value) : parseFloat(value) * 1000;
 }
+// A plain number token, such as a rate.
+function cssNumber(token) {
+    return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(token));
+}
 // 18, 18.5 and so on, without a trailing .0
 function plainNumber(value, decimals = 1) {
     return String(+value.toFixed(decimals));
@@ -99,6 +103,8 @@ export function startStageUi(app) {
     let lastTurn = null;
     let moveTimer = 0;
     let revealTimer = 0;
+    let reelFrame = 0;
+    let reels = [];
     let lifeFor = null; // the game the life icons were built for
     let pinnedTip = null; // the life icon whose tooltip was opened by a click or tap
     const stage = el("div", "stage");
@@ -314,51 +320,113 @@ export function startStageUi(app) {
         resetLoop();
     }
     // ----- the conditions screen and its reveal -----
-    // Each card's icon window holds a strip of its category's icons and slides
-    // to the rolled one. The game has already picked it; the spin is only for show.
-    function conditionCard(picked, index, character) {
+    // Each card's icon window holds a strip of its category's icons. The cards
+    // hold still, then all start rolling together, then stop one by one from the
+    // left, each landing on its rolled option. The game has already picked the
+    // conditions; the spin is only for show.
+    function conditionCard(picked, character) {
         const { category, option } = picked;
         const card = el("div", "cond-card");
-        card.style.setProperty("--reel-index", String(index));
-        const faces = [...category.options, option];
+        // The options, then the first one again, so the strip can wrap around without a jump.
+        const faces = [...category.options, category.options[0]];
         const strip = el("div", "cond-strip");
         strip.style.setProperty("--reel-faces", String(faces.length));
-        strip.style.setProperty("--reel-end", `${(-(faces.length - 1) / faces.length) * 100}%`);
         for (const face of faces) {
             const art = placeholderImage(conditionArt(category.key, face), face.name.toLowerCase());
             art.classList.add("cond-face");
             strip.append(art);
         }
-        strip.addEventListener("animationend", () => stopReel(card));
         const reel = el("div", "cond-reel");
         reel.append(strip);
-        card.append(el("span", "cond-category", categoryName(category, character).toLowerCase()), reel, el("span", "cond-name", option.name.toLowerCase()), el("p", "cond-desc", fillWork(option.description, character)), el("p", "cond-effects", conditionEffects(option)));
+        // The text scrolls inside the card when it is too long to fit.
+        const body = el("div", "cond-body stage-scroll");
+        body.append(el("span", "cond-name", option.name.toLowerCase()), el("p", "cond-desc", fillWork(option.description, character)), el("p", "cond-effects", conditionEffects(option)));
+        card.append(el("span", "cond-category", categoryName(category, character).toLowerCase()), reel, body);
         return card;
     }
-    function stopReel(card) {
-        card.classList.add("stopped");
-        const cards = [...conditionRow.children];
-        if (cards.every((c) => c.classList.contains("stopped"))) {
+    // Moves a strip so `position` icons have rolled past (wrapping around).
+    function placeStrip(reel, position) {
+        const shown = ((position % reel.faces) + reel.faces) % reel.faces;
+        reel.strip.style.transform = `translateY(${(-shown / (reel.faces + 1)) * 100}%)`;
+    }
+    function stopReel(reel) {
+        if (reel.card.classList.contains("stopped"))
+            return;
+        placeStrip(reel, reel.target);
+        reel.card.classList.add("stopped");
+        // A long text scrolls, so let the keyboard reach it.
+        const body = reel.card.querySelector(".cond-body");
+        if (body && body.scrollHeight > body.clientHeight)
+            body.tabIndex = 0;
+        if (reels.every((r) => r.card.classList.contains("stopped"))) {
             window.clearTimeout(revealTimer);
+            window.cancelAnimationFrame(reelFrame);
             conditionsLayer.classList.add("revealed");
         }
     }
     function revealAll() {
-        [...conditionRow.children].forEach(stopReel);
+        reels.forEach(stopReel);
     }
     function showConditions(current) {
         window.clearTimeout(revealTimer);
+        window.cancelAnimationFrame(reelFrame);
         conditionsLayer.classList.remove("revealed");
-        conditionRow.replaceChildren(...current.conditions.map((picked, index) => conditionCard(picked, index, current.player)));
+        const cards = current.conditions.map((picked) => conditionCard(picked, current.player));
+        conditionRow.replaceChildren(...cards);
         conditionRow.scrollLeft = 0;
         footnote.textContent = `seed: ${current.seed}`;
+        const hold = cssTimeMs("--motion-delay-reel-hold");
+        const spinUp = cssTimeMs("--motion-duration-reel-spin-up");
+        const spin = Math.max(spinUp, cssTimeMs("--motion-duration-reel-spin"));
+        const slowDown = cssTimeMs("--motion-duration-reel-stop");
+        const stagger = cssTimeMs("--motion-delay-reel-stagger");
+        const rate = cssNumber("--motion-rate-reel") / 1000; // icons per ms
+        reels = current.conditions.map(({ category, option }, i) => {
+            const faces = category.options.length;
+            const target = category.options.findIndex((o) => o.key === option.key);
+            const stopAt = spin + i * stagger;
+            // Distance rolled at speed v: v × (spin-up / 2 + cruising + slow-down / 2).
+            // Round it up to land on the target, then set the speed to match.
+            const time = stopAt - spinUp / 2 + slowDown / 2;
+            const nominal = rate * time;
+            const distance = target + faces * Math.ceil((nominal - target) / faces);
+            const reel = { card: cards[i], strip: cards[i].querySelector(".cond-strip"), faces, target, stopAt, speed: distance / time };
+            placeStrip(reel, 0);
+            return reel;
+        });
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             revealAll();
             return;
         }
-        // If an animationend never fires (a hidden tab, say), show everything anyway.
-        const total = cssTimeMs("--motion-duration-reel") +
-            cssTimeMs("--motion-delay-reel-stagger") * (current.conditions.length - 1);
+        // Icons rolled after t ms of rolling: speeds up evenly, cruises, then slows evenly to a stop.
+        const rolled = (reel, t) => {
+            const v = reel.speed;
+            if (t <= 0)
+                return 0;
+            if (t < spinUp)
+                return (v * t * t) / (2 * spinUp);
+            if (t < reel.stopAt)
+                return v * (spinUp / 2 + t - spinUp);
+            const u = Math.min(t - reel.stopAt, slowDown);
+            return v * (spinUp / 2 + reel.stopAt - spinUp + u - (u * u) / (2 * slowDown));
+        };
+        const started = performance.now() + hold;
+        const frame = (now) => {
+            const t = now - started;
+            for (const reel of reels) {
+                if (reel.card.classList.contains("stopped"))
+                    continue;
+                if (t >= reel.stopAt + slowDown)
+                    stopReel(reel);
+                else
+                    placeStrip(reel, rolled(reel, t));
+            }
+            if (!conditionsLayer.classList.contains("revealed"))
+                reelFrame = window.requestAnimationFrame(frame);
+        };
+        reelFrame = window.requestAnimationFrame(frame);
+        // If frames stop coming (a hidden tab, say), show everything anyway.
+        const total = hold + spin + stagger * (reels.length - 1) + slowDown;
         revealTimer = window.setTimeout(revealAll, total + 500);
     }
     // ----- the life row and its tooltip -----
