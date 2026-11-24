@@ -2,6 +2,7 @@
 // Contains no page or display code.
 
 import {
+  CONDITIONS,
   EVENTS,
   EVENT_PROBABILITY,
   OPTIONS_PER_TURN,
@@ -11,9 +12,8 @@ import {
   SEED_LIMIT,
   TOTAL_DISTANCE_KM,
   TRANSIT,
-  WEATHER,
 } from "./data.js";
-import type { Character, RandomEvent, TransitOption, Weather } from "./data.js";
+import type { Character, ConditionCategory, ConditionOption, RandomEvent, RideList, TransitOption } from "./data.js";
 
 export type Outcome = "WIN" | "BURNOUT" | "STRANDED";
 
@@ -26,6 +26,12 @@ export interface Offer {
   usesLeft: number | null;
 }
 
+// The option a run got in one category of starting conditions.
+export interface PickedCondition {
+  category: ConditionCategory;
+  option: ConditionOption;
+}
+
 export interface TurnReport {
   optionName: string;
   km: number;
@@ -36,8 +42,10 @@ export interface TurnReport {
 
 // What each roll decides. Every turn has one fixed roll per purpose, so a
 // player's choices cannot change the rolls that come later.
-// Purpose 6 is taken by the simulation bots' choices.
-const Roll = { weather: 1, motorKm: 2, carKm: 3, eventChance: 4, eventPick: 5, offerPick: 7 };
+// Purpose 6 is taken by the simulation bots' choices. Purpose 1 picks the
+// starting conditions; it was the weather roll before 0.12.0, and weather is
+// still the first category, so every seed keeps its weather.
+const Roll = { conditions: 1, motorKm: 2, carKm: 3, eventChance: 4, eventPick: 5, offerPick: 7 };
 
 // Taylor series for sin(x), with a fixed number of terms. Unlike Math.sin,
 // it uses only arithmetic that gives the same result in every browser.
@@ -83,6 +91,25 @@ export function setsOf<T>(items: T[], size: number): T[][] {
   return sets;
 }
 
+// Every combination that takes one item from each list, in the lists' own order.
+// Exported so the conditions check can confirm the list.
+export function combinations<T>(lists: T[][]): T[][] {
+  if (lists.length === 0) return [[]];
+  const result: T[][] = [];
+  for (const first of lists[0]) {
+    for (const rest of combinations(lists.slice(1))) result.push([first, ...rest]);
+  }
+  return result;
+}
+
+// True when a ride list covers the ride. An empty or missing list covers every ride.
+export function ridesInclude(list: RideList | undefined, key: string): boolean {
+  return !list || list.length === 0 || list.includes(key);
+}
+
+// Every combination of starting conditions, built once: one option per category.
+const CONDITION_SETS = combinations(CONDITIONS.map((category) => category.options));
+
 export function fare(option: TransitOption, km: number, discount: boolean): number {
   const distance = Math.min(option.distanceKm, km);
 
@@ -99,9 +126,18 @@ export function fare(option: TransitOption, km: number, discount: boolean): numb
   return discount ? option.costDiscount : option.costRegular;
 }
 
-export function energyDrain(option: TransitOption, character: Character, weather: Weather): number {
-  const penalty = character.pwdPenalty && PWD_PENALTY_MODES.includes(option.key) ? PWD_EXTRA_DRAIN : 0;
-  return Math.trunc((option.energyDrain + penalty) * weather.drainMult);
+// A ride's energy cost: trunc(base x (1 + the percentages added together)) plus
+// every flat change, never below 0. Only the base is multiplied. Percentages are
+// whole numbers, so adding them is exact (1.15 + 1.1 in decimals is not).
+export function energyDrain(option: TransitOption, character: Character, conditions: ConditionOption[]): number {
+  let percent = 0;
+  let flat = character.pwdPenalty && PWD_PENALTY_MODES.includes(option.key) ? PWD_EXTRA_DRAIN : 0;
+  for (const condition of conditions) {
+    if (!ridesInclude(condition.appliesTo, option.key)) continue;
+    percent += condition.drainPercent ?? 0;
+    flat += condition.drainFlat ?? 0;
+  }
+  return Math.max(0, Math.trunc((option.energyDrain * (100 + percent)) / 100) + flat);
 }
 
 // Everything choose() changes, saved so undo() can put it back.
@@ -119,7 +155,7 @@ interface TurnSnapshot {
 export class Game {
   readonly player: Character;
   readonly seed: number;
-  readonly weather: Weather;
+  readonly conditions: PickedCondition[];
   distanceLeft = TOTAL_DISTANCE_KM;
   turn = 1;
   outcome: Outcome | null = null;
@@ -127,13 +163,38 @@ export class Game {
 
   private usage: Record<string, number> = {};
   private disabled: string[] = [];
+  private removed: string[] = [];
   private snapshot: TurnSnapshot | null = null;
 
   constructor(character: Character, seed: number = SEED ?? randomSeed()) {
     this.player = { ...character };
     this.seed = seed;
-    this.weather = pick(WEATHER, this.roll(Roll.weather));
+
+    // One roll picks one combination out of every combination of options.
+    const picked = pick(CONDITION_SETS, this.roll(Roll.conditions));
+    this.conditions = picked.map((option, index) => ({ category: CONDITIONS[index], option }));
+
+    let money = character.money;
+    let maxEnergy = character.maxEnergy;
+    for (const option of picked) {
+      money += option.money ?? 0;
+      maxEnergy += option.maxEnergy ?? 0;
+      this.removed.push(...(option.removes ?? []));
+    }
+    this.player.money = Math.max(0, money);
+    this.player.maxEnergy = Math.max(1, maxEnergy);
+    this.player.energy = this.player.maxEnergy; // every run starts full
+
     this.advance();
+  }
+
+  // The weather option. Weather is always the first category.
+  get weather(): ConditionOption {
+    return this.conditions[0].option;
+  }
+
+  private get conditionOptions(): ConditionOption[] {
+    return this.conditions.map((picked) => picked.option);
   }
 
   // True when one choice can be taken back.
@@ -206,12 +267,13 @@ export class Game {
     if (this.distanceLeft > 2) candidates.push(TRANSIT.car);
     if (this.distanceLeft > 6) candidates.push(TRANSIT.train);
     if (this.distanceLeft <= 4) candidates.push(TRANSIT.tricycle);
-    if (this.weather.name !== "Rainy") candidates.push(TRANSIT.motor);
+    candidates.push(TRANSIT.motor);
 
     const options = candidates.filter(
       (option) =>
         (option.maxUses === null || this.usesOf(option) < option.maxUses) &&
-        !this.disabled.includes(option.key),
+        !this.disabled.includes(option.key) &&
+        !this.removed.includes(option.key),
     );
     return options.length > 0 ? options : [TRANSIT.walk];
   }
@@ -239,7 +301,7 @@ export class Game {
         option,
         km,
         cost,
-        drain: energyDrain(option, this.player, this.weather),
+        drain: energyDrain(option, this.player, this.conditionOptions),
         affordable: this.player.money >= cost,
         usesLeft: option.maxUses === null ? null : option.maxUses - this.usesOf(option),
       };
@@ -256,9 +318,7 @@ export class Game {
   private rollEvent(option: TransitOption): RandomEvent | null {
     if (this.roll(Roll.eventChance) >= EVENT_PROBABILITY) return null;
 
-    const matching = EVENTS.filter(
-      (event) => event.applicableModes.length === 0 || event.applicableModes.includes(option.key),
-    );
+    const matching = EVENTS.filter((event) => ridesInclude(event.applicableModes, option.key));
     if (matching.length === 0) return null;
 
     const event = pick(matching, this.roll(Roll.eventPick));
@@ -279,7 +339,7 @@ export class Game {
     // shown rides are drawn again next turn, so a ride you can afford may come up.
     const walk = TRANSIT.walk;
     const walkLegs = Math.ceil(this.distanceLeft / walk.distanceKm);
-    const walkDrainNeeded = (walkLegs - 1) * energyDrain(walk, this.player, this.weather);
+    const walkDrainNeeded = (walkLegs - 1) * energyDrain(walk, this.player, this.conditionOptions);
     const cheapestFare = Math.min(
       ...this.availableOptions()
         .filter((option) => option.key !== "walk")
