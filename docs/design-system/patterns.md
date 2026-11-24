@@ -41,7 +41,7 @@ On narrow portrait phones (`breakpoint.stage.portrait`), five side-by-side trans
 
 Every optional art slot (`scene`, `card-art`, `weather-box`, `portrait`, `vehicle`, `event-art`) uses `placeholderImage(src, label)` (`src/ui-stage.ts:73-78`, `stage.css:180-217`):
 - Builds `.imgbox` with a fallback `.imgbox-label` pill (`color.accent.primary` on `color.surface.placeholder`, dashed `border.width.stage.3` border) and an `<img>` with `alt = label` and `object-fit: contain`.
-- On `load`, `.imgbox.loaded` hides `.imgbox-label`; on `error` (when `assets/*.png` is absent), the `<img>` removes itself so no broken-image icon appears and the placeholder label remains readable.
+- On `load`, `.imgbox.loaded` hides `.imgbox-label`; on `error` (when the `assets/**/*.png` file is absent; folders in [`asset-slots.md`](asset-slots.md)), the `<img>` removes itself so no broken-image icon appears and the placeholder label remains readable.
 - Inside `.scene`, `.imgbox-label` tucks into the bottom-left corner on `title`/`select`/`ending` and lifts to the upper-right above `.panel` during `turn`/`moving`/`result` (`stage.css:161-176`).
 
 ## 5. Adding a Component

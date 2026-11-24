@@ -3,7 +3,7 @@
 > Spec 7.2 of the [Commuter Game design system](../../DESIGN_SYSTEM.md). Layout boxes: [`layout-map.md`](../layout-map.md).
 
 1. **Purpose:** Renders the recessed viewport window (`scene`), reusable asset placeholder boxes (`imgbox`), animated transit vehicle (`vehicle`), and current weather indicator (`weather-box`).
-2. **When to use:** Use `scene` as the shared stage viewport across all screens; use `imgbox` whenever displaying optional `assets/*.png` art with text fallback; use `vehicle` during move animation and `weather-box` on turn screens.
+2. **When to use:** Use `scene` as the shared stage viewport across all screens; use `imgbox` whenever displaying optional `assets/**/*.png` art with text fallback; use `vehicle` during move animation and `weather-box` on turn screens.
 3. **Anatomy:**
    - **Scene (`.scene`):** Box at `layout.screen.{x,y,w,h}`, corner radius `radius.stage.34`, `shadow.stage.scene-recess`, and sky gradient `color.scene.sky-top` to `color.scene.sky-bottom`.
    - **Image box (`.imgbox`):** Container with inherited radius and sky gradient; fallback `.imgbox-label` in `color.accent.primary` on `color.surface.placeholder`, dashed border `border.width.stage.3`, radius `radius.stage.10`, padding `space.stage.4` × `space.stage.10`, `font.size.stage.34` (`font.line-height.tight`).

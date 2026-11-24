@@ -67,11 +67,11 @@ function displayName(character) {
     return character.name === "PWD" ? "PWD student" : character.name.toLowerCase();
 }
 function characterArt(character) {
-    return `assets/character-${slug(character.name)}.png`;
+    return `assets/characters/character-${slug(character.name)}.png`;
 }
-// Weather keeps its existing art; the other conditions get cond-<category>-<option>.png.
+// Every starting condition, weather included: assets/conditions/<category>/cond-<category>-<option>.png.
 function conditionArt(categoryKey, option) {
-    return categoryKey === "weather" ? `assets/weather-${slug(option.name)}.png` : `assets/cond-${categoryKey}-${option.key}.png`;
+    return `assets/conditions/${categoryKey}/cond-${categoryKey}-${option.key}.png`;
 }
 // "Motion Sickness" -> "MS": a short placeholder label for the small icons.
 function initials(name) {
@@ -110,11 +110,11 @@ export function startStageUi(app) {
     const stage = el("div", "stage");
     app.replaceChildren(stage);
     // Frame, knobs and scene stay on every screen.
-    const sceneBox = placeholderImage("assets/scene-normal.png", "scene");
+    const sceneBox = placeholderImage("assets/scenes/scene-normal.png", "scene");
     const scene = el("div", "abs scene");
     scene.append(sceneBox);
     const vehicle = el("div", "vehicle");
-    const vehicleArt = placeholderImage("assets/transport-walk.png", "vehicle");
+    const vehicleArt = placeholderImage("assets/transport/transport-walk.png", "vehicle");
     vehicle.append(vehicleArt);
     scene.append(vehicle);
     stage.append(el("div", "abs frame"), el("div", "abs knob knob-left"), el("div", "abs knob knob-right"), scene);
@@ -147,7 +147,7 @@ export function startStageUi(app) {
     const flagNow = el("div", "abs flag flag-now");
     turnLayer.append(distanceLabel, el("div", "abs distance-track"), el("div", "abs flag flag-end"), flagNow);
     const weatherBox = el("div", "abs weather-box");
-    const weatherArt = placeholderImage("assets/weather-normal.png", "weather");
+    const weatherArt = placeholderImage("assets/conditions/weather/cond-weather-normal.png", "weather");
     weatherBox.append(weatherArt);
     const options = el("div", "abs options");
     const resultMove = el("div", "abs result-box result-move");
@@ -155,7 +155,7 @@ export function startStageUi(app) {
     const speech = el("div", "abs speech", SPEECH);
     const panel = el("div", "abs panel");
     const portrait = el("div", "abs portrait");
-    const portraitArt = placeholderImage("assets/character-student.png", "character");
+    const portraitArt = placeholderImage("assets/characters/character-student.png", "character");
     portrait.append(portraitArt);
     const playerName = el("h2", "abs player-name");
     const commuterBadge = el("span", "abs commuter-badge");
@@ -496,8 +496,8 @@ export function startStageUi(app) {
     });
     function showTurn(current) {
         const weather = slug(current.weather.name);
-        setImage(sceneBox, `assets/scene-${weather}.png`, `scene: ${weather}`);
-        setImage(weatherArt, `assets/weather-${weather}.png`, `weather: ${weather}`);
+        setImage(sceneBox, `assets/scenes/scene-${weather}.png`, `scene: ${weather}`);
+        setImage(weatherArt, conditionArt("weather", current.weather), `weather: ${weather}`);
         setImage(portraitArt, characterArt(current.player), `character: ${slug(current.player.name)}`);
         playerName.textContent = displayName(current.player);
         footnote.textContent = `seed: ${current.seed}`;
@@ -513,7 +513,7 @@ export function startStageUi(app) {
     function showMoving() {
         if (!chosen)
             return;
-        setImage(vehicleArt, `assets/transport-${chosen.option.key}.png`, chosen.option.key);
+        setImage(vehicleArt, `assets/transport/transport-${chosen.option.key}.png`, chosen.option.key);
         window.clearTimeout(moveTimer);
         moveTimer = window.setTimeout(finishMove, MOVE_TIMEOUT_MS);
     }
@@ -538,7 +538,7 @@ export function startStageUi(app) {
         if (event) {
             resultMove.classList.add("with-event");
             resultEvent.hidden = false;
-            const art = placeholderImage(`assets/${EVENT_ART[event.name] ?? "event"}.png`, EVENT_ART[event.name] ?? "event");
+            const art = placeholderImage(`assets/events/${EVENT_ART[event.name] ?? "event"}.png`, EVENT_ART[event.name] ?? "event");
             art.classList.add("event-art");
             const text = el("div", "event-text");
             text.append(el("h3", "result-title", event.name), el("p", "event-desc", event.description), el("p", "event-effects", eventEffects(event)));
