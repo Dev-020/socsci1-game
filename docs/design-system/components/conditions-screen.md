@@ -26,7 +26,7 @@
    - Phone held upright (`breakpoint.stage.portrait`): the row becomes a swipe row with two cards in view. The icons are 220 × 220, the category and effects text use `font.size.stage.50` and the name uses `font.size.stage.74`. The description is hidden.
    - Icons: weather uses its `weather-*.png` art (`C20`); every other option uses `assets/cond-<category>-<option>.png` (see [`asset-slots.md`](../asset-slots.md)).
 5. **States:**
-   - **Cards `holding`:** for `motion.delay.reel-hold` (`1s`) after the screen opens, every card stands still.
+   - **Cards `holding`:** for `motion.delay.reel-hold` (`0.2s`) after the screen opens, every card stands still.
    - **Cards `spinning`:** all the cards start rolling together. Each strip loops through its category's options, easing up to full speed over `motion.duration.reel-spin-up` (`0.8s`) and then rolling at about `motion.rate.reel` (`7`) icons per second. The name, description and effects are hidden.
    - **Card `stopping`:** `motion.duration.reel-spin` (`3s`) after rolling starts, the leftmost card eases to a stop over `motion.duration.reel-stop` (`1.2s`). Each card to its right starts stopping `motion.delay.reel-stagger` (`0.6s`) later, so they stop one by one from left to right. Each reel's speed is adjusted slightly so it lands exactly on the rolled option.
    - **Card `stopped` (`.stopped`):** the strip rests on the rolled icon. The text fades in over `motion.duration.normal`.
