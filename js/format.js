@@ -44,7 +44,7 @@ function ridesText(list) {
     const sameAsVehicles = list.length === VEHICLES.length && VEHICLES.every((key) => list.includes(key));
     return sameAsVehicles ? "vehicle ride" : `${list.join(" or ")} ride`;
 }
-// For example "+₱50.00, +10 max energy, +15% energy per ride, +10 energy per vehicle ride, no jeep".
+// For example "+₱50.00, +10 max energy, +15% energy cost per ride, +10 energy cost per vehicle ride, no jeep".
 export function conditionEffects(option) {
     const effects = [];
     const rides = option.appliesTo && option.appliesTo.length > 0 ? ridesText(option.appliesTo) : "ride";
@@ -53,9 +53,9 @@ export function conditionEffects(option) {
     if (option.maxEnergy)
         effects.push(`${signed(option.maxEnergy)} max energy`);
     if (option.drainPercent)
-        effects.push(`${signed(option.drainPercent)}% energy per ${rides}`);
+        effects.push(`${signed(option.drainPercent)}% energy cost per ${rides}`);
     if (option.drainFlat)
-        effects.push(`${signed(option.drainFlat)} energy per ${rides}`);
+        effects.push(`${signed(option.drainFlat)} energy cost per ${rides}`);
     for (const key of option.removes ?? [])
         effects.push(`no ${key}`);
     return effects.length > 0 ? effects.join(", ") : "no effect";

@@ -35,7 +35,7 @@ function reportHtml(): string {
     </div>`;
 }
 
-// One line per starting condition: "Weather: Rainy. Rain makes ... (+30% energy per ride, no motor)"
+// One line per starting condition: "Weather: Rainy. Rain makes ... (+30% energy cost per ride, no motor)"
 function conditionsHtml(current: Game): string {
   const lines = current.conditions.map(({ category, option }) => {
     const description = fillWork(option.description, current.player);
