@@ -22,7 +22,7 @@ The project adheres to a strict division of responsibilities:
    - Supports 1-turn undo via `TurnSnapshot`.
 
 3. **Data & Balance ([`src/data.ts`](../src/data.ts)):**
-   - Contains all numerical constants, persona definitions, transit mode stats, weather modifiers, and event tables.
+   - Contains all numerical constants, persona definitions, transit mode stats, starting conditions (`CONDITIONS`, weather included), and event tables.
    - Modifying game balance only touches this file; changing values here does not require code refactoring.
 
 4. **Themes & Design System ([`src/theme.ts`](../src/theme.ts) & [`docs/DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md)):**
@@ -45,7 +45,8 @@ The stage UI is governed by a state machine tracking the active screen:
 stateDiagram-v2
     [*] --> title: Boot (Default theme)
     title --> select: Click START
-    select --> turn: Pick Persona (Student / Worker / PWD) -> Bind Character Theme
+    select --> conditions: Pick Persona (Student / Worker / PWD) -> Bind Character Theme
+    conditions --> turn: Click START once the condition reels stop
     turn --> moving: Choose Transit Offer
     moving --> result: Vehicle drive animation ends
     result --> turn: Click CONTINUE (if outcome is null)
@@ -100,11 +101,12 @@ sequenceDiagram
 
 | Logic | Function | Location | Implementation Details |
 |---|---|---|---|
-| **Fare Cost** | `fare()` | [`src/game.ts:70`](../src/game.ts#L70) | - **Motorcycle:** ₱50 (1st km), +₱10/km (up to 10th km), +₱20/km thereafter.<br/>- **Car:** ₱60 (1st km), +₱15/km thereafter.<br/>- **Others:** Flat fare (`costDiscount` or `costRegular` based on persona). |
-| **Energy Drain** | `energyDrain()` | [`src/game.ts:86`](../src/game.ts#L86) | `Math.trunc((baseDrain + pwdPenalty) * weather.drainMult)`. PWD receives +8 drain on `walk` and `jeep`. |
-| **Deterministic RNG** | `seededRoll()` | [`src/game.ts:53`](../src/game.ts#L53) | Taylor-series sine hash based on `seed`, `turn`, and `purpose` ID. Guarantees cross-browser identical rolls. |
-| **Offer Filtering** | `availableOptions()` | [`src/game.ts:188`](../src/game.ts#L188) | Filters options based on: distance remaining (e.g. Train > 6km, Car > 2km, Tricycle ≤ 4km), weather (no Motor in Rain), usage limits, and event mode blocks. |
-| **Win/Loss Check** | `checkOutcome()` | [`src/game.ts:241`](../src/game.ts#L241) | - `WIN`: `distanceLeft <= 0`<br/>- `BURNOUT`: `player.energy <= 0`<br/>- `STRANDED`: Cannot afford cheapest ride and lack energy to walk the remaining distance. |
+| **Fare Cost** | `fare()` | [`src/game.ts:113`](../src/game.ts#L113) | - **Motorcycle:** ₱50 (1st km), +₱10/km (up to 10th km), +₱20/km thereafter.<br/>- **Car:** ₱60 (1st km), +₱15/km thereafter.<br/>- **Others:** Flat fare (`costDiscount` or `costRegular` based on persona). |
+| **Starting Conditions** | `Game` constructor, `combinations()` | [`src/game.ts:96`](../src/game.ts#L96) | One seeded roll (purpose 1, turn 1) picks one of the 675 combinations of `CONDITIONS` (weather first, so each seed keeps its weather). Start values: `money = max(0, base + Σ money)`, `maxEnergy = max(1, base + Σ maxEnergy)`, energy starts full. Removed rides are gone for the whole run. |
+| **Energy Drain** | `energyDrain()` | [`src/game.ts:132`](../src/game.ts#L132) | `Math.trunc(baseDrain × (100 + Σ drainPercent) / 100) + pwdPenalty + Σ drainFlat`, never below 0. Percentages add, and only conditions whose `appliesTo` includes the ride count (`ridesInclude()`, [`src/game.ts:106`](../src/game.ts#L106)). PWD receives +8 drain on `walk` and `jeep`. |
+| **Deterministic RNG** | `seededRoll()` | [`src/game.ts:64`](../src/game.ts#L64) | Taylor-series sine hash based on `seed`, `turn`, and `purpose` ID. Guarantees cross-browser identical rolls. |
+| **Offer Filtering** | `availableOptions()` | [`src/game.ts:265`](../src/game.ts#L265) | Filters options based on: distance remaining (e.g. Train > 6km, Car > 2km, Tricycle ≤ 4km), rides removed by the starting conditions (e.g. no Motor in Rain), usage limits, and event mode blocks. |
+| **Win/Loss Check** | `checkOutcome()` | [`src/game.ts:333`](../src/game.ts#L333) | - `WIN`: `distanceLeft <= 0`<br/>- `BURNOUT`: `player.energy <= 0`<br/>- `STRANDED`: Cannot afford cheapest ride and lack energy to walk the remaining distance. |
 
 ---
 
@@ -118,7 +120,9 @@ Defined in [`src/data.ts`](../src/data.ts), [`src/theme.ts`](../src/theme.ts), a
 - **`Offer`**: Specific choice presented to player for that turn (`option`, `km`, `cost`, `drain`, `affordable`, `usesLeft`).
 - **`TurnReport`**: Outcome summary returned by `choose()` (`optionName`, `km`, `cost`, `drain`, `event`).
 - **`RandomEvent`**: Event trigger definition (`name`, `description`, `energyMod`, `moneyMod`, `distanceMod`, `applicableModes`, `disabledModes`).
-- **`Weather`**: Environmental condition modifying energy drain (`name`, `drainMult`).
+- **`ConditionCategory`** / **`ConditionOption`**: A starting-condition category (`key`, `name`, `studentName?`, `options`) and one option (`key`, `name`, `description`, `money?`, `maxEnergy?`, `drainPercent?`, `drainFlat?`, `appliesTo?`, `removes?`). Weather is the first category.
+- **`PickedCondition`**: One rolled condition for a run (`category`, `option`), listed in `game.conditions`; `game.weather` is the first one's option.
+- **`RideList`**: A list of ride keys; empty or missing means every ride. Used by `appliesTo`, `removes` and the events' ride lists.
 
 ---
 
@@ -128,6 +132,8 @@ Defined in [`src/data.ts`](../src/data.ts), [`src/theme.ts`](../src/theme.ts), a
 |---|---|---|
 | **Add or edit transit vehicle stats** (costs, energy, max uses) | [`src/data.ts`](../src/data.ts) | `export const TRANSIT` |
 | **Change character starting money or energy** | [`src/data.ts`](../src/data.ts) | `export const CHARACTERS` |
+| **Add or edit starting conditions** (weather included) | [`src/data.ts`](../src/data.ts) | `export const CONDITIONS` |
+| **Add or replace art** (conditions, characters, rides, events, scenes) | [`docs/design-system/asset-slots.md`](design-system/asset-slots.md) | The folder map and the slot table |
 | **Add or edit character themes, meter styles & palettes** | [`src/theme.ts`](../src/theme.ts) & [`stage.css`](../stage.css) | `export const CHARACTER_THEMES`, `.stage[data-character="..."]` |
 | **Inspect design tokens, typography, and component blueprints** | [`docs/DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) | Whole document |
 | **Review pages vs screens rules for adding new content** | [`docs/conventions/pages-and-screens.md`](conventions/pages-and-screens.md) | Whole document |

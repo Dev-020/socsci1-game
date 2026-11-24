@@ -6,6 +6,19 @@ All notable changes to the game. The format follows
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-11-24
+### Added
+- Every run now starts with five starting conditions: the weather, your school or workplace, your living situation, your family and something personal. A new "today's conditions" screen rolls them like a slot machine before your first turn.
+- Conditions can change your starting money, your max energy and how much energy each ride costs, and some take a ride away for the whole run (for example, no motorcycle if you fear them).
+- The bottom panel has a new "life" row with an icon for each condition. Hover, focus or tap an icon to see what it does.
+- Hand-drawn icons for every condition.
+- The plain version (`?ui=plain`) lists your conditions under the turn and on the ending screen.
+- The ending screen lists the run's conditions. Long stats scroll inside the box.
+### Changed
+- Weather is now one of the starting conditions. Rain still makes every ride cost 30% more energy and takes the motorcycle away.
+- A PWD walking or riding the jeep in the rain now loses 40 and 27 energy, instead of 42 and 29, because the PWD penalty is now added after the weather.
+- Seed links keep the same weather as before, but the other conditions are new, so runs play out differently and earlier simulation results no longer match.
+
 ## [0.11.0] - 2026-11-23
 ### Changed
 - Each turn now offers 3 rides, picked at random from the ones you can take. If you can't afford any of them, you can still walk.

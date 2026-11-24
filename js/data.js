@@ -1,5 +1,5 @@
 // Game balance values, based on the masterlist and wireframe values.
-export const VERSION = "0.11.0";
+export const VERSION = "0.12.0";
 export const TOTAL_DISTANCE_KM = 20;
 export const EVENT_PROBABILITY = 0.35;
 export const OPTIONS_PER_TURN = 3; // Rides shown each turn, drawn from the ones available
