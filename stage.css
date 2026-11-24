@@ -461,11 +461,13 @@ button:focus-visible {
   margin-top: auto;
 }
 
-.cond-card:not(.stopped) :is(.cond-name, .cond-desc, .cond-effects) {
+/* hidden as a whole while the reel spins, so no scrollbar gives the result away */
+.cond-card:not(.stopped) .cond-body {
   visibility: hidden;
+  overflow-y: hidden;
 }
 
-.cond-card.stopped :is(.cond-name, .cond-desc, .cond-effects) {
+.cond-card.stopped .cond-body {
   animation: fade var(--motion-duration-normal);
 }
 
@@ -1105,6 +1107,9 @@ button:focus-visible {
   color: var(--color-accent-primary);
   padding: var(--space-stage-34) var(--space-stage-40);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .ending-title {
@@ -1129,11 +1134,19 @@ button:focus-visible {
   color: var(--color-ink-primary);
 }
 
+/* the stats take the space left and scroll when long, so the button stays in the box */
+.ending-stats {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
 .ending-stats .result-line {
   font-size: var(--font-size-stage-50);
 }
 
 .ending-btn {
+  flex: none;
   margin-top: var(--space-stage-24);
   width: calc(420 * var(--px));
   height: var(--layout-btn-h);

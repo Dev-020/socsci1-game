@@ -18,67 +18,67 @@
 | `--color-card-worker-edge` | `--color-scene-sky-bottom` | base.css | 4.44:1 | 3.0:1 | yes | `stage.css:316` (.card-1 (Worker) border on sky) |
 | `--color-text-inverse` | `--color-console-knob` | base.css | 3.00:1 | 4.5:1 | **no** | `stage.css:320` (.card-2 (PWD) text) |
 | `--color-console-frame-dark` | `--color-scene-sky-bottom` | base.css | 5.43:1 | 3.0:1 | yes | `stage.css:316` (.card-2 (PWD) border on sky) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:510` (.distance-label (halo as ground)) |
-| `--color-console-frame-dark` | `--color-scene-sky-top` | base.css | 4.61:1 | 3.0:1 | yes | `stage.css:520` (.distance-track border on sky) |
-| `--color-track-bar` | `--color-scene-sky-top` | base.css | 3.01:1 | 3.0:1 | yes | `stage.css:519` (.distance-track fill on sky) |
-| `--color-accent-primary` | `--color-scene-sky-top` | base.css | 7.39:1 | 3.0:1 | yes | `stage.css:563` (.weather-box border on sky) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:512` (.distance-label (halo as ground)) |
+| `--color-console-frame-dark` | `--color-scene-sky-top` | base.css | 4.61:1 | 3.0:1 | yes | `stage.css:522` (.distance-track border on sky) |
+| `--color-track-bar` | `--color-scene-sky-top` | base.css | 3.01:1 | 3.0:1 | yes | `stage.css:521` (.distance-track fill on sky) |
+| `--color-accent-primary` | `--color-scene-sky-top` | base.css | 7.39:1 | 3.0:1 | yes | `stage.css:565` (.weather-box border on sky) |
 | `--color-accent-primary` | `--color-surface-placeholder over --color-scene-sky-top` | base.css | 8.45:1 | 4.5:1 | yes | `stage.css:208` (.imgbox-label on sky-top (scene, weather, card-art, portrait, vehicle, event-art)) |
 | `--color-accent-primary` | `--color-surface-placeholder over --color-scene-sky-bottom` | base.css | 9.10:1 | 4.5:1 | yes | `stage.css:208` (.imgbox-label on sky-bottom (scene, weather, card-art, portrait, vehicle, event-art)) |
 | `--color-accent-primary` | `--color-surface-placeholder over --color-scene-sky-top` | base.css | 8.45:1 | 3.0:1 | yes | `stage.css:205` (.imgbox-label dashed border on sky-top) |
 | `--color-accent-primary` | `--color-surface-placeholder over --color-scene-sky-bottom` | base.css | 9.10:1 | 3.0:1 | yes | `stage.css:205` (.imgbox-label dashed border on sky-bottom) |
-| `--color-track-pole` | `--color-scene-sky-top` | base.css | 3.01:1 | 3.0:1 | yes | `stage.css:536` (.flag::before pole on sky) |
-| `--color-status-danger` | `--color-scene-sky-top` | base.css | 3.55:1 | 3.0:1 | yes | `stage.css:544` (.flag::after pennant on sky) |
-| `--color-text-inverse` | `--color-surface-panel` | base.css | 3.14:1 | 4.5:1 | **no** | `stage.css:605` (.option-pill label) |
-| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:602` (.option-pill border on sky) |
-| `--color-stat-money` | `--color-ink-primary` | base.css | 9.05:1 | 4.5:1 | yes | `stage.css:621` (.option-pesos (halo as ground)) |
-| `--color-stat-energy` | `--color-stat-energy-edge-deep` | base.css | 4.55:1 | 4.5:1 | yes | `stage.css:631` (.option-energy (halo as ground, deep shade)) |
-| `--color-ink-primary` | `--color-scene-sky-bottom` | base.css | 14.19:1 | 4.5:1 | yes | `stage.css:635` (.option-km on sky) |
-| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 4.5:1 | yes | `stage.css:640` (.option-uses on sky) |
-| `--color-text-disabled` | `--color-surface-disabled` | base.css | 2.60:1 | 4.5:1 | **no** | `stage.css:653` (.option:disabled .option-pill text (WCAG disabled exempt)) |
-| `--color-border-disabled` | `--color-scene-sky-bottom` | base.css | 3.54:1 | 3.0:1 | yes | `stage.css:652` (.option:disabled .option-pill border (WCAG disabled exempt)) |
-| `--color-text-disabled` | `--color-scene-sky-bottom` | base.css | 4.22:1 | 4.5:1 | **no** | `stage.css:657` (.option:disabled .option-line on sky (WCAG disabled exempt)) |
-| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 4.5:1 | yes | `stage.css:670` (.speech text) |
-| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:667` (.speech border on panel) |
-| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:687` (.panel top border against sky-bottom) |
-| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:687` (.panel top border against panel) |
-| `--color-text-inverse` | `--color-surface-panel` | base.css | 3.14:1 | 3.0:1 | yes | `stage.css:707` (.player-name (h2 >= 48*--px)) |
-| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:717` (.commuter-badge border on panel) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:723` (.commuter-badge text (halo as ground)) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:737` (.stat-label (halo as ground)) |
-| `--color-stat-money` | `--color-stat-money-edge-deep` | base.css | 4.50:1 | 4.5:1 | yes | `stage.css:768` (.money-value readout (halo as ground)) |
-| `--color-stat-energy` | `--color-stat-energy-edge-deep` | base.css | 4.55:1 | 4.5:1 | yes | `stage.css:773` (.energy-value readout (halo as ground)) |
-| `--color-stat-money-edge` | `--color-surface-panel` | base.css | 1.04:1 | 3.0:1 | **no** | `stage.css:780` (.money-bar border on panel) |
-| `--color-stat-money` | `--color-fill-meter-track over --color-surface-panel` | base.css | 2.14:1 | 3.0:1 | **no** | `stage.css:788` (.money-fill on meter track) |
-| `--color-stat-energy-edge` | `--color-surface-panel` | base.css | 1.53:1 | 3.0:1 | **no** | `stage.css:802` (.energy-seg border on panel) |
-| `--color-stat-energy` | `--color-fill-meter-track over --color-surface-panel` | base.css | 2.26:1 | 3.0:1 | **no** | `stage.css:810` (.energy-seg fill on meter track) |
-| `--color-stat-energy-edge` | `--color-surface-panel` | base.css | 1.53:1 | 3.0:1 | **no** | `stage.css:817` (continuous .energy-bar outer border on panel) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:905` (.panel-btn label (halo as ground)) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:920` (.panel-btn:hover label (halo as ground)) |
-| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:899` (.panel-btn and .portrait border on panel) |
-| `--color-accent-primary` | `--color-scene-sky-top` | base.css | 7.39:1 | 3.0:1 | yes | `stage.css:983` (.vehicle border on sky-top) |
-| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:983` (.vehicle border on sky-bottom) |
-| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 3.0:1 | yes | `stage.css:1062` (.event-art border on result-event card) |
-| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 3.0:1 | yes | `stage.css:1036` (.result-move .result-title (h3 >= 48*--px)) |
-| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 4.5:1 | yes | `stage.css:1044` (.result-event .result-title (h3 < 48*--px)) |
-| `--color-ink-primary` | `--color-surface-card` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1054` (.result-line and .event-desc) |
-| `--color-console-frame-dark` | `--color-surface-card` | base.css | 5.88:1 | 4.5:1 | yes | `stage.css:1082` (.event-effects) |
-| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:998` (.result-box border on sky) |
-| `--color-status-win` | `--color-surface-card` | base.css | 4.52:1 | 4.5:1 | yes | `stage.css:1117` (.ending-title win (h2 < 48*--px)) |
-| `--color-status-danger` | `--color-surface-card` | base.css | 4.53:1 | 4.5:1 | yes | `stage.css:1122` (.ending-title lose (h2 < 48*--px)) |
-| `--color-ink-primary` | `--color-surface-card` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1129` (.ending-text and .ending-stats) |
-| `--color-accent-primary` | `--color-surface-scrim over --color-scene-sky-bottom` | base.css | 3.19:1 | 3.0:1 | yes | `stage.css:1102` (.ending-box border on scrim) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1145` (.ending-btn label (halo as ground)) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1150` (.ending-btn:hover label (halo as ground)) |
+| `--color-track-pole` | `--color-scene-sky-top` | base.css | 3.01:1 | 3.0:1 | yes | `stage.css:538` (.flag::before pole on sky) |
+| `--color-status-danger` | `--color-scene-sky-top` | base.css | 3.55:1 | 3.0:1 | yes | `stage.css:546` (.flag::after pennant on sky) |
+| `--color-text-inverse` | `--color-surface-panel` | base.css | 3.14:1 | 4.5:1 | **no** | `stage.css:607` (.option-pill label) |
+| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:604` (.option-pill border on sky) |
+| `--color-stat-money` | `--color-ink-primary` | base.css | 9.05:1 | 4.5:1 | yes | `stage.css:623` (.option-pesos (halo as ground)) |
+| `--color-stat-energy` | `--color-stat-energy-edge-deep` | base.css | 4.55:1 | 4.5:1 | yes | `stage.css:633` (.option-energy (halo as ground, deep shade)) |
+| `--color-ink-primary` | `--color-scene-sky-bottom` | base.css | 14.19:1 | 4.5:1 | yes | `stage.css:637` (.option-km on sky) |
+| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 4.5:1 | yes | `stage.css:642` (.option-uses on sky) |
+| `--color-text-disabled` | `--color-surface-disabled` | base.css | 2.60:1 | 4.5:1 | **no** | `stage.css:655` (.option:disabled .option-pill text (WCAG disabled exempt)) |
+| `--color-border-disabled` | `--color-scene-sky-bottom` | base.css | 3.54:1 | 3.0:1 | yes | `stage.css:654` (.option:disabled .option-pill border (WCAG disabled exempt)) |
+| `--color-text-disabled` | `--color-scene-sky-bottom` | base.css | 4.22:1 | 4.5:1 | **no** | `stage.css:659` (.option:disabled .option-line on sky (WCAG disabled exempt)) |
+| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 4.5:1 | yes | `stage.css:672` (.speech text) |
+| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:669` (.speech border on panel) |
+| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:689` (.panel top border against sky-bottom) |
+| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:689` (.panel top border against panel) |
+| `--color-text-inverse` | `--color-surface-panel` | base.css | 3.14:1 | 3.0:1 | yes | `stage.css:709` (.player-name (h2 >= 48*--px)) |
+| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:719` (.commuter-badge border on panel) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:725` (.commuter-badge text (halo as ground)) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:739` (.stat-label (halo as ground)) |
+| `--color-stat-money` | `--color-stat-money-edge-deep` | base.css | 4.50:1 | 4.5:1 | yes | `stage.css:770` (.money-value readout (halo as ground)) |
+| `--color-stat-energy` | `--color-stat-energy-edge-deep` | base.css | 4.55:1 | 4.5:1 | yes | `stage.css:775` (.energy-value readout (halo as ground)) |
+| `--color-stat-money-edge` | `--color-surface-panel` | base.css | 1.04:1 | 3.0:1 | **no** | `stage.css:782` (.money-bar border on panel) |
+| `--color-stat-money` | `--color-fill-meter-track over --color-surface-panel` | base.css | 2.14:1 | 3.0:1 | **no** | `stage.css:790` (.money-fill on meter track) |
+| `--color-stat-energy-edge` | `--color-surface-panel` | base.css | 1.53:1 | 3.0:1 | **no** | `stage.css:804` (.energy-seg border on panel) |
+| `--color-stat-energy` | `--color-fill-meter-track over --color-surface-panel` | base.css | 2.26:1 | 3.0:1 | **no** | `stage.css:812` (.energy-seg fill on meter track) |
+| `--color-stat-energy-edge` | `--color-surface-panel` | base.css | 1.53:1 | 3.0:1 | **no** | `stage.css:819` (continuous .energy-bar outer border on panel) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:907` (.panel-btn label (halo as ground)) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:922` (.panel-btn:hover label (halo as ground)) |
+| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:901` (.panel-btn and .portrait border on panel) |
+| `--color-accent-primary` | `--color-scene-sky-top` | base.css | 7.39:1 | 3.0:1 | yes | `stage.css:985` (.vehicle border on sky-top) |
+| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:985` (.vehicle border on sky-bottom) |
+| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 3.0:1 | yes | `stage.css:1064` (.event-art border on result-event card) |
+| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 3.0:1 | yes | `stage.css:1038` (.result-move .result-title (h3 >= 48*--px)) |
+| `--color-accent-primary` | `--color-surface-card` | base.css | 9.42:1 | 4.5:1 | yes | `stage.css:1046` (.result-event .result-title (h3 < 48*--px)) |
+| `--color-ink-primary` | `--color-surface-card` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1056` (.result-line and .event-desc) |
+| `--color-console-frame-dark` | `--color-surface-card` | base.css | 5.88:1 | 4.5:1 | yes | `stage.css:1084` (.event-effects) |
+| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:1000` (.result-box border on sky) |
+| `--color-status-win` | `--color-surface-card` | base.css | 4.52:1 | 4.5:1 | yes | `stage.css:1122` (.ending-title win (h2 < 48*--px)) |
+| `--color-status-danger` | `--color-surface-card` | base.css | 4.53:1 | 4.5:1 | yes | `stage.css:1127` (.ending-title lose (h2 < 48*--px)) |
+| `--color-ink-primary` | `--color-surface-card` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1134` (.ending-text and .ending-stats) |
+| `--color-accent-primary` | `--color-surface-scrim over --color-scene-sky-bottom` | base.css | 3.19:1 | 3.0:1 | yes | `stage.css:1104` (.ending-box border on scrim) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1158` (.ending-btn label (halo as ground)) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:1163` (.ending-btn:hover label (halo as ground)) |
 | `--color-ink-primary` | `--color-surface-panel` | base.css | 4.91:1 | 4.5:1 | yes | `stage.css:407` (.cond-category on condition card (#009)) |
 | `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:448` (.cond-name (halo as ground) (#009)) |
 | `--color-ink-primary` | `--color-surface-panel` | base.css | 4.91:1 | 4.5:1 | yes | `stage.css:457` (.cond-desc and .cond-effects on condition card (#009)) |
 | `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:392` (.cond-card border on sky (#009)) |
 | `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:414` (.cond-reel border on condition card (#009)) |
-| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:847` (.life-icon border on panel (#009)) |
-| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:869` (.cond-tip border on sky (#009)) |
-| `--color-ink-primary` | `--color-surface-panel` | base.css | 4.91:1 | 4.5:1 | yes | `stage.css:872` (.cond-tip text (#009)) |
-| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:884` (.cond-tip-title (halo as ground) (#009)) |
-| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:493` (.stage-scroll thumb on condition card (#009)) |
+| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:849` (.life-icon border on panel (#009)) |
+| `--color-accent-primary` | `--color-scene-sky-bottom` | base.css | 8.69:1 | 3.0:1 | yes | `stage.css:871` (.cond-tip border on sky (#009)) |
+| `--color-ink-primary` | `--color-surface-panel` | base.css | 4.91:1 | 4.5:1 | yes | `stage.css:874` (.cond-tip text (#009)) |
+| `--color-text-inverse` | `--color-ink-primary` | base.css | 15.38:1 | 4.5:1 | yes | `stage.css:886` (.cond-tip-title (halo as ground) (#009)) |
+| `--color-accent-primary` | `--color-surface-panel` | base.css | 3.00:1 | 3.0:1 | yes | `stage.css:495` (.stage-scroll thumb on condition card (#009)) |
 | `--color-plain-text` | `--color-plain-bg` | base.css | 16.33:1 | 4.5:1 | yes | `style.css:27` (plain light body and h1/h2 text) |
 | `--color-plain-muted` | `--color-plain-bg` | base.css | 5.11:1 | 4.5:1 | yes | `style.css:52` (plain light .muted and button small text) |
 | `--color-plain-line` | `--color-plain-bg` | base.css | 3.02:1 | 3.0:1 | yes | `style.css:93` (plain light button and .report border) |

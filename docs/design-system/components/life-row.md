@@ -24,7 +24,8 @@
    - **Tooltip `pinned`:** a click or tap keeps it open until the same icon is clicked again, the player clicks anywhere else, or presses Escape.
 6. **Behaviour:**
    - The row is built once per game and kept across turns.
-   - The tooltip closes when the screen leaves turn and result.
+   - The tooltip opens only on the turn and result screens, and closes when the screen leaves them. While the vehicle moves the row is `inert`, and behind the ending box the whole turn layer is.
+   - Tabbing to another icon moves a pinned tooltip to that icon.
 7. **Accessibility:**
    - Each icon is a button with `aria-label` "category: option" and `aria-describedby` pointing at the tooltip (`role="tooltip"`), so keyboard and screen-reader users get the same text.
    - Contrast passes (see [`contrast.md`](../contrast.md)): the icon border is `3.00:1` on the panel, tooltip text is `4.91:1` and the tooltip title is `15.38:1`.
@@ -32,5 +33,5 @@
 8. **Status:** `planned` (`C63`). Built in #009; the component list picks it up at its next audit.
 
 **Copies today:**
-- `src/ui-stage.ts:242` (row and tooltip), `:557` (`fillLife`), `:572` (`showTip`)
-- `stage.css:829` (`.life-label`), `:834` (`.life-row`), `:843` (`.life-icon`), `:864` (`.cond-tip`)
+- `src/ui-stage.ts:251` (row and tooltip), `:569` (`fillLife`), `:584` (`showTip`)
+- `stage.css:831` (`.life-label`), `:836` (`.life-row`), `:845` (`.life-icon`), `:866` (`.cond-tip`)

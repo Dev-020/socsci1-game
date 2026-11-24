@@ -114,6 +114,15 @@ function cssNumber(token: string): number {
   return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(token));
 }
 
+// A scroll area that overflows can be reached with Tab so the keyboard can
+// scroll it; one that fits adds no Tab stop. Checks every visible area in root.
+function syncScrollFocus(root: ParentNode): void {
+  for (const box of root.querySelectorAll<HTMLElement>(".stage-scroll")) {
+    if (box.offsetParent !== null && box.scrollHeight > box.clientHeight) box.tabIndex = 0;
+    else box.removeAttribute("tabindex");
+  }
+}
+
 // One condition reel while it spins: its strip, how many icons it cycles
 // through, the icon it must land on, when it starts to stop and how fast it goes.
 interface Reel {
@@ -278,7 +287,7 @@ export function startStageUi(app: HTMLElement): void {
   const endingBox = el("div", "abs ending-box");
   const endingTitle = el("h2", "ending-title");
   const endingText = el("p", "ending-text");
-  const endingStats = el("div", "ending-stats");
+  const endingStats = el("div", "ending-stats stage-scroll");
   const againButton = el("button", "ending-btn", "play again");
   againButton.dataset.restart = "";
   endingBox.append(endingTitle, endingText, endingStats, againButton);
@@ -411,9 +420,14 @@ export function startStageUi(app: HTMLElement): void {
   options.addEventListener("touchend", touchEnded);
   options.addEventListener("touchcancel", touchEnded);
 
-  // Turning the phone changes every width, so start again from main.
+  // Turning the phone changes every width, so start again from main, and
+  // check again which scroll areas overflow.
   portraitQuery.addEventListener("change", () => {
-    window.requestAnimationFrame(resetLoop);
+    window.requestAnimationFrame(() => {
+      resetLoop();
+      for (const card of conditionRow.querySelectorAll(".cond-card.stopped")) syncScrollFocus(card);
+      syncScrollFocus(endingBox);
+    });
   });
 
   function fillOptions(current: Game): void {
@@ -476,9 +490,7 @@ export function startStageUi(app: HTMLElement): void {
     if (reel.card.classList.contains("stopped")) return;
     placeStrip(reel, reel.target);
     reel.card.classList.add("stopped");
-    // A long text scrolls, so let the keyboard reach it.
-    const body = reel.card.querySelector<HTMLElement>(".cond-body");
-    if (body && body.scrollHeight > body.clientHeight) body.tabIndex = 0;
+    syncScrollFocus(reel.card); // a long text scrolls, so let the keyboard reach it
     if (reels.every((r) => r.card.classList.contains("stopped"))) {
       window.clearTimeout(revealTimer);
       window.cancelAnimationFrame(reelFrame);
@@ -570,7 +582,7 @@ export function startStageUi(app: HTMLElement): void {
   }
 
   function showTip(button: HTMLElement): void {
-    if (!game) return;
+    if (!game || (screen !== "turn" && screen !== "result")) return;
     const { category, option } = game.conditions[Number(button.dataset.life)];
     conditionTip.replaceChildren(
       el("h3", "cond-tip-title", `${categoryName(category, game.player).toLowerCase()}: ${option.name.toLowerCase()}`),
@@ -597,7 +609,10 @@ export function startStageUi(app: HTMLElement): void {
   });
   lifeRow.addEventListener("focusin", (focusEvent) => {
     const icon = lifeIconOf(focusEvent.target);
-    if (icon) showTip(icon);
+    if (!icon) return;
+    // Tabbing to another icon moves a pinned tooltip with the focus.
+    if (pinnedTip && pinnedTip !== icon) pinnedTip = null;
+    showTip(icon);
   });
   lifeRow.addEventListener("focusout", () => {
     if (!pinnedTip) conditionTip.hidden = true;
@@ -605,7 +620,7 @@ export function startStageUi(app: HTMLElement): void {
   // A click or tap keeps the tooltip open; a second one on the same icon closes it.
   lifeRow.addEventListener("click", (clickEvent) => {
     const icon = lifeIconOf(clickEvent.target);
-    if (!icon) return;
+    if (!icon || (screen !== "turn" && screen !== "result")) return;
     if (pinnedTip === icon) {
       hideTip();
     } else {
@@ -696,12 +711,17 @@ export function startStageUi(app: HTMLElement): void {
     rows.push(`turns: ${turn - 1}`, `seed: ${seed}`);
     rows.push(`conditions: ${current.conditions.map((picked) => picked.option.name.toLowerCase()).join(", ")}`);
     endingStats.replaceChildren(...rows.map(line));
+    endingStats.scrollTop = 0;
+    syncScrollFocus(endingBox);
     footnote.textContent = `seed: ${seed}`;
   }
 
   function render(): void {
     stage.dataset.screen = screen;
     if (screen !== "turn" && screen !== "result") hideTip();
+    // Nothing behind the ending box can be reached, and the life icons rest while the vehicle moves.
+    turnLayer.inert = screen === "ending";
+    lifeRow.inert = screen === "moving";
     const metaTheme = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
     const syncThemeColor = (): void => {
       if (!metaTheme) return;

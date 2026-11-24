@@ -27,7 +27,7 @@
    - Icons: every option, weather included, uses `assets/conditions/<category>/cond-<category>-<option>.png` (see [`asset-slots.md`](../asset-slots.md)). The weather icons are also the weather box art (`C20`).
 5. **States:**
    - **Cards `holding`:** for `motion.delay.reel-hold` (`0.2s`) after the screen opens, every card stands still.
-   - **Cards `spinning`:** all the cards start rolling together. Each strip loops through its category's options, easing up to full speed over `motion.duration.reel-spin-up` (`0.8s`) and then rolling at about `motion.rate.reel` (`7`) icons per second. The name, description and effects are hidden.
+   - **Cards `spinning`:** all the cards start rolling together. Each strip loops through its category's options, easing up to full speed over `motion.duration.reel-spin-up` (`0.8s`) and then rolling at about `motion.rate.reel` (`7`) icons per second. The whole text area (`.cond-body`) is hidden, scrollbar included, so nothing gives the result away.
    - **Card `stopping`:** `motion.duration.reel-spin` (`3s`) after rolling starts, the leftmost card eases to a stop over `motion.duration.reel-stop` (`1.2s`). Each card to its right starts stopping `motion.delay.reel-stagger` (`0.6s`) later, so they stop one by one from left to right. Each reel's speed is adjusted slightly so it lands exactly on the rolled option.
    - **Card `stopped` (`.stopped`):** the strip rests on the rolled icon. The text fades in over `motion.duration.normal`.
    - **Screen `revealed` (`.revealed`):** all cards have stopped, so the start button fades in.
@@ -47,5 +47,5 @@
 8. **Status:** `planned` (`C62`). Built in #009; the component list picks it up at its next audit.
 
 **Copies today:**
-- `src/ui-stage.ts:191` (layer), `:441` (`conditionCard`), `:470` (`placeStrip`), `:493` (`showConditions`)
+- `src/ui-stage.ts:200` (layer), `:455` (`conditionCard`), `:484` (`placeStrip`), `:505` (`showConditions`)
 - `stage.css:370` (`.begin-btn`), `:379` (`.cond-row`), `:389` (`.cond-card`), `:435` (`.cond-body`)

@@ -94,7 +94,7 @@ Radius, border, shadow, breakpoint (`700px` portrait; `480px` mobile), opacity, 
 - **Student, Worker, PWD:** `Not yet defined (waiting on #007)` (`src/theme.ts:24-40`, `stage.css:10-23`).
 - **`CharacterTheme` (`src/theme.ts:8-14`):** `id`, `name`, `energyBarStyle` (`segmented`/`continuous`), `moneyDisplayStyle` (`bar`/`digital`), `badgeLabel?`.
 
-**Adding a theme:** (1) add `CHARACTERS` entry (`src/data.ts`); (2) register in `CHARACTER_THEMES` (`src/theme.ts`); (3) add `.stage[data-character="<slug>"]` overrides in `stage.css`; (4) supply `assets/character-<slug>.png`.
+**Adding a theme:** (1) add `CHARACTERS` entry (`src/data.ts`); (2) register in `CHARACTER_THEMES` (`src/theme.ts`); (3) add `.stage[data-character="<slug>"]` overrides in `stage.css`; (4) supply `assets/characters/character-<slug>.png`.
 
 ## 6. Motion
 
@@ -138,7 +138,7 @@ All 58 components (`C1`–`C58`) match their specs (`2026-11-22-a161d07`). Butto
 
 - [`layout-map.md`](design-system/layout-map.md): stage boxes (`a161d07`), layout tokens, resolved near-misses (`U4 = 0`).
 - [`patterns.md`](design-system/patterns.md): `--px` scaling, safe areas, flow, swipe row, `.imgbox`, adding components.
-- [`asset-slots.md`](design-system/asset-slots.md): 23 art slots, 2× PNG sizes, transparency, scene safe area (approved 2026-11-21).
+- [`asset-slots.md`](design-system/asset-slots.md): 39 art slots in folders by kind, 2× PNG sizes, transparency, scene safe area (approved 2026-11-21).
 
 ## 9. Accessibility
 
