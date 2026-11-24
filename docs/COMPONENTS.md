@@ -10,7 +10,7 @@ built-by: "a local generator script (not published)"
 
 # socsci1-game components
 
-Built from audit `2026-11-22-a161d07` at commit `a161d07` (58 built components across `stage.css`, `style.css`, and `changelog.css`, plus 3 planned components). Full structured fields (`uses`, `variants`, `states`, `props`, `raw-values`) live in [`docs/components.json`](components.json).
+Built from audit `2026-11-22-a161d07` at commit `a161d07` (58 built components across `stage.css`, `style.css`, and `changelog.css`, plus 5 planned components). Full structured fields (`uses`, `variants`, `states`, `props`, `raw-values`) live in [`docs/components.json`](components.json).
 
 **How to look one up:**
 ```sh
@@ -119,6 +119,26 @@ purpose: "Contextual character reaction comments, tooltips, or commuter trivia d
 spec: null
 status: planned
 backlog: "#010"
+```
+
+### C62 conditions-screen
+```yaml
+name: conditions-screen
+kind: screen
+purpose: "Today's conditions screen: five condition cards (weather, school or workplace, living situation, family, personal) with a slot-machine reveal before the first turn"
+spec: "design-system/components/conditions-screen.md"
+status: planned
+backlog: "#009"
+```
+
+### C63 life-row
+```yaml
+name: life-row
+kind: composite
+purpose: "Third bottom-panel row with one icon per starting condition (weather excluded) and a hover, focus or tap tooltip giving its description and effects"
+spec: "design-system/components/life-row.md"
+status: planned
+backlog: "#009"
 ```
 
 ## Removed

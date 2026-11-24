@@ -3,13 +3,13 @@
 // so CSS transitions can run.
 
 import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
-import type { Character } from "./data.js";
+import type { Character, ConditionOption } from "./data.js";
 import { Game } from "./game.js";
-import type { Offer, TurnReport } from "./game.js";
-import { eventEffects, seedFromLink, entropySeed } from "./format.js";
+import type { Offer, PickedCondition, TurnReport } from "./game.js";
+import { categoryName, conditionEffects, eventEffects, fillWork, seedFromLink, entropySeed } from "./format.js";
 import { getCharacterTheme } from "./theme.js";
 
-type Screen = "title" | "select" | "turn" | "moving" | "result" | "ending";
+type Screen = "title" | "select" | "conditions" | "turn" | "moving" | "result" | "ending";
 
 const ENERGY_SEGMENTS = 10;
 const SPEECH = "saan kaya ako sasakay..?";
@@ -89,6 +89,26 @@ function characterArt(character: Character): string {
   return `assets/character-${slug(character.name)}.png`;
 }
 
+// Weather keeps its existing art; the other conditions get cond-<category>-<option>.png.
+function conditionArt(categoryKey: string, option: ConditionOption): string {
+  return categoryKey === "weather" ? `assets/weather-${slug(option.name)}.png` : `assets/cond-${categoryKey}-${option.key}.png`;
+}
+
+// "Motion Sickness" -> "MS": a short placeholder label for the small icons.
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+// A time token such as "0.9s" or "120ms", in milliseconds.
+function cssTimeMs(token: string): number {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+  return value.endsWith("ms") ? parseFloat(value) : parseFloat(value) * 1000;
+}
+
 // 18, 18.5 and so on, without a trailing .0
 function plainNumber(value: number, decimals = 1): string {
   return String(+value.toFixed(decimals));
@@ -103,6 +123,9 @@ export function startStageUi(app: HTMLElement): void {
   let chosen: Offer | null = null;
   let lastTurn: TurnReport | null = null;
   let moveTimer = 0;
+  let revealTimer = 0;
+  let lifeFor: Game | null = null; // the game the life icons were built for
+  let pinnedTip: HTMLElement | null = null; // the life icon whose tooltip was opened by a click or tap
 
   const stage = el("div", "stage");
   app.replaceChildren(stage);
@@ -145,6 +168,13 @@ export function startStageUi(app: HTMLElement): void {
     );
     selectLayer.append(card);
   });
+
+  // ----- conditions -----
+  const conditionsLayer = el("div", "layer layer-conditions");
+  const beginButton = el("button", "abs panel-btn begin-btn", "start >>");
+  beginButton.dataset.begin = "";
+  const conditionRow = el("div", "abs cond-row");
+  conditionsLayer.append(el("h2", "abs pixel-text select-heading", "today's conditions!"), beginButton, conditionRow);
 
   // ----- turn -----
   const turnLayer = el("div", "layer layer-turn");
@@ -190,6 +220,13 @@ export function startStageUi(app: HTMLElement): void {
   }
   const energyValue = el("div", "abs stat-value energy-value");
 
+  // The third panel row: one icon per starting condition except weather, which has its own box.
+  const lifeRow = el("div", "abs life-row");
+  const conditionTip = el("div", "abs cond-tip");
+  conditionTip.id = "cond-tip";
+  conditionTip.setAttribute("role", "tooltip");
+  conditionTip.hidden = true;
+
   const continueButton = el("button", "abs panel-btn continue-btn", "continue >>");
   continueButton.dataset.continue = "";
   const returnButton = el("button", "abs panel-btn return-btn", "<< return");
@@ -211,6 +248,9 @@ export function startStageUi(app: HTMLElement): void {
     el("div", "abs stat-label energy-label", "energy"),
     energyBar,
     energyValue,
+    el("div", "abs stat-label life-label", "life"),
+    lifeRow,
+    conditionTip,
     continueButton,
     returnButton,
   );
@@ -226,7 +266,7 @@ export function startStageUi(app: HTMLElement): void {
   endingBox.append(endingTitle, endingText, endingStats, againButton);
   endingLayer.append(el("div", "abs ending-scrim"), endingBox);
 
-  stage.append(titleLayer, selectLayer, turnLayer, endingLayer, footnote);
+  stage.append(titleLayer, selectLayer, conditionsLayer, turnLayer, endingLayer, footnote);
 
   // ----- updating what is on screen -----
 
@@ -374,6 +414,139 @@ export function startStageUi(app: HTMLElement): void {
     resetLoop();
   }
 
+  // ----- the conditions screen and its reveal -----
+  // Each card's icon window holds a strip of its category's icons and slides
+  // to the rolled one. The game has already picked it; the spin is only for show.
+
+  function conditionCard(picked: PickedCondition, index: number, character: Character): HTMLElement {
+    const { category, option } = picked;
+    const card = el("div", "cond-card");
+    card.style.setProperty("--reel-index", String(index));
+
+    const faces = [...category.options, option];
+    const strip = el("div", "cond-strip");
+    strip.style.setProperty("--reel-faces", String(faces.length));
+    strip.style.setProperty("--reel-end", `${(-(faces.length - 1) / faces.length) * 100}%`);
+    for (const face of faces) {
+      const art = placeholderImage(conditionArt(category.key, face), face.name.toLowerCase());
+      art.classList.add("cond-face");
+      strip.append(art);
+    }
+    strip.addEventListener("animationend", () => stopReel(card));
+    const reel = el("div", "cond-reel");
+    reel.append(strip);
+
+    card.append(
+      el("span", "cond-category", categoryName(category, character).toLowerCase()),
+      reel,
+      el("span", "cond-name", option.name.toLowerCase()),
+      el("p", "cond-desc", fillWork(option.description, character)),
+      el("p", "cond-effects", conditionEffects(option)),
+    );
+    return card;
+  }
+
+  function stopReel(card: Element): void {
+    card.classList.add("stopped");
+    const cards = [...conditionRow.children];
+    if (cards.every((c) => c.classList.contains("stopped"))) {
+      window.clearTimeout(revealTimer);
+      conditionsLayer.classList.add("revealed");
+    }
+  }
+
+  function revealAll(): void {
+    [...conditionRow.children].forEach(stopReel);
+  }
+
+  function showConditions(current: Game): void {
+    window.clearTimeout(revealTimer);
+    conditionsLayer.classList.remove("revealed");
+    conditionRow.replaceChildren(
+      ...current.conditions.map((picked, index) => conditionCard(picked, index, current.player)),
+    );
+    conditionRow.scrollLeft = 0;
+    footnote.textContent = `seed: ${current.seed}`;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      revealAll();
+      return;
+    }
+    // If an animationend never fires (a hidden tab, say), show everything anyway.
+    const total =
+      cssTimeMs("--motion-duration-reel") +
+      cssTimeMs("--motion-delay-reel-stagger") * (current.conditions.length - 1);
+    revealTimer = window.setTimeout(revealAll, total + 500);
+  }
+
+  // ----- the life row and its tooltip -----
+
+  function fillLife(current: Game): void {
+    lifeFor = current;
+    hideTip();
+    lifeRow.replaceChildren(
+      ...current.conditions.slice(1).map((picked, i) => {
+        const button = el("button", "life-icon");
+        button.dataset.life = String(i + 1);
+        button.setAttribute("aria-label", `${categoryName(picked.category, current.player)}: ${picked.option.name}`);
+        button.setAttribute("aria-describedby", "cond-tip");
+        button.append(placeholderImage(conditionArt(picked.category.key, picked.option), initials(picked.option.name)));
+        return button;
+      }),
+    );
+  }
+
+  function showTip(button: HTMLElement): void {
+    if (!game) return;
+    const { category, option } = game.conditions[Number(button.dataset.life)];
+    conditionTip.replaceChildren(
+      el("h3", "cond-tip-title", `${categoryName(category, game.player).toLowerCase()}: ${option.name.toLowerCase()}`),
+      el("p", "cond-tip-desc", fillWork(option.description, game.player)),
+      el("p", "cond-tip-effects", conditionEffects(option)),
+    );
+    conditionTip.hidden = false;
+  }
+
+  function hideTip(): void {
+    pinnedTip = null;
+    conditionTip.hidden = true;
+  }
+
+  const lifeIconOf = (target: EventTarget | null): HTMLElement | null =>
+    target instanceof Element ? (target.closest(".life-icon") as HTMLElement | null) : null;
+
+  lifeRow.addEventListener("pointerover", (pointerEvent) => {
+    const icon = lifeIconOf(pointerEvent.target);
+    if (icon && !pinnedTip) showTip(icon);
+  });
+  lifeRow.addEventListener("pointerout", (pointerEvent) => {
+    if (!pinnedTip && !lifeIconOf(pointerEvent.relatedTarget)) conditionTip.hidden = true;
+  });
+  lifeRow.addEventListener("focusin", (focusEvent) => {
+    const icon = lifeIconOf(focusEvent.target);
+    if (icon) showTip(icon);
+  });
+  lifeRow.addEventListener("focusout", () => {
+    if (!pinnedTip) conditionTip.hidden = true;
+  });
+  // A click or tap keeps the tooltip open; a second one on the same icon closes it.
+  lifeRow.addEventListener("click", (clickEvent) => {
+    const icon = lifeIconOf(clickEvent.target);
+    if (!icon) return;
+    if (pinnedTip === icon) {
+      hideTip();
+    } else {
+      pinnedTip = icon;
+      showTip(icon);
+    }
+  });
+  document.addEventListener("keydown", (keyEvent) => {
+    if (keyEvent.key === "Escape") hideTip();
+  });
+  // A click or tap anywhere else, on or off the stage, closes a pinned tooltip.
+  document.addEventListener("click", (clickEvent) => {
+    if (pinnedTip && !lifeIconOf(clickEvent.target)) hideTip();
+  });
+
   function showTurn(current: Game): void {
     const weather = slug(current.weather.name);
     setImage(sceneBox, `assets/scene-${weather}.png`, `scene: ${weather}`);
@@ -381,6 +554,7 @@ export function startStageUi(app: HTMLElement): void {
     setImage(portraitArt, characterArt(current.player), `character: ${slug(current.player.name)}`);
     playerName.textContent = displayName(current.player);
     footnote.textContent = `seed: ${current.seed}`;
+    if (lifeFor !== current) fillLife(current);
     showBars(current);
     fillOptions(current);
   }
@@ -446,12 +620,14 @@ export function startStageUi(app: HTMLElement): void {
     ];
     if (outcome !== "WIN") rows.push(`distance left: ${plainNumber(distanceLeft)} km`);
     rows.push(`turns: ${turn - 1}`, `seed: ${seed}`);
+    rows.push(`conditions: ${current.conditions.map((picked) => picked.option.name.toLowerCase()).join(", ")}`);
     endingStats.replaceChildren(...rows.map(line));
     footnote.textContent = `seed: ${seed}`;
   }
 
   function render(): void {
     stage.dataset.screen = screen;
+    if (screen !== "turn" && screen !== "result") hideTip();
     const metaTheme = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
     const syncThemeColor = (): void => {
       if (!metaTheme) return;
@@ -490,7 +666,8 @@ export function startStageUi(app: HTMLElement): void {
         delete stage.dataset.hasBadge;
       }
       syncThemeColor();
-      if (screen === "turn") showTurn(game);
+      if (screen === "conditions") showConditions(game);
+      else if (screen === "turn") showTurn(game);
       else if (screen === "moving") showMoving();
       else if (screen === "result") showResult(game);
       else showEnding(game);
@@ -500,19 +677,26 @@ export function startStageUi(app: HTMLElement): void {
   // ----- clicks -----
 
   stage.addEventListener("click", (clickEvent) => {
+    // A click while the conditions spin skips to the end.
+    if (screen === "conditions" && !conditionsLayer.classList.contains("revealed")) {
+      revealAll();
+      return;
+    }
     const button = (clickEvent.target as HTMLElement).closest("button");
     if (!button || screen === "moving") return; // no clicks while the vehicle moves
 
-    const { start, character, offer, restart } = button.dataset;
+    const { start, character, begin, offer, restart } = button.dataset;
     if (start !== undefined) {
       screen = "select";
     } else if (character !== undefined) {
       const picked = CHARACTERS[Number(character)];
       const seed = seedFromLink() ?? entropySeed(performance.now());
       game = new Game(picked, seed);
-      startMoney = picked.money;
+      startMoney = game.player.money; // after the starting conditions
       lastTurn = null;
       chosen = null;
+      screen = "conditions";
+    } else if (begin !== undefined && game && screen === "conditions") {
       screen = "turn";
     } else if (offer !== undefined && game && screen === "turn") {
       // A swipe, or a row still settling, is not a choice.

@@ -226,6 +226,7 @@ button:focus-visible {
 
 .stage[data-screen="title"] .layer-title,
 .stage[data-screen="select"] .layer-select,
+.stage[data-screen="conditions"] .layer-conditions,
 .stage[data-screen="turn"] .layer-turn,
 .stage[data-screen="moving"] .layer-turn,
 .stage[data-screen="result"] .layer-turn,
@@ -361,6 +362,106 @@ button:focus-visible {
   left: calc(1245 * var(--px));
   --card: var(--color-console-knob);
   --card-edge: var(--color-console-frame-dark);
+}
+
+/* ---------- conditions screen ---------- */
+/* Same look as the character cards: five cards, one per starting condition. */
+
+.begin-btn {
+  top: calc(205 * var(--px));
+}
+
+.stage[data-screen="conditions"] .layer-conditions.revealed .begin-btn {
+  display: block;
+  animation: fade var(--motion-duration-normal);
+}
+
+.cond-row {
+  left: var(--layout-screen-x);
+  top: calc(320 * var(--px));
+  width: var(--layout-screen-w);
+  height: calc(575 * var(--px));
+  padding: 0 var(--space-stage-24);
+  display: flex;
+  gap: var(--space-stage-24);
+}
+
+.cond-card {
+  flex: 1 1 0;
+  min-width: 0;
+  border: var(--border-width-stage-10) solid var(--color-accent-primary);
+  border-radius: var(--radius-stage-34);
+  background: var(--color-surface-panel);
+  padding: var(--space-stage-14) var(--space-stage-16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-stage-8);
+  text-align: center;
+}
+
+.cond-category {
+  font-size: var(--font-size-stage-30);
+  white-space: nowrap;
+  line-height: var(--font-line-height-snug);
+  color: var(--color-ink-primary);
+}
+
+.cond-reel {
+  flex: none;
+  width: calc(180 * var(--px));
+  height: calc(180 * var(--px));
+  border: var(--border-width-stage-4) solid var(--color-accent-primary);
+  border-radius: var(--radius-stage-24);
+  overflow: hidden;
+}
+
+.cond-strip {
+  height: calc(100% * var(--reel-faces));
+  animation: reel var(--motion-duration-reel) cubic-bezier(0.2, 0.7, 0.25, 1)
+    calc(var(--reel-index) * var(--motion-delay-reel-stagger)) both;
+}
+
+.cond-strip > .cond-face {
+  height: calc(100% / var(--reel-faces));
+  border-radius: 0;
+}
+
+.cond-face .imgbox-label {
+  font-size: var(--font-size-stage-30);
+  overflow-wrap: normal;
+}
+
+.cond-card.stopped .cond-strip {
+  animation: none;
+  transform: translateY(var(--reel-end));
+}
+
+.cond-name {
+  font-size: var(--font-size-stage-46);
+  line-height: var(--font-line-height-snug);
+  color: var(--color-text-inverse);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-sm);
+}
+
+.cond-desc,
+.cond-effects {
+  margin: 0;
+  font-size: var(--font-size-stage-30);
+  line-height: var(--font-line-height-snug);
+  color: var(--color-ink-primary);
+}
+
+.cond-effects {
+  margin-top: auto;
+}
+
+.cond-card:not(.stopped) :is(.cond-name, .cond-desc, .cond-effects) {
+  visibility: hidden;
+}
+
+.cond-card.stopped :is(.cond-name, .cond-desc, .cond-effects) {
+  animation: fade var(--motion-duration-normal);
 }
 
 /* ---------- turn screen ---------- */
@@ -687,6 +788,74 @@ button:focus-visible {
   background: transparent;
 }
 
+/* the third panel row: starting conditions as icons, with a tooltip */
+
+.life-label {
+  top: var(--layout-stat-life-y);
+  line-height: var(--font-line-height-stage-53);
+}
+
+.life-row {
+  left: var(--layout-stat-bar-x);
+  top: var(--layout-stat-life-y);
+  width: var(--layout-stat-bar-w);
+  height: calc(62 * var(--px));
+  display: flex;
+  justify-content: space-between;
+}
+
+.life-icon {
+  width: calc(62 * var(--px));
+  height: calc(62 * var(--px));
+  padding: 0;
+  border: var(--border-width-stage-3) solid var(--color-accent-primary);
+  border-radius: var(--radius-stage-8);
+  background: none;
+  overflow: hidden;
+  transition: transform var(--motion-duration-fast);
+}
+
+.life-icon:hover,
+.life-icon:focus-visible {
+  transform: scale(var(--motion-scale-hover));
+}
+
+.life-icon .imgbox-label {
+  padding: 0 var(--space-stage-4);
+  font-size: var(--font-size-stage-24);
+}
+
+.cond-tip {
+  left: var(--layout-panel-col-x);
+  bottom: calc(495 * var(--px)); /* just above the panel */
+  width: calc(620 * var(--px));
+  padding: var(--space-stage-14) var(--space-stage-20);
+  border: var(--border-width-stage-4) solid var(--color-accent-primary);
+  border-radius: var(--radius-stage-24);
+  background: var(--color-surface-panel);
+  color: var(--color-ink-primary);
+}
+
+.cond-tip[hidden] {
+  display: none;
+}
+
+.cond-tip-title {
+  margin: 0;
+  font-size: var(--font-size-stage-40);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-snug);
+  color: var(--color-text-inverse);
+  text-shadow: var(--shadow-stage-text-outline-ink), var(--shadow-stage-text-sm);
+}
+
+.cond-tip-desc,
+.cond-tip-effects {
+  margin: var(--space-stage-4) 0 0;
+  font-size: var(--font-size-stage-34);
+  line-height: var(--font-line-height-snug);
+}
+
 .panel-btn {
   left: calc(1375 * var(--px));
   width: calc(260 * var(--px));
@@ -956,6 +1125,15 @@ button:focus-visible {
   }
 }
 
+@keyframes reel {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--reel-end));
+  }
+}
+
 @keyframes fade {
   from {
     opacity: 0;
@@ -1079,4 +1257,43 @@ button:focus-visible {
 
 .event-art .imgbox-label {
   font-size: var(--font-size-stage-24);
+}
+
+/* phone held upright: the condition cards become a swipe row, two at a time,
+   with bigger text and without the one-line descriptions */
+@media (orientation: portrait) and (max-width: 700px) { /* breakpoint.stage.portrait */
+  .cond-row {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .cond-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cond-card {
+    flex: 0 0 calc(50% - var(--space-stage-24));
+    scroll-snap-align: start;
+  }
+
+  .cond-reel {
+    width: calc(220 * var(--px));
+    height: calc(220 * var(--px));
+  }
+
+  .cond-category,
+  .cond-effects {
+    font-size: var(--font-size-stage-50);
+  }
+
+  .cond-name {
+    font-size: var(--font-size-stage-74);
+  }
+
+  .cond-desc {
+    display: none;
+  }
 }

@@ -156,6 +156,8 @@
   --motion-duration-drive: 1.4s;
   --motion-delay-swipe-settle: 120ms;
   --motion-timeout-move: 2000ms;
+  --motion-duration-reel: 0.9s; /* one condition reel spinning to a stop */
+  --motion-delay-reel-stagger: 0.3s; /* each reel starts this long after the one on its left */
   --motion-scale-hover: 1.08;
   --motion-scale-pop-start: 0.9;
   --motion-scale-rest: 1;
@@ -274,6 +276,7 @@
   --layout-stat-bar-w: calc(330 * var(--px));
   --layout-stat-money-y: calc(723 * var(--px));
   --layout-stat-energy-y: calc(785 * var(--px));
+  --layout-stat-life-y: calc(847 * var(--px));
   --layout-btn-h: calc(96 * var(--px));
   --layout-turn-content-x: calc(240 * var(--px));
 }

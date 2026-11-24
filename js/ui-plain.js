@@ -1,7 +1,7 @@
 // Plain screens and click handling. All game rules live in game.ts.
 import { CHARACTERS, TOTAL_DISTANCE_KM, VERSION } from "./data.js";
 import { Game } from "./game.js";
-import { eventEffects, peso, seedFromLink, entropySeed } from "./format.js";
+import { categoryName, conditionEffects, eventEffects, fillWork, peso, seedFromLink, entropySeed } from "./format.js";
 let app;
 let game = null;
 let lastTurn = null;
@@ -30,6 +30,15 @@ function reportHtml() {
       <span class="muted">${eventEffects(event)}</span>
     </div>`;
 }
+// One line per starting condition: "Weather: Rainy. Rain makes ... (+30% energy per ride, no motor)"
+function conditionsHtml(current) {
+    const lines = current.conditions.map(({ category, option }) => {
+        const description = fillWork(option.description, current.player);
+        return `<li><strong>${categoryName(category, current.player)}: ${option.name}.</strong> ${description}
+      <span class="muted">(${conditionEffects(option)})</span></li>`;
+    });
+    return `<h2>Conditions</h2><ul class="conditions">${lines.join("")}</ul>`;
+}
 function renderSelect() {
     const buttons = CHARACTERS.map((character, index) => `
       <button data-character="${index}">
@@ -57,17 +66,18 @@ function offerButton(offer, index) {
     </button>`;
 }
 function renderPlay(current) {
-    const { player, seed, weather, distanceLeft, turn, offers } = current;
+    const { player, seed, distanceLeft, turn, offers } = current;
     const traveled = TOTAL_DISTANCE_KM - distanceLeft;
     app.innerHTML = `
     <h1>${player.name}</h1>
-    <p class="muted">Weather: ${weather.name} · Seed: ${seed}</p>
+    <p class="muted">Seed: ${seed}</p>
     <p>Money: ${peso(player.money)}</p>
     ${bar("Energy", `${player.energy}/${player.maxEnergy}`, (player.energy / player.maxEnergy) * 100)}
     ${bar("Distance", `${traveled.toFixed(1)}/${TOTAL_DISTANCE_KM.toFixed(1)} km`, (traveled / TOTAL_DISTANCE_KM) * 100)}
     ${reportHtml()}
     <h2>Turn ${turn}: choose your transport</h2>
-    ${offers.map(offerButton).join("")}`;
+    ${offers.map(offerButton).join("")}
+    ${conditionsHtml(current)}`;
 }
 function renderOutcome(current) {
     const { player, seed, distanceLeft, turn, outcome } = current;
@@ -98,6 +108,7 @@ function renderOutcome(current) {
     ${body}
     <p class="muted">Seed: ${seed}</p>
     ${reportHtml()}
+    ${conditionsHtml(current)}
     <button data-restart class="restart">Play again</button>`;
 }
 function render() {
